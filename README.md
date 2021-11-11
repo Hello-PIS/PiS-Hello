@@ -1,7 +1,5 @@
 # PiS-Hello
 Business card holder app
-<<<<<<< Updated upstream
-=======
 
 Timeline:  
 17.11 - 1 stage  
@@ -10,4 +8,4 @@ Timeline:
 24.01 - 4 stage
 
 Jira: https://hello-pis.atlassian.net/jira/software/projects/HPIS/boards/1
->>>>>>> Stashed changes
+

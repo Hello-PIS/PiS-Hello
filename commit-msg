@@ -1,0 +1,13 @@
+#!/bin/sh
+# To enable this hook, copy locally this file and move to  ".git/hooks/commit-msg".
+
+export MESSAGE=$(<$1)
+export JIRA_ISSUE_TAG='HPIS-([0-9]*)'
+
+if [[ $MESSAGE =~ $JIRA_ISSUE_TAG ]]; then
+  echo -e "\e[32mYes! It contains a JIRA issue!\e[0m"
+  exit 0;
+fi
+
+echo -e "\e[31mOh no... You forgot to add a JIRA issue number!\e[0m";
+exit 1;
