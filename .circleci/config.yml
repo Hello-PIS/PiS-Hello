@@ -7,7 +7,7 @@ jobs:
     steps:
       - run:
           name: "Update apt"
-          command: "apk add --update openssh-client git"
+          command: "apk add --update openssh-client git sed"
       - checkout
       - run:
           name: "Build project"
@@ -21,7 +21,7 @@ jobs:
     steps:
       - run:
           name: "Update apt"
-          command: "apk add --update openssh-client git"
+          command: "apk add --update openssh-client git sed"
       - checkout
       - run:
           name: "Build project"
