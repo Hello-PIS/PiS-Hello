@@ -20,6 +20,10 @@ jobs:
       - image: gradle:jdk11-alpine
     steps:
       - run:
+          name: "Update apt"
+          command: "apk add --update openssh-client git"
+      - checkout
+      - run:
           name: "Build project"
           command: "gradle build"
       - run:
