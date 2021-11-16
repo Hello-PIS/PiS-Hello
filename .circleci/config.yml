@@ -12,8 +12,20 @@ jobs:
       - run:
           name: "Run tests"
           command: "gradle test"
+  publish:
+    docker:
+      - image: gradle:jdk11-alpine
+    steps:
+      - checkout
+      - run:
+          name: "Build project"
+          command: "gradle build"
+      - run:
+          name: "Publish a package"
+          command: "gradle artifactoryPublish"
 
 workflows:
   say-hello-workflow:
     jobs:
       - test
+      - publish
