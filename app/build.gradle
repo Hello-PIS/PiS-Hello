@@ -7,12 +7,14 @@
  */
 
 buildscript {
+    ext.jacocoVersion = '0.8.4'
     repositories {
         mavenCentral()
     }
     dependencies {
         // Check for the latest version here: http://plugins.gradle.org/plugin/com.jfrog.artifactory
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
+        classpath "org.jacoco:org.jacoco.core:$jacocoVersion"
     }
 }
 
@@ -22,6 +24,7 @@ plugins {
 
     id 'application'
     id 'maven-publish'
+    id 'jacoco'
 }
 
 repositories {
