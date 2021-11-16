@@ -16,7 +16,6 @@ jobs:
     docker:
       - image: gradle:jdk11-alpine
     steps:
-      - checkout
       - run:
           name: "Build project"
           command: "gradle build"
