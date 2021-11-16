@@ -22,7 +22,10 @@ jobs:
           command: "gradle build"
       - run:
           name: "Publish a package"
-          command: "gradle artifactoryPublish"
+          command: |
+            "sed -i 's/${ARTIFACTORY_USERNAME}/'${ARTIFACTORY_USERNAME}'/g' gradle.properties"
+            "sed -i 's/${ARTIFACTORY_PASSWORD}/'${ARTIFACTORY_PASSWORD}'/g' gradle.properties"
+            "gradle artifactoryPublish"
 
 workflows:
   say-hello-workflow:
