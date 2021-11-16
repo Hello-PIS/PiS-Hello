@@ -3,13 +3,28 @@
  */
 package Hello
 
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.Socket
+
 class App {
+    private val serverAddr = "34.116.230.223"
     val greeting: String
         get() {
-            return "Hello World!"
+            return "Hello World!\nAsking server at $serverAddr: check_password Admin Admin"
         }
+    val checkPassword: String
+    get() {
+        val client = Socket(serverAddr, 8888)
+        client.outputStream.write("check_password Admin Admin".toByteArray())
+        val response = BufferedReader(InputStreamReader(client.inputStream)).readLine()
+        client.close()
+        return response
+    }
 }
 
 fun main() {
     println(App().greeting)
+    println(App().checkPassword)
+
 }
