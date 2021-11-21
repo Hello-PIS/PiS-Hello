@@ -11,3 +11,6 @@ Jira: https://hello-pis.atlassian.net/jira/software/projects/HPIS/boards/1
 
 Links:
 * https://circleci.com/docs/2.0/configuration-reference - CI documentation
+
+Dokumentacja:
+https://www.overleaf.com/read/gyhnrhzrhfxw
