@@ -9,3 +9,5 @@ Timeline:
 
 Jira: https://hello-pis.atlassian.net/jira/software/projects/HPIS/boards/1
 
+Links:
+* [CI documentation](https://circleci.com/docs/2.0/configuration-reference)
