@@ -7,6 +7,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	kotlin("jvm") version "1.6.0"
 	kotlin("plugin.spring") version "1.6.0"
+	kotlin("plugin.jpa") version "1.6.0"
 	`maven-publish`
 	id("com.jfrog.artifactory") version "4.18.3"
 	jacoco
@@ -21,13 +22,16 @@ repositories {
 }
 
 dependencies {
-	val springBootVersion = "2.5.6"
+	val springBootVersion = "2.6.1"
 	val jacocoVersion = "0.8.7"
+	val sqliteJDBCVersion = "3.36.0.2"
 
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.boot:spring-boot-starter:$springBootVersion")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
 	implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+	implementation("org.xerial:sqlite-jdbc:$sqliteJDBCVersion")
 	implementation("org.jacoco:org.jacoco.core:$jacocoVersion")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
