@@ -7,10 +7,20 @@ Timeline:
 03.01 - 3 stage
 24.01 - 4 stage
 
-Jira: https://hello-pis.atlassian.net/jira/software/projects/HPIS/boards/1
+### Server
+
+#### Run
+To run the REST server, you either need to
+```shell
+cd server
+gradle run
+```
+or straight from the root
+```shell
+server/gradlew -b server/build.gradle.kts run
+```
 
 Links:
-* https://circleci.com/docs/2.0/configuration-reference - CI documentation
-
-Dokumentacja:
-https://www.overleaf.com/read/gyhnrhzrhfxw
+* [Jira Board](https://hello-pis.atlassian.net/jira/software/projects/HPIS/boards/1)
+* [CI documentation](https://circleci.com/docs/2.0/configuration-reference)  
+* [Dokumentacja](https://www.overleaf.com/read/gyhnrhzrhfxw)
