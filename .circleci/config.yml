@@ -10,6 +10,9 @@ jobs:
           command: "apk add --update openssh-client git sed"
       - checkout
       - run:
+          name: "Change directory to server"
+          command: "cd server"
+      - run:
           name: "Build project"
           command: "gradle build"
       - run:
@@ -23,6 +26,9 @@ jobs:
           name: "Update apt"
           command: "apk add --update openssh-client git sed"
       - checkout
+      - run:
+          name: "Change directory to server"
+          command: "cd server"
       - run:
           name: "Build project"
           command: "gradle build"
