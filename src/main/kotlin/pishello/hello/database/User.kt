@@ -18,7 +18,5 @@ data class User(
 
     override fun hashCode(): Int = javaClass.hashCode()
 
-    override fun toString(): String {
-        return this::class.simpleName + "(name = $name )"
-    }
+    override fun toString(): String = this::class.simpleName + "(name = $name )"
 }

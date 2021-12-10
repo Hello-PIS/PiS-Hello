@@ -27,7 +27,5 @@ data class Token(
     override fun hashCode(): Int = javaClass.hashCode()
 
     @Override
-    override fun toString(): String {
-        return this::class.simpleName + "(token = $token )"
-    }
+    override fun toString(): String = this::class.simpleName + "(token = $token )"
 }
