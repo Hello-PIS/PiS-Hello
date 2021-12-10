@@ -11,10 +11,10 @@ jobs:
       - checkout
       - run:
           name: "Build project"
-          command: "gradle build"
+          command: "cd server && gradle build"
       - run:
           name: "Run tests"
-          command: "gradle test"
+          command: "cd server && gradle test"
   publish:
     docker:
       - image: gradle:jdk11-alpine
@@ -25,13 +25,13 @@ jobs:
       - checkout
       - run:
           name: "Build project"
-          command: "gradle build"
+          command: "cd server && gradle build"
       - run:
           name: "Publish a package"
           command: |
-            sed -i 's/${ARTIFACTORY_USERNAME}/'${ARTIFACTORY_USERNAME}'/g' gradle.properties
-            sed -i 's/${ARTIFACTORY_PASSWORD}/'${ARTIFACTORY_PASSWORD}'/g' gradle.properties
-            gradle artifactoryPublish
+            sed -i 's/${ARTIFACTORY_USERNAME}/'${ARTIFACTORY_USERNAME}'/g' server/gradle.properties
+            sed -i 's/${ARTIFACTORY_PASSWORD}/'${ARTIFACTORY_PASSWORD}'/g' server/gradle.properties
+            cd server && gradle artifactoryPublish
 
 workflows:
   say-hello-workflow:
