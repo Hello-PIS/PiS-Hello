@@ -7,7 +7,6 @@ Timeline:
 03.01 - 3 stage
 24.01 - 4 stage
 
-Jira: https://hello-pis.atlassian.net/jira/software/projects/HPIS/boards/1
-
 Links:
+* [Jira Board](https://hello-pis.atlassian.net/jira/software/projects/HPIS/boards/1)
 * [CI documentation](https://circleci.com/docs/2.0/configuration-reference)
