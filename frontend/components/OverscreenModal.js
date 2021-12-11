@@ -32,13 +32,13 @@ const styles = StyleSheet.create({
     modalTitle: {
         fontSize: 28,
         marginTop: 30,
-        fontFamily: 'mt-bold',
+        fontFamily: 'open-sans-bold',
     },
     modalText: {
         fontSize: 16,
         textAlign: 'center',
         marginVertical: 20,
-        fontFamily: 'mt-light',
+        fontFamily: 'open-sans',
     },
     modalButton: {
         width: 50,
