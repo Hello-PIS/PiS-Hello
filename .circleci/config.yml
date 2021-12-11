@@ -33,8 +33,20 @@ jobs:
             sed -i 's/${ARTIFACTORY_PASSWORD}/'${ARTIFACTORY_PASSWORD}'/g' server/gradle.properties
             cd server && gradle artifactoryPublish
 
+  deploy:
+    docker:
+      - image: google/cloud-sdk
+        auth:
+          username: $CLOUD_SDK_USER
+          password: $SDK_PASSWORD  # context / project UI env-var reference
+    steps:
+      - run: |
+          echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+          gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+          gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
 workflows:
   say-hello-workflow:
     jobs:
       - test
       - publish
+      - deploy
