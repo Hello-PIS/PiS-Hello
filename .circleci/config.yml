@@ -25,6 +25,8 @@ jobs:
 #          path: ~/test-results
       - store_test_results:
           path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results
   publish:
     docker:
       - image: gradle:jdk11-alpine
