@@ -21,14 +21,19 @@ server/gradlew -b server/build.gradle.kts bootRun
 ```
 
 ### Mobile app
-
-#### Run
-Prior to running the app, you need to install node package manager in frontend directory
+Prior to running the app, you need to install node.json your PC.
+Then, you need to install expo with command
+```shell
+npm install --global expo-cli
+```
+Then, go to frontend directory and install all required packages
 ```shell
 cd frontend
 npm install
 ```
-Then, to run the development server for the mobile app, you need to
+
+#### Run
+To start the development server for the mobile app, you need to
 ```shell
 npm start
 ```
