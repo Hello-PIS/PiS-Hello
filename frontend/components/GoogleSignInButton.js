@@ -1,0 +1,57 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import { View, TouchableOpacity, Text, Image, ActivityIndicator, StyleSheet } from 'react-native'
+
+export default class GoogleSignInButton extends React.Component {
+    render() {
+        const { color, backgroundColor, ...props } = this.props
+    return (
+        <TouchableOpacity {...props} style={{
+            ...styles.container,
+            opacity: this.props.disabled ? 0.5 : 1,
+            backgroundColor: this.props.backgroundColor,
+            }}
+        >
+        {this.props.loading ?
+            <ActivityIndicator size={'small'} color={color} /> :
+            <View style={{ alignItems: 'center', flexDirection: 'row', alignSelf: 'flex-start' }}>
+                <Image style={styles.logo} source={require('../assets/google-logo.png')} />
+                <View style={{width: 24}} />
+                <Text style={{...styles.label }}>{this.props.children}</Text>
+                <View style={{width: 16}} />
+            </View>}
+        </TouchableOpacity>
+    )
+}
+}
+
+GoogleSignInButton.propTypes = {
+  color: PropTypes.string,
+  backgroundColor: PropTypes.string,
+}
+
+GoogleSignInButton.defaultProps = {
+  color: 'black',
+  backgroundColor: 'white', //'#4285F4',
+}
+
+const styles = StyleSheet.create({
+  container: {
+    height: 40,
+    justifyContent: 'center',
+    padding: 8,
+    borderRadius: 5,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 3,
+  },
+  logo: {
+    width: 18,
+    height: 18,
+  },
+  label: {
+    fontSize: 14,
+    fontFamily: 'roboto-medium',
+  },
+});
