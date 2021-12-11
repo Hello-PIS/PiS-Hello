@@ -2,9 +2,7 @@ package pishello.hello.api
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import pishello.hello.database.Token
 import pishello.hello.database.TokenConnection
 import pishello.hello.database.UserConnection
@@ -13,7 +11,15 @@ data class LoginRequest(val name: String, val password: String)
 
 @RestController
 class AuthEndpoint(val userConnection: UserConnection, val tokenConnection: TokenConnection) {
-    @PostMapping("/register")
+    @GetMapping("/check")
+    fun check(@RequestParam name: String): ResponseEntity<Unit> {
+        return if (userConnection.checkIfUserExists(name)) {
+            ResponseEntity(HttpStatus.CONFLICT)
+        } else
+            ResponseEntity(HttpStatus.OK)
+    }
+
+    @PostMapping("/register", consumes = ["application/json"])
     fun register(@RequestBody request: LoginRequest): ResponseEntity<Unit> {
         return if (!userConnection.checkIfUserExists(request.name)) {
             userConnection.createNewUser(request.name, request.password)
@@ -22,7 +28,7 @@ class AuthEndpoint(val userConnection: UserConnection, val tokenConnection: Toke
             ResponseEntity(HttpStatus.CONFLICT)
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login", consumes = ["application/json"])
     fun login(@RequestBody request: LoginRequest): ResponseEntity<Token> {
         val user = userConnection.checkLogin(request.name, request.password)
         return if (user != null) {
