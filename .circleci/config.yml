@@ -34,13 +34,8 @@ jobs:
       - run:
           name: "Run tests"
           command: "gradle test"
-      - run:
-          command: |
-            mkdir -p /tmp/core_dumps
-            cp core.* /tmp/core_dumps
-          when: on_fail
       - store_artifacts:
-          path: /tmp/core_dumps
+          path: /tmp/artifacts
 
   publish:
     docker:
