@@ -11,16 +11,16 @@ export default (state = initialState, action) => {
         ...state,
         token: action.token,
       }; 
-    case REGISTER:
-      return {
-          ...state,
-          registerOutcome: action.outcome,
-      };
-    case CHECK_LOGIN:
-      return {
-          ...state,
-          isLoginAvilable: action.outcome,
-      };
+    // case REGISTER:
+    //   return {
+    //       ...state,
+    //       registerOutcome: action.outcome,
+    //   };
+    // case CHECK_LOGIN:
+    //   return {
+    //       ...state,
+    //       isLoginAvilable: action.outcome,
+    //   };
   }
   return state;
 };
