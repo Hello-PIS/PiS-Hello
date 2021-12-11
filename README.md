@@ -13,11 +13,11 @@ Timeline:
 To run the REST server, you either need to
 ```shell
 cd server
-gradle run
+gradle bootRun
 ```
 or straight from the root
 ```shell
-server/gradlew -b server/build.gradle.kts run
+server/gradlew -b server/build.gradle.kts bootRun
 ```
 
 ### Mobile app
