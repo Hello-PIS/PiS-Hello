@@ -33,7 +33,7 @@ export default function RegisterScreen() {
 
     const onRegisterPressed = () => {
         setWaitingForResponse(true);
-        const registerOutcome = dispatch(loginActions.register(username, password));
+        dispatch(loginActions.register(username, password));
     }
 
     const onSignInPressed = () => {

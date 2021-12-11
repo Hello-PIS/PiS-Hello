@@ -37,13 +37,13 @@ export default function App() {
         });
         setFontLoaded(true);
     }
-    getAsyncData ();
+    getAsyncData();
   }, [])
 
   if (!fontLoaded) {
     return (
       <View>
-        <LoadingScreenModal amIVisible={true} />
+        <LoadingScreenModal amIVisible={Platform.OS === 'ios' ? false : true} />
       </View>
     );
   }
