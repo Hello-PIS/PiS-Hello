@@ -65,13 +65,14 @@ export const register = (login, password) => {
         console.log(`response status: ${response.status}`);
         if(response.status == 201) {
             console.log(`Registration successful!`);
+            dispatch({ type: REGISTER, outcome: true });
         } else if (response.status == 409) {
             console.log(`Request rejected. Wrong credentials. Try changing your login.`);
+            dispatch({ type: REGISTER, outcome: false });
         } else {
             console.log(`Request rejected for unknown reason.`);
+            dispatch({ type: REGISTER, outcome: null });
         }
-        
-        return response.status == 201 ? true : response.status == 409 ? false : null;
     }
 };
 
@@ -84,12 +85,13 @@ export const checkLogin = (login) => {
         console.log(`response status: ${response.status}`);
         if(response.status == 200) {
             console.log(`Login available`);
+            dispatch({ type: CHECK_LOGIN, outcome: true });
         } else if (response.status == 409) {
             console.log(`User with this name already exists.`);
+            dispatch({ type: CHECK_LOGIN, outcome: false });
         } else {
             console.log(`Request rejected for unknown reason.`);
+            dispatch({ type: CHECK_LOGIN, outcome: null });
         }
-        
-        return response.status == 200 ? true : response.status == 409 ? false : null;
     }
 };
