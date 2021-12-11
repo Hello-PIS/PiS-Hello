@@ -1,40 +1,22 @@
 version: 2.1
 
 jobs:
-  test:
+  deploy:
     docker:
-      - image: gradle:jdk11-alpine
+      - image: google/cloud-sdk
+        auth:
+          username: $CLOUD_SDK_USER
+          password: $SDK_PASSWORD  # context / project UI env-var reference
     steps:
-      - run:
-          name: "Update apt"
-          command: "apk add --update openssh-client git sed"
-      - checkout
-      - run:
-          name: "Build project"
-          command: "cd server && gradle build"
-      - run:
-          name: "Run tests"
-          command: "cd server && gradle test"
-  publish:
-    docker:
-      - image: gradle:jdk11-alpine
-    steps:
-      - run:
-          name: "Update apt"
-          command: "apk add --update openssh-client git sed"
-      - checkout
-      - run:
-          name: "Build project"
-          command: "cd server && gradle build"
-      - run:
-          name: "Publish a package"
-          command: |
-            sed -i 's/${ARTIFACTORY_USERNAME}/'${ARTIFACTORY_USERNAME}'/g' server/gradle.properties
-            sed -i 's/${ARTIFACTORY_PASSWORD}/'${ARTIFACTORY_PASSWORD}'/g' server/gradle.properties
-            cd server && gradle artifactoryPublish
-
+      - run: |
+          echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+          gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+          gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
 workflows:
-  say-hello-workflow:
+  say-hello-workflow-deploy:
     jobs:
-      - test
-      - publish
+      - deploy:
+          filters:
+            branches:
+              only:
+                - HPIS-41-circleci-gcp
