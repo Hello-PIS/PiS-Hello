@@ -25,6 +25,8 @@ export default function RegisterScreen() {
 
     useEffect(() => {
         setWaitingForResponse(false);
+        if (registerResponse == null)
+            return;
         if (registerOutcome == true)
             setSuccessModalVisible(true);
         else

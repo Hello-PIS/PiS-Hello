@@ -28,6 +28,8 @@ export default function SignInScreen() {
 
     useEffect(() => {
         setWaitingForResponse(false);
+        if (loginResponse == null)
+            return;
         if (token != null)
             navigation.navigate('HomeScreen');
         else
