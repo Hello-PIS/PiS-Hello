@@ -21,7 +21,7 @@ server/gradlew -b server/build.gradle.kts bootRun
 ```
 
 ### Mobile app
-Prior to running the app, you need to install node.json your PC.
+Prior to running the app, you need to install node.js on your PC.
 Then, you need to install expo with command
 ```shell
 npm install --global expo-cli
