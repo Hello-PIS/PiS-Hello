@@ -34,6 +34,8 @@ jobs:
       - run:
           name: "Run tests"
           command: "gradle test"
+      - store_test_results:
+          path: /tmp/artifacts
       - store_artifacts:
           path: /tmp/artifacts
 
@@ -54,6 +56,8 @@ jobs:
             sed -i 's/${ARTIFACTORY_USERNAME}/'${ARTIFACTORY_USERNAME}'/g' gradle.properties
             sed -i 's/${ARTIFACTORY_PASSWORD}/'${ARTIFACTORY_PASSWORD}'/g' gradle.properties
             gradle artifactoryPublish
+#      - store_artifacts:
+#          path: /tmp/artifacts
 
 workflows:
   say-hello-workflow:
