@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:11.0-stretch-node-browsers-legacy
+      - image: gradle:jdk11-alpine
       steps:
         - checkout
         - run: mvn test
