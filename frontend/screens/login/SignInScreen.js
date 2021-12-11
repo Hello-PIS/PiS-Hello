@@ -21,20 +21,22 @@ export default function SignInScreen() {
     const [waitingForResponse, setWaitingForResponse] = useState(false);
 
     const token = useSelector((state) => state.login.token);
+    const loginResponse = useSelector((state) => state.login.loginResponseTimestamp);
+    
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
     useEffect(() => {
+        setWaitingForResponse(false);
         if (token != null)
             navigation.navigate('HomeScreen');
         else
             setFailureModalVisible(true);
-    }, [token]);
+    }, [loginResponse]);
 
     const onSignInPressed = async () => {
         setWaitingForResponse(true);
         dispatch(loginActions.signIn(username, password));
-        setWaitingForResponse(false);
     }
 
     const onForgotPasswordPressed = () => {

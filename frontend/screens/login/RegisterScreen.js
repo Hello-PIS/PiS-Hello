@@ -17,17 +17,23 @@ export default function RegisterScreen() {
     const [failureModalVisible, setFailureModalVisible] = useState(false);
     const [successModalVisible, setSuccessModalVisible] = useState(false);
 
+    const registerResponse = useSelector((state) => state.login.registerResponseTimestamp);
+    const registerOutcome = useSelector((state) => state.login.registerOutcome);
+
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
-    const onRegisterPressed = () => {
-        setWaitingForResponse(true);
-        const registerOutcome = dispatch(loginActions.register(username, password));
+    useEffect(() => {
         setWaitingForResponse(false);
         if (registerOutcome == true)
             setSuccessModalVisible(true);
         else
             setFailureModalVisible(true);
+    }, [registerResponse]);
+
+    const onRegisterPressed = () => {
+        setWaitingForResponse(true);
+        const registerOutcome = dispatch(loginActions.register(username, password));
     }
 
     const onSignInPressed = () => {

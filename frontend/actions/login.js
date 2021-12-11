@@ -1,6 +1,6 @@
 import { SHA256 } from 'crypto-js';
 
-import serverAddress from './serverAddress';
+import serverAddress from '../constants/serverAddress';
 
 export const SIGN_IN = 'SIGN_IN';
 export const REGISTER = 'REGISTER';
@@ -11,11 +11,8 @@ export const signIn = (login, password) => {
         console.log('signing in...')
 
         const name = login;
-        const password = SHA256(password).toString();
-
-        // setTimeout(resolve, ms);
-        // dispatch({ type: SIGN_IN, token: password.toString() });
-        // return;
+        password = SHA256(password).toString();
+        
         const response = await fetch(
             `http://${serverAddress.address}:8080/login`,
             {
@@ -29,18 +26,16 @@ export const signIn = (login, password) => {
                 })
             }
         );
-        console.log('response:');
-        console.log(response);
+        console.log(`response status: ${response.status}`);
+        let token = null;
         if(response.status == 200) {
             const respData = await response.json();
-            const token = respData.token;
+            token = respData.token;
             console.log(`Received token: ${token}`);
         } else if (response.status == 403) {
             console.log(`Request rejected. Wrong credentials.`);
-            const token = null;
         } else {
             console.log(`Request rejected for unknown reason.`);
-            const token = null;
         }
         
         dispatch({ type: SIGN_IN, token: token });
@@ -52,15 +47,8 @@ export const register = (login, password) => {
         console.log('registering...');
 
         const name = login;
-        const password = SHA256(password).toString();
+        password = SHA256(password).toString();
 
-        console.log(JSON.stringify({
-            name,
-            password
-        }));
-
-        // dispatch({ type: REGISTER, outcome: false });
-        // return;
         const response = await fetch(
             `http://${serverAddress.address}:8080/register`,
             {
@@ -74,16 +62,13 @@ export const register = (login, password) => {
                 })
             }
         );
-        console.log('response:');
-        console.log(response);
+        console.log(`response status: ${response.status}`);
         if(response.status == 201) {
             console.log(`Registration successful!`);
         } else if (response.status == 409) {
             console.log(`Request rejected. Wrong credentials. Try changing your login.`);
-            const token = null;
         } else {
             console.log(`Request rejected for unknown reason.`);
-            const token = null;
         }
         
         return response.status == 201 ? true : response.status == 409 ? false : null;
@@ -91,16 +76,16 @@ export const register = (login, password) => {
 };
 
 export const checkLogin = (login) => {
+    console.log(`checking login: ${login}`);
     return async dispatch => {
         const response = await fetch(
-            `http://${serverAddress.address}:8080/check_login?login=${login}`
+            `http://${serverAddress.address}:8080/check?name=${login}`
         );
-        console.log('response:');
-        console.log(response);
+        console.log(`response status: ${response.status}`);
         if(response.status == 200) {
             console.log(`Login available`);
         } else if (response.status == 409) {
-            console.log(`Request rejected. User with this name already exists.`);
+            console.log(`User with this name already exists.`);
         } else {
             console.log(`Request rejected for unknown reason.`);
         }
