@@ -4,9 +4,7 @@ jobs:
   deploy:
     docker:
       - image: google/cloud-sdk
-        auth:
-          username: $CLOUD_SDK_USER
-          password: $SDK_PASSWORD  # context / project UI env-var reference
+
     steps:
       - run: |
           echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
