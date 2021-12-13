@@ -16,7 +16,7 @@ jobs:
             compute ssh krupa_olga00@pis \
             --zone "${GOOGLE_COMPUTE_ZONE}" \
             --strict-host-key-checking=no \
-            --command "echo works"
+            --command "ls"
 
 
 workflows:
