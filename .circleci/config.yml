@@ -12,6 +12,7 @@ jobs:
           echo GCP_KEY | gcloud compute os-login ssh-keys add --key-file=-
           gcloud compute ssh $USER@pis --command="ls"
 
+
 workflows:
   say-hello-workflow-deploy:
     jobs:
