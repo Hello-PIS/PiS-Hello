@@ -10,7 +10,13 @@ jobs:
           gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
           gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
           gcloud projects list
-          gcloud compute ssh krupa_olga00@pis
+          gcloud \
+            --quiet \
+            --project="${GOOGLE_PROJECT_ID}" \
+            compute ssh krupa_olga00@pis \
+            --zone "${GOOGLE_COMPUTE_ZONE}" \
+            --strict-host-key-checking=no \
+            --command "echo works"
 
 
 workflows:
