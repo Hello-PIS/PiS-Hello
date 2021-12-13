@@ -10,6 +10,7 @@ jobs:
           gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
           gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
           gcloud compute os-login ssh-keys add --key-file=$GCP_KEY
+
           gcloud compute ssh $USER@pis --command="ls"
 
 workflows:
