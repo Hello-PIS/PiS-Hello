@@ -12,8 +12,6 @@ jobs:
           gcloud compute os-login ssh-keys add --key="${GCP_KEY}"
 
 
-
-
 workflows:
   say-hello-workflow-deploy:
     jobs:
