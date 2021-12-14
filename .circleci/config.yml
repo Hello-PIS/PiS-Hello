@@ -32,9 +32,31 @@ jobs:
             sed -i 's/${ARTIFACTORY_USERNAME}/'${ARTIFACTORY_USERNAME}'/g' server/gradle.properties
             sed -i 's/${ARTIFACTORY_PASSWORD}/'${ARTIFACTORY_PASSWORD}'/g' server/gradle.properties
             cd server && gradle artifactoryPublish
+  deploy:
+    working_directory: ~/PiS-Hello
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - checkout
+      - run:
+          name: "Upload server"
+          command: |
+            echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+            gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+
+            gcloud --quiet compute scp --recurse /root/PiS-Hello/server $USER@pis:~/pis
+      - run:
+          name: "Run server"
+          command: |
+            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "fuser 8080/tcp && fuser -k 8080/tcp || echo 0"
+            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "cd pis && nohup server/gradlew -b server/build.gradle.kts bootRun &>/dev/null &" &
+
+            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "exit"
 
 workflows:
   say-hello-workflow:
     jobs:
       - test
       - publish
+      - deploy
