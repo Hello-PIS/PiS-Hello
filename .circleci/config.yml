@@ -6,8 +6,6 @@ jobs:
       - image: google/cloud-sdk
     steps:
       - checkout
-      - run: ls -A1 ~/PiS-Hello
-      - run: pwd
       - run:
           name: "Set Cloud SDK"
           command: |
