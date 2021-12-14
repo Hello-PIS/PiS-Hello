@@ -23,7 +23,6 @@ jobs:
             gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "exit"
 
 
-
 workflows:
   say-hello-workflow-deploy:
     jobs:
