@@ -28,7 +28,7 @@ jobs:
             --quiet \
             --project="${GOOGLE_PROJECT_ID}" \
             compute scp \
-            $CIRCLE_WORKING_DIRECTORY/README.md \
+            /root/PiS-Hello/README.md \
             krupa_olga00@pis:~/pis
 
 
