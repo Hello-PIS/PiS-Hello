@@ -14,7 +14,9 @@ jobs:
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
 
             gcloud --quiet compute scp --recurse /root/PiS-Hello/server $USER@pis:~/pis
-
+      - run:
+          name: "Run server"
+          command: |
             gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "cd pis && server/gradlew -b server/build.gradle.kts bootRun &"
 
 
