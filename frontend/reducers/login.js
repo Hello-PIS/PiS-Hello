@@ -10,11 +10,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         token: action.token,
+        loginResponseTimestamp: Date.now(),
       }; 
     case REGISTER:
       return {
           ...state,
           registerOutcome: action.outcome,
+          registerResponseTimestamp: Date.now(),
       };
     case CHECK_LOGIN:
       return {

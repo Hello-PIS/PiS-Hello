@@ -1,21 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, TextInput, ScrollView, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/core';
 import gradient from '../../assets/purple-bg.jpg';
 import purple from '../../assets/gradient.png';
 import Card from '../../components/Card';
+import OverscreenModal from '../../components/OverscreenModal';
+import LoadingScreenModal from '../../components/LoadingScreenModal';
+import * as loginActions from '../../actions/login';
 
 export default function RegisterScreen() {
-
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [passwordRepeat, setPasswordRepeat] = useState('');
+    const [waitingForResponse, setWaitingForResponse] = useState(false);
+    const [failureModalVisible, setFailureModalVisible] = useState(false);
+    const [successModalVisible, setSuccessModalVisible] = useState(false);
 
+    const registerResponse = useSelector((state) => state.login.registerResponseTimestamp);
+    const registerOutcome = useSelector((state) => state.login.registerOutcome);
+
+    const dispatch = useDispatch();
     const navigation = useNavigation();
 
+    useEffect(() => {
+        setWaitingForResponse(false);
+        if (registerResponse == null)
+            return;
+        if (registerOutcome == true)
+            setSuccessModalVisible(true);
+        else
+            setFailureModalVisible(true);
+    }, [registerResponse]);
+
     const onRegisterPressed = () => {
-        navigation.navigate('ConfirmEmail');
+        setWaitingForResponse(true);
+        dispatch(loginActions.register(username, password));
     }
 
     const onSignInPressed = () => {
@@ -98,16 +118,29 @@ export default function RegisterScreen() {
                             </TouchableOpacity>
                             <View style={{flex: 1}} />
                         </View>
-                        
-                        {/*
-                        <CustomInput placeholder='Email' value={email} setValue={setEmail} />
-                        */}
                     </View>
                 </Card>
                 <TouchableOpacity style={{margin: 5, alignItems: 'center'}} onPress={onSignInPressed}>
                     <Text style={{color: 'white'}}>Masz już konto? Zaloguj się</Text>
                 </TouchableOpacity>
             </ScrollView>
+            <LoadingScreenModal amIVisible={waitingForResponse} />
+            <OverscreenModal
+                title={"Rejestracja nie powiodła się"}
+                message={"Serwer odrzucił próbę rejestracji."}
+                buttonType={'reload1'}
+                buttonColor={'#9932CC'}
+                onClick={ () => setFailureModalVisible(false) }
+                amIVisible={failureModalVisible}
+            />
+            <OverscreenModal
+                title={"Rejestracja przebiegła pomyślnie!"}
+                message={"Jesteś zarejestrowany w naszym serwisie. Kliknij poniższy przycisk, aby przejść do strony logowania."}
+                buttonType={'check'}
+                buttonColor={'#228c22'}
+                onClick={ () => navigation.navigate('SignIn') }
+                amIVisible={successModalVisible}
+            />
         </View>
         
     );

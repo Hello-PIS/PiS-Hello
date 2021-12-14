@@ -21,20 +21,24 @@ export default function SignInScreen() {
     const [waitingForResponse, setWaitingForResponse] = useState(false);
 
     const token = useSelector((state) => state.login.token);
+    const loginResponse = useSelector((state) => state.login.loginResponseTimestamp);
+
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
     useEffect(() => {
+        setWaitingForResponse(false);
+        if (loginResponse == null)
+            return;
         if (token != null)
             navigation.navigate('HomeScreen');
         else
             setFailureModalVisible(true);
-    }, [token]);
+    }, [loginResponse]);
 
     const onSignInPressed = async () => {
         setWaitingForResponse(true);
         dispatch(loginActions.signIn(username, password));
-        setWaitingForResponse(false);
     }
 
     const onForgotPasswordPressed = () => {
@@ -49,13 +53,13 @@ export default function SignInScreen() {
         <View style={styles.screenView}>
             <Image 
             source={purple}
-            style={{...StyleSheet.absoluteFillObject}}
+            style={StyleSheet.absoluteFillObject}
             blurRadius={100}
             />
             <Card style={styles.mainCard}>
                 <Image
                     source={backgroundImage}
-                    style={{...StyleSheet.absoluteFillObject}}
+                    style={StyleSheet.absoluteFillObject}
                     blurRadius={10}
                 />
                 <View style={styles.formRow}>
@@ -92,10 +96,10 @@ export default function SignInScreen() {
                 </View>
             </Card>
 
-            <TouchableOpacity style={{margin: 5}} onPress={onForgotPasswordPressed}>
+            <TouchableOpacity style={{margin: 10}} onPress={onForgotPasswordPressed}>
                 <Text style={{color: 'white'}}>Zapomniałeś hasła?</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{margin: 5}} onPress={onRegisterPressed}>
+            <TouchableOpacity style={{margin: 10}} onPress={onRegisterPressed}>
                 <Text style={{color: 'white'}}>Nie masz konta? Zarejestruj się</Text>
             </TouchableOpacity>
             <LoadingScreenModal amIVisible={waitingForResponse} />
