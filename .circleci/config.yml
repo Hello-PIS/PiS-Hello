@@ -15,7 +15,7 @@ jobs:
 
             gcloud --quiet compute scp --recurse /root/PiS-Hello/server $USER@pis:~/pis
 
-            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "cd pis && server/gradlew -b server/build.gradle.kts bootRun"
+            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "cd pis && server/gradlew -b server/build.gradle.kts bootRun &"
 
 
 
