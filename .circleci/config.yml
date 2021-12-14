@@ -1,5 +1,37 @@
 version: 2.1
+
 jobs:
+  test:
+    docker:
+      - image: gradle:jdk11-alpine
+    steps:
+      - run:
+          name: "Update apt"
+          command: "apk add --update openssh-client git sed"
+      - checkout
+      - run:
+          name: "Build project"
+          command: "cd server && gradle build"
+      - run:
+          name: "Run tests"
+          command: "cd server && gradle test"
+  publish:
+    docker:
+      - image: gradle:jdk11-alpine
+    steps:
+      - run:
+          name: "Update apt"
+          command: "apk add --update openssh-client git sed"
+      - checkout
+      - run:
+          name: "Build project"
+          command: "cd server && gradle build"
+      - run:
+          name: "Publish a package"
+          command: |
+            sed -i 's/${ARTIFACTORY_USERNAME}/'${ARTIFACTORY_USERNAME}'/g' server/gradle.properties
+            sed -i 's/${ARTIFACTORY_PASSWORD}/'${ARTIFACTORY_PASSWORD}'/g' server/gradle.properties
+            cd server && gradle artifactoryPublish
   deploy:
     working_directory: ~/PiS-Hello
     docker:
@@ -22,12 +54,9 @@ jobs:
 
             gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "exit"
 
-
 workflows:
-  say-hello-workflow-deploy:
+  say-hello-workflow:
     jobs:
-      - deploy:
-          filters:
-            branches:
-              only:
-                - HPIS-41-circleci-gcp
+      - test
+      - publish
+      - deploy
