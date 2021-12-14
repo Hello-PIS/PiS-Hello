@@ -2,11 +2,12 @@ version: 2.1
 
 jobs:
   deploy:
+    working_directory: ~/PiS-Hello
     docker:
       - image: google/cloud-sdk
-    working_directory: ~/PiS-Hello
     steps:
       - checkout
+      - run: ls -A1 ~/PiS-Hello
       - run: |
           echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
           gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
