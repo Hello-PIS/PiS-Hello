@@ -5,9 +5,11 @@ jobs:
     docker:
       - image: google/cloud-sdk
     steps:
-
+      - checkout
+      - run: ls -A1 ~/PiS-Hello
+      - run: pwd
       - run:
-          name: "Upload server"
+          name: "Set Cloud SDK"
           command: |
             echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
             gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
