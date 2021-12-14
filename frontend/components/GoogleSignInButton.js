@@ -1,28 +1,45 @@
-import React from 'react'
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types'
 import { View, TouchableOpacity, Text, Image, ActivityIndicator, StyleSheet } from 'react-native'
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
 
-export default class GoogleSignInButton extends React.Component {
-    render() {
-        const { color, backgroundColor, ...props } = this.props
-    return (
-        <TouchableOpacity {...props} style={{
-            ...styles.container,
-            opacity: this.props.disabled ? 0.5 : 1,
-            backgroundColor: this.props.backgroundColor,
-            }}
-        >
-        {this.props.loading ?
-            <ActivityIndicator size={'small'} color={color} /> :
-            <View style={{ alignItems: 'center', flexDirection: 'row', alignSelf: 'flex-start' }}>
-                <Image style={styles.logo} source={require('../assets/google-logo.png')} />
-                <View style={{width: 24}} />
-                <Text style={{...styles.label }}>{this.props.children}</Text>
-                <View style={{width: 16}} />
-            </View>}
-        </TouchableOpacity>
-    )
-}
+WebBrowser.maybeCompleteAuthSession();
+
+
+export default function GoogleSignInButton (props) {
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    expoClientId: '383627229131-468hbi76c2hb3rtc58ftg2ekfhlbkg1o.apps.googleusercontent.com'
+  });
+
+  useEffect(() => {
+    if (response?.type === 'success') {
+      const { email, name } = response;
+      console.log(email);
+      console.log(name);
+      }
+  }, [response]);
+
+  return (
+    <TouchableOpacity {...props} style={{
+        ...styles.container,
+        opacity: props.disabled ? 0.5 : 1,
+        backgroundColor: props.backgroundColor,
+        }}
+        onPress={() => {
+          promptAsync();
+          }}
+    >
+    {props.loading ?
+        <ActivityIndicator size={'small'} color={color} /> :
+        <View style={{ alignItems: 'center', flexDirection: 'row', alignSelf: 'flex-start' }}>
+            <Image style={styles.logo} source={require('../assets/google-logo.png')} />
+            <View style={{width: 24}} />
+            <Text style={{...styles.label }}>{props.children}</Text>
+            <View style={{width: 16}} />
+        </View>}
+    </TouchableOpacity>
+)
 }
 
 GoogleSignInButton.propTypes = {
