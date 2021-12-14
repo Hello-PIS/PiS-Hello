@@ -8,21 +8,13 @@ jobs:
     steps:
 
       - run:
-          name: "Set Cloud SDK"
+          name: "Upload server"
           command: |
             echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
             gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-            gcloud projects list
-            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "ls"
-      - run:
-          name: "Upload server"
-          command: |
+
             gcloud --quiet compute scp --recurse /root/PiS-Hello/server $USER@pis:~/pis
-
-
-
-
 
 
 workflows:
