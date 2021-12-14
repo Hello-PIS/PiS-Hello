@@ -24,8 +24,9 @@ jobs:
             --quiet \
             --project="${GOOGLE_PROJECT_ID}" \
             compute scp \
-            C:\Users\kolga\Desktop\testygcp\test.txt \
+            \README.md \
             krupa_olga00@pis:~/pis
+
 
 
 workflows:
