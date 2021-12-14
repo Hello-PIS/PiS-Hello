@@ -6,6 +6,7 @@ jobs:
       - image: google/cloud-sdk
     working_directory: ~/PiS-Hello
     steps:
+      - checkout
       - run: |
           echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
           gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
@@ -25,7 +26,7 @@ jobs:
             --quiet \
             --project="${GOOGLE_PROJECT_ID}" \
             compute scp \
-            $CIRCLE_WORKING_DIRECTORY/README.md \
+            /README.md \
             krupa_olga00@pis:~/pis
 
 
