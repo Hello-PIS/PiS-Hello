@@ -14,18 +14,9 @@ jobs:
           gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
           gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
           gcloud projects list
-          gcloud --quiet --project="${GOOGLE_PROJECT_ID}" compute ssh krupa_olga00@pis --zone "${GOOGLE_COMPUTE_ZONE}" --strict-host-key-checking=no --command "ls"
+          gcloud --quiet compute ssh krupa_olga00@pis --strict-host-key-checking=no --command "ls"
 
-          gcloud \
-            --quiet \
-            --project="${GOOGLE_PROJECT_ID}" \
-            compute ssh krupa_olga00@pis \
-            --zone "${GOOGLE_COMPUTE_ZONE}" \
-            --strict-host-key-checking=no \
-            --command "ls"
-
-          gcloud \
-            --quiet \
+          gcloud --quiet \
             --project="${GOOGLE_PROJECT_ID}" \
             compute scp \
             /root/PiS-Hello/README.md \
@@ -38,7 +29,6 @@ jobs:
             /root/PiS-Hello/server \
             krupa_olga00@pis:~/pis_server
 
-          gcloud --quiet --project="${GOOGLE_PROJECT_ID}" compute ssh krupa_olga00@pis --zone "${GOOGLE_COMPUTE_ZONE}" --strict-host-key-checking=no --command "cd pis_server && server/gradlew -b server/build.gradle.kts bootRun"
 
 
 
