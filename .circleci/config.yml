@@ -18,6 +18,7 @@ jobs:
           name: "Run server"
           command: |
             gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "cd pis && nohup server/gradlew -b server/build.gradle.kts bootRun &"
+            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "exit"
 
 
 workflows:
