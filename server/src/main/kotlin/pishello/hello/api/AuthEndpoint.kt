@@ -37,4 +37,18 @@ class AuthEndpoint(val userConnection: UserConnection, val tokenConnection: Toke
         } else
             ResponseEntity(HttpStatus.FORBIDDEN)
     }
+
+    @PostMapping("/loginWithGoogle", consumes = ["application/json"])
+    fun google(@RequestBody request: LoginRequest): ResponseEntity<Token> {
+        return if (!userConnection.checkIfUserExists(request.name)) {
+            val user = userConnection.createNewUser(request.name, request.password)
+            ResponseEntity(tokenConnection.createNewToken(user), HttpStatus.OK)
+        } else {
+            val user = userConnection.checkLogin(request.name, request.password)
+            if (user != null) {
+                ResponseEntity(tokenConnection.createNewToken(user), HttpStatus.OK)
+            } else
+                ResponseEntity(HttpStatus.FORBIDDEN)
+        }
+    }
 }
