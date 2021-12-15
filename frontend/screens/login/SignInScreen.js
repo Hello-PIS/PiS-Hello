@@ -21,23 +21,10 @@ export default function SignInScreen() {
     const [waitingForResponse, setWaitingForResponse] = useState(false);
 
     const token = useSelector((state) => state.login.token);
-    const loginResponse = useSelector((state) => state.login.googleResponseTimestamp);
-
-    const googleLogin = useSelector((state) => state.login.login);
-    const googlePassword = useSelector((state) => state.login.password);
-    const googleResponded = useSelector((state) => state.login.googleResponseTimestamp);
+    const loginResponse = useSelector((state) => state.login.loginResponseTimestamp);
 
     const dispatch = useDispatch();
     const navigation = useNavigation();
-
-    useEffect(() => {
-        if (googleLogin != null && googlePassword != null)
-        {
-            setUsername(googleLogin);
-            setPassword(googlePassword);
-            onSignInPressed();
-        }
-    }, [googleResponded]);
 
     useEffect(() => {
         setWaitingForResponse(false);

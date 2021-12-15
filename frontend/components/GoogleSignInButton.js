@@ -4,21 +4,9 @@ import { View, TouchableOpacity, Text, Image, ActivityIndicator, StyleSheet } fr
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { useDispatch } from 'react-redux';
+import * as loginActions from '../actions/login';
 
 WebBrowser.maybeCompleteAuthSession();
-
-async function fetchUserInfo(token) {
-  const response = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-  });
-
-  return await response.json();
-}
 
 export default function GoogleSignInButton (props) {
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -33,7 +21,7 @@ export default function GoogleSignInButton (props) {
       return;
     if (response.type === 'success') {
       const { authentication: { accessToken } } = response;
-      dispatch(loginActions.getCredentialsFromGoogle(accessToken));
+      dispatch(loginActions.logInWithGoogle(accessToken));
     }
   }, [response]);
 
