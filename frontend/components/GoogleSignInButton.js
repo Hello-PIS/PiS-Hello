@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { View, TouchableOpacity, Text, Image, ActivityIndicator, StyleSheet } from 'react-native'
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
-import { useNavigation } from '@react-navigation/core';
 import { useDispatch } from 'react-redux';
 
 WebBrowser.maybeCompleteAuthSession();
