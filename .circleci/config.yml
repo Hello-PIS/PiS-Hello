@@ -56,12 +56,6 @@ jobs:
       - image: gradle:jdk11-alpine
     steps:
       - run:
-          name: Creating  Artifacts
-          command: |
-            echo "my artifact file" > /tmp/artifact-1;
-            mkdir /tmp/artifacts;
-            echo "my artifact files in a dir" > /tmp/artifacts/artifact-2;
-      - run:
           name: "Update apt"
           command: "apk add --update openssh-client git sed"
       - checkout
@@ -74,8 +68,7 @@ jobs:
             sed -i 's/${ARTIFACTORY_USERNAME}/'${ARTIFACTORY_USERNAME}'/g' server/gradle.properties
             sed -i 's/${ARTIFACTORY_PASSWORD}/'${ARTIFACTORY_PASSWORD}'/g' server/gradle.properties
             cd server && gradle artifactoryPublish
-      - store_artifacts:
-          path: /tmp/artifacts
+
   deploy:
     working_directory: ~/PiS-Hello
     docker:
