@@ -6,19 +6,37 @@ import * as Google from 'expo-auth-session/providers/google';
 
 WebBrowser.maybeCompleteAuthSession();
 
+async function fetchUserInfo(token) {
+  const response = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+  });
+
+  return await response.json();
+}
 
 export default function GoogleSignInButton (props) {
   const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: '383627229131-468hbi76c2hb3rtc58ftg2ekfhlbkg1o.apps.googleusercontent.com'
-  });
+    expoClientId: '383627229131-468hbi76c2hb3rtc58ftg2ekfhlbkg1o.apps.googleusercontent.com',
+    scopes: ['email', 'profile']
+   });
 
   useEffect(() => {
-    if (response?.type === 'success') {
-      const { email, name } = response;
-      console.log(email);
-      console.log(name);
-      }
-  }, [response]);
+    async function getEffect() {
+      if (response?.type === 'success') {
+        const { authentication: { accessToken } } = response;
+        const user = await fetchUserInfo(accessToken);
+        console.log(accessToken);
+        console.log(user);
+        return await user;
+        }
+    }
+    const user = getEffect()
+  });
 
   return (
     <TouchableOpacity {...props} style={{
