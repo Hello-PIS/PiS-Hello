@@ -9,6 +9,7 @@ import * as loginActions from '../actions/login';
 export default function HomeScreen() {
   const navigation = useNavigation();
   const token = useSelector((state) => state.login.token);
+  const name = useSelector((state) => state.name);
   const dispatch = useDispatch();
 
   const [waitingForResponse, setWaitingForResponse] = useState(false);
@@ -19,7 +20,8 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text>Henlo, mój token: {token}</Text>
+      <Text>Hello, your token: {token}</Text>
+      <Text>Hello, your name: {name}</Text>
       <StatusBar style="auto" />
     </View>
   );

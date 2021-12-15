@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { View, TouchableOpacity, Text, Image, ActivityIndicator, StyleSheet } from 'react-native'
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
+import { useNavigation } from '@react-navigation/core';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -25,6 +26,9 @@ export default function GoogleSignInButton (props) {
     scopes: ['email', 'profile']
    });
 
+  const navigation = useNavigation();
+
+
   useEffect(() => {
     async function getEffect() {
       if (response?.type === 'success') {
@@ -35,7 +39,9 @@ export default function GoogleSignInButton (props) {
         return await user;
         }
     }
-    const user = getEffect()
+    const user = getEffect();
+    if (user != null)
+        navigation.navigate('HomeScreen');
   });
 
   return (
