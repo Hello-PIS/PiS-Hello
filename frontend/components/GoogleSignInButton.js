@@ -4,6 +4,7 @@ import { View, TouchableOpacity, Text, Image, ActivityIndicator, StyleSheet } fr
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { useNavigation } from '@react-navigation/core';
+import { useDispatch } from 'react-redux';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -24,25 +25,18 @@ export default function GoogleSignInButton (props) {
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: '383627229131-468hbi76c2hb3rtc58ftg2ekfhlbkg1o.apps.googleusercontent.com',
     scopes: ['email', 'profile']
-   });
+  });
 
-  const navigation = useNavigation();
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    async function getEffect() {
-      if (response?.type === 'success') {
-        const { authentication: { accessToken } } = response;
-        const user = await fetchUserInfo(accessToken);
-        console.log(accessToken);
-        console.log(user);
-        return await user;
-        }
+    if (response == null)
+      return;
+    if (response.type === 'success') {
+      const { authentication: { accessToken } } = response;
+      dispatch(loginActions.getCredentialsFromGoogle(accessToken));
     }
-    const user = getEffect();
-    if (user != null)
-        navigation.navigate('HomeScreen');
-  });
+  }, [response]);
 
   return (
     <TouchableOpacity {...props} style={{

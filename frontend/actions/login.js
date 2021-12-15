@@ -5,6 +5,7 @@ import serverAddress from '../constants/serverAddress';
 export const SIGN_IN = 'SIGN_IN';
 export const REGISTER = 'REGISTER';
 export const CHECK_LOGIN = 'CHECK_LOGIN';
+export const GOOGLE = 'GOOGLE';
 
 export const signIn = (login, password) => {
     return async dispatch => {
@@ -39,6 +40,37 @@ export const signIn = (login, password) => {
         }
         
         dispatch({ type: SIGN_IN, token: token });
+    }
+};
+
+export const getCredentialsFromGoogle = (googleToken) => {
+    return async dispatch => {
+        console.log('signing in with Google...')
+
+        password = SHA256(password).toString();
+        
+        const response = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+              Authorization: `Bearer ${googleToken}`,
+              'Content-Type': 'application/json'
+            },
+        });
+        console.log(`response status: ${response.status}`);
+        const respData = await response.json();
+
+        console.log(respData)
+
+        const { authentication: { email } } = respData;
+        const { authentication: { sub } } = respData;
+
+        console.log(respData)
+
+        console.log(email);
+        console.log(sub);
+
+        dispatch({ type: GOOGLE, email: email, sub: sub });
     }
 };
 
