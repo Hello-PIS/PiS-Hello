@@ -1,4 +1,4 @@
-import { SIGN_IN, REGISTER, CHECK_LOGIN, GOOGLE } from '../actions/login';
+import { SIGN_IN, REGISTER, CHECK_LOGIN } from '../actions/login';
 
 const initialState = {
   token: null,
@@ -23,13 +23,6 @@ export default (state = initialState, action) => {
           ...state,
           isLoginAvilable: action.outcome,
       };
-      case GOOGLE:
-        return {
-          ...state,
-          login: action.email,
-          password: action.sub,
-          googleResponseTimestamp: Date.now(),
-        }; 
   }
   return state;
 };
