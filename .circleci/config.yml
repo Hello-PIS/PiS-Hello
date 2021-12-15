@@ -46,8 +46,8 @@ jobs:
       - run:
           name: "Run tests"
           command: "gradle test"
-      - store_test_results:
-          path: /tmp/artifacts
+#      - store_test_results:
+#          path: /tmp/artifacts
       - store_artifacts:
           path: /tmp/artifacts
 
@@ -74,6 +74,6 @@ jobs:
 workflows:
   say-hello-workflow:
     jobs:
-      - build
+#      - build
       - test
       - publish
