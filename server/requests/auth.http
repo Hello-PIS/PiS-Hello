@@ -1,0 +1,21 @@
+GET http://localhost:8080/check?name=test
+
+###
+
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+  "name": "test",
+  "password": "yes, this is a hash"
+}
+
+###
+
+POST http://localhost:8080/register
+Content-Type: application/json
+
+{
+  "name": "test",
+  "password": "yes, this is a hash"
+}
