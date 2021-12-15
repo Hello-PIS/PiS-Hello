@@ -30,6 +30,8 @@ export default function GoogleSignInButton (props) {
 
 
   useEffect(() => {
+    if (response == null)
+      return;
     async function getEffect() {
       if (response?.type === 'success') {
         const { authentication: { accessToken } } = response;
@@ -42,7 +44,7 @@ export default function GoogleSignInButton (props) {
     const user = getEffect();
     if (user != null)
         navigation.navigate('HomeScreen');
-  });
+  }, [response]);
 
   return (
     <TouchableOpacity {...props} style={{
