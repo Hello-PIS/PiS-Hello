@@ -45,7 +45,6 @@ jobs:
           command: "cd server && gradle build"
       - run:
           name: "Run tests"
-          command: "gradle test"
           command: "cd server && gradle test"
 #      - store_test_results:
 #          path: /tmp/artifacts
