@@ -12,6 +12,12 @@ jobs:
               echo "my artifact file" > /tmp/artifact-1;
               mkdir /tmp/artifacts;
               echo "my artifact files in a dir" > /tmp/artifacts/artifact-2;
+      - run:
+          command: |
+            echo "my artifact file" > /tmp/artifact-1;
+            mkdir /tmp/artifacts;
+            echo "my artifact files in a dir" > /tmp/artifacts/artifact-2;
+          when: on_fail
 
       - store_artifacts:
           path: /tmp/artifact-1
@@ -34,10 +40,10 @@ jobs:
       - run:
           name: "Run tests"
           command: "gradle test"
-      - store_test_results:
-          path: /tmp/artifacts
-      - store_artifacts:
-          path: /tmp/artifacts
+#      - store_test_results:
+#          path: /tmp/artifacts
+#      - store_artifacts:
+#          path: /tmp/artifacts
 
   publish:
     docker:
