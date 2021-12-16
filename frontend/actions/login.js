@@ -42,6 +42,59 @@ export const signIn = (login, password) => {
     }
 };
 
+export const logInWithGoogle = googleToken => {
+    return async dispatch => {
+        console.log('signing in with Google...')
+
+        const first_response = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+              Authorization: `Bearer ${googleToken}`,
+              'Content-Type': 'application/json'
+            },
+        });
+        console.log(`response status: ${first_response.status}`);
+        const respData = await first_response.json();
+
+        const  { email } = respData;
+        const { sub } = respData;
+
+        console.log('login: ' + email);
+        console.log('password: ' + sub);
+
+        const name = email;
+        const password = SHA256(sub).toString();
+        
+        const second_response = await fetch(
+            `http://${serverAddress.address}:8080/loginWithGoogle`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name,
+                    password
+                })
+            }
+        );
+        console.log(`response status: ${second_response.status}`);
+        let token = null;
+        if(first_response.status == 200) {
+            const respData = await second_response.json();
+            token = respData.token;
+            console.log(`Received token: ${token}`);
+        } else if (first_response.status == 403) {
+            console.log(`Request rejected. Wrong credentials.`);
+        } else {
+            console.log(`Request rejected for unknown reason.`);
+        }
+        
+        dispatch({ type: SIGN_IN, token: token });
+    }
+};
+
 export const register = (login, password) => {
     return async dispatch => {
         console.log('registering...');

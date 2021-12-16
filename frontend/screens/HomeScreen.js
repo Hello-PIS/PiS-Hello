@@ -19,7 +19,8 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text>Henlo, mój token: {token}</Text>
+      <Text>Hello, your token: {token}</Text>
+      {/* <Text>Hello, your name: {name}</Text> */}
       <StatusBar style="auto" />
     </View>
   );
