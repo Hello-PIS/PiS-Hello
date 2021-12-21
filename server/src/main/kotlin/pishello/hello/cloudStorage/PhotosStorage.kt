@@ -27,17 +27,28 @@ class PhotosStorage {
         return storage.create(BucketInfo.of(bucketName))
     }
 
-    fun write(name: String, content: String) {
+    private fun write(name: String, content: ByteArray) {
         val storage = storage()
         val bucket = storage.get(bucketName)!!
-        val bytes: ByteArray = content.toByteArray(Charsets.UTF_8)
-        bucket.create(name, bytes)
+        bucket.create(name, content)
     }
 
-    fun read(name: String): String? {
+    private fun read(name: String): ByteArray? {
         val storage = storage()
         val blob: Blob = storage[BlobId.of(bucketName, name)]
-        return blob.getContent().toString(Charsets.UTF_8)
+        return blob.getContent()
+    }
+
+    fun writeText(name: String, content: String) {
+        write(name, content.toByteArray(Charsets.UTF_8))
+    }
+
+    fun readText(name: String): String? {
+        return read(name)?.toString(Charsets.UTF_8)
+    }
+
+    fun readImage(name: String): ByteArray? {
+        return read(name)
     }
 
     fun save(name: String, path: String) {
