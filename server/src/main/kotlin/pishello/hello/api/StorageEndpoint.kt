@@ -1,15 +1,21 @@
 package pishello.hello.api
 
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RestController
 import pishello.hello.cloudStorage.PhotosStorage
-import java.util.*
 
 
-class StorageEndpoint {
-    @GetMapping("/get_images")
-    fun get_images(): HashMap<String, String> {
-        val photosStorage = PhotosStorage()
-        val bucket = photosStorage.createNewBucket("test")
-        return photosStorage.downloadObject("strong-compiler-334811", "test", "pis2021/photos/business-card_1.jpg", "/")
+@RestController
+class StorageEndpoint(val photosStorage: PhotosStorage) {
+    @GetMapping("/text")
+    fun text(): String? {
+        photosStorage.write("Karo.txt", "a cookie monster")
+        return photosStorage.read("Karo.txt")
+    }
+
+    @GetMapping("/save")
+    fun save(): String {
+        photosStorage.save("Karo.txt", "/tmp/hmm")
+        return "OK"
     }
 }
