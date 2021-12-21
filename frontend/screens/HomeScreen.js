@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { useSelector, useDispatch } from 'react-redux';
+import serverAddress from '../constants/serverAddress';
 
 import * as loginActions from '../actions/login';
 
@@ -25,7 +26,7 @@ export default function HomeScreen() {
 
       <Image
         resizeMode='center'
-        source={{uri: `https://www.oetker.pl/Recipe/Recipes/oetker.pl/pl-pl/baking/image-thumb__51836__RecipeDetailsLightBox/szarlotka-z-karmelowo-orzechowa-kruszonka.jpg`}} // `http://${serverAddress.address}:8080/szarlotka`
+        source={{uri: `http://${serverAddress.address}:8080/image` }}
         style={{flex: 1, borderRadius: 10, aspectRatio: 1}}
       />
 
