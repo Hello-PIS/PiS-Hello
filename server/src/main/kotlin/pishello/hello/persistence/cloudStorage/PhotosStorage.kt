@@ -1,4 +1,4 @@
-package pishello.hello.cloudStorage
+package pishello.hello.persistence.cloudStorage
 
 import com.google.auth.Credentials
 import com.google.auth.oauth2.GoogleCredentials

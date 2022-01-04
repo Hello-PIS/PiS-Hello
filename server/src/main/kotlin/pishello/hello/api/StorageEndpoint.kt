@@ -3,7 +3,7 @@ package pishello.hello.api
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
-import pishello.hello.cloudStorage.PhotosStorage
+import pishello.hello.persistence.cloudStorage.PhotosStorage
 
 
 @RestController
