@@ -104,9 +104,8 @@ jobs:
             echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
             gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-            ls /root/tmp/app
-            /root/tmp/app
-            gcloud --quiet compute scp --recurse /root/tmp/app/server/hello-0.0.1-SNAPSHOT.jar $USER@pis:~/pis
+            ls /tmp/app
+#            gcloud --quiet compute scp --recurse /root/tmp/app/server/hello-0.0.1-SNAPSHOT.jar $USER@pis:~/pis
 #      - run:
 #          name: "Run server"
 #          command: |
