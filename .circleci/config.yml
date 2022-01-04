@@ -93,7 +93,6 @@ jobs:
   deploy:
     docker:
       - image: google/cloud-sdk
-
     steps:
       - attach_workspace:
             at: /tmp/app
