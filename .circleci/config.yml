@@ -69,8 +69,28 @@ jobs:
             sed -i 's/${ARTIFACTORY_PASSWORD}/'${ARTIFACTORY_PASSWORD}'/g' server/gradle.properties
             cd server && gradle artifactoryPublish
 
-  deploy:
+  store_results:
     working_directory: ~/PiS-Hello
+    docker:
+      - image: gradle:jdk11-alpine
+    steps:
+      - checkout
+      - run:
+          name: "Build project"
+          command: "cd server && gradle build"
+      - run:
+          name: "Run tests"
+          command: "cd server && gradle test"
+      -run:
+          name: "Store jar"
+          command: |
+            mkdir -p /tmp/app
+            cp ./server/build/libs/hello-0.0.1-SNAPSHOT.jar /tmp/app
+      - store_artifacts:
+          path: /tmp/app
+
+  deploy:
+    working_directory: ~/tmp
     docker:
       - image: google/cloud-sdk
     steps:
@@ -82,14 +102,14 @@ jobs:
             gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
 
-            gcloud --quiet compute scp --recurse /root/PiS-Hello/server $USER@pis:~/pis
-      - run:
-          name: "Run server"
-          command: |
-            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "fuser 8080/tcp && fuser -k 8080/tcp || echo 0"
-            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "cd pis && nohup server/gradlew -b server/build.gradle.kts bootRun &>/dev/null &" &
-
-            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "exit"
+            gcloud --quiet compute scp --recurse /root/tmp/app $USER@pis:~/pis
+#      - run:
+#          name: "Run server"
+#          command: |
+#            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "fuser 8080/tcp && fuser -k 8080/tcp || echo 0"
+#            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "cd pis && nohup server/gradlew -b server/build.gradle.kts bootRun &>/dev/null &" &
+#
+#            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "exit"
 
 workflows:
   say-hello-workflow:
@@ -97,4 +117,5 @@ workflows:
 #      - build
       - test
       - publish
+      - store_results
       - deploy
