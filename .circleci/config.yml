@@ -73,18 +73,18 @@ jobs:
     docker:
       - image: gradle:jdk11-alpine
     steps:
+      - run:
+          name: "Update apt"
+          command: "apk add --update openssh-client git sed"
       - checkout
       - run:
-          name: "Build project"
+          name: "Build app"
           command: "cd server && gradle build"
-      - run:
-          name: "Run tests"
-          command: "cd server && gradle test"
       -run:
           name: "Store jar"
           command: |
             mkdir -p /tmp/app
-            cp ./server/build/libs/hello-0.0.1-SNAPSHOT.jar /tmp/app
+            cp server/build/libs/hello-0.0.1-SNAPSHOT.jar /tmp/app
       - store_artifacts:
           path: /tmp/app
 
