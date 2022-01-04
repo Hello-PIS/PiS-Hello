@@ -70,7 +70,6 @@ jobs:
             cd server && gradle artifactoryPublish
 
   store_results:
-    working_directory: ~/PiS-Hello
     docker:
       - image: gradle:jdk11-alpine
     steps:
