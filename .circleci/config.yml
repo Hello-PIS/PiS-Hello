@@ -106,13 +106,13 @@ jobs:
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
             ls /tmp/app
             gcloud --quiet compute scp --recurse /tmp/app/server/hello-0.0.1-SNAPSHOT.jar $USER@pis:~/pis
-#      - run:
-#          name: "Run server"
-#          command: |
-#            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "fuser 8080/tcp && fuser -k 8080/tcp || echo 0"
-#            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "cd pis && nohup server/gradlew -b server/build.gradle.kts bootRun &>/dev/null &" &
-#
-#            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "exit"
+      - run:
+          name: "Run server"
+          command: |
+            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "fuser 8080/tcp && fuser -k 8080/tcp || echo 0"
+            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "cd pis && nohup java -jar hello-0.0.1-SNAPSHOT.jar &>/dev/null &" &
+
+            gcloud --quiet compute ssh $USER@pis --strict-host-key-checking=no --command "exit"
 
 workflows:
   say-hello-workflow:
