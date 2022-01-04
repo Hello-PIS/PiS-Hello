@@ -117,4 +117,6 @@ workflows:
       - test
       - publish
       - store_results
-      - deploy
+      - deploy:
+          requires:
+            - store_results
