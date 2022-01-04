@@ -83,16 +83,20 @@ jobs:
       - run:
           name: "Store jar"
           command: |
-            mkdir -p /tmp/app
-            cp server/build/libs/hello-0.0.1-SNAPSHOT.jar /tmp/app
-      - store_artifacts:
-          path: /tmp/app
+            mkdir -p /tmp/app/server
+            cp server/build/libs/hello-0.0.1-SNAPSHOT.jar /tmp/app/server
+      - persist_to_workspace:
+          root: /tmp/app
+          paths:
+            - server/hello-0.0.1-SNAPSHOT.jar
 
   deploy:
-    working_directory: ~/tmp
     docker:
       - image: google/cloud-sdk
+
     steps:
+      - attach_workspace:
+            at: /tmp/app
       - checkout
       - run:
           name: "Upload server"
@@ -100,8 +104,9 @@ jobs:
             echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
             gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-
-            gcloud --quiet compute scp --recurse /root/tmp/app $USER@pis:~/pis
+            ls /root/tmp/app
+            /root/tmp/app
+            gcloud --quiet compute scp --recurse /root/tmp/app/server/hello-0.0.1-SNAPSHOT.jar $USER@pis:~/pis
 #      - run:
 #          name: "Run server"
 #          command: |
