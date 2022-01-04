@@ -80,7 +80,7 @@ jobs:
       - run:
           name: "Build app"
           command: "cd server && gradle build"
-      -run:
+      - run:
           name: "Store jar"
           command: |
             mkdir -p /tmp/app
