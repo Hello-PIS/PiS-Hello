@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
         fontSize: 28,
         marginTop: 30,
         fontFamily: 'open-sans-bold',
-        textAlign: 'center',
     },
     modalText: {
         fontSize: 16,

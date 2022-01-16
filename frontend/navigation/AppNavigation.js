@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignInScreen from '../screens/login/SignInScreen';
 import RegisterScreen from '../screens/login/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
-import ImagePicker from '../components/ImagePicker';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,7 +12,6 @@ export default function AppNavigation() {
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown: false}}>
-                <Stack.Screen name='Camera' component={ImagePicker} />
                 <Stack.Screen name='SignIn' component={SignInScreen} />
                 <Stack.Screen name='Register' component={RegisterScreen} />
                 <Stack.Screen name='HomeScreen' component={HomeScreen} />

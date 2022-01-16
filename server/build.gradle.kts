@@ -33,14 +33,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
 	implementation("org.xerial:sqlite-jdbc:$sqliteJDBCVersion")
 	implementation("org.jacoco:org.jacoco.core:$jacocoVersion")
-	implementation(platform("com.google.cloud:libraries-bom:24.1.0"))
-	implementation("com.google.cloud:google-cloud-storage")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
 }
-
-
-
 
 tasks.withType<KotlinCompile> {
 	kotlinOptions {

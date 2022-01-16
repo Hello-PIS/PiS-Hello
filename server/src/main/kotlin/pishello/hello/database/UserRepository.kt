@@ -1,7 +1,6 @@
-package pishello.hello.persistence.database.repositories
+package pishello.hello.database
 
 import org.springframework.data.repository.CrudRepository
-import pishello.hello.persistence.database.entities.User
 
 
 interface UserRepository: CrudRepository<User?, String?> {

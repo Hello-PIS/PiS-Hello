@@ -1,11 +1,13 @@
-package pishello.hello.persistence.database.ports
+package pishello.hello.database
 
 import org.springframework.stereotype.Component
-import pishello.hello.persistence.database.entities.User
-import pishello.hello.persistence.database.repositories.UserRepository
+import java.sql.Timestamp
+import java.time.Instant
+import java.util.*
+
 
 @Component
-class UserPort(val repository: UserRepository) {
+class UserConnection(val repository: UserRepository) {
     fun checkIfUserExists(username: String): Boolean {
         return repository.findByName(username) != null
     }
@@ -18,5 +20,14 @@ class UserPort(val repository: UserRepository) {
         val user = User(username, password)
         repository.save(user)
         return user
+    }
+}
+
+@Component
+class TokenConnection(val repository: TokenRepository) {
+    fun createNewToken(userId: User): Token {
+        val token = Token(UUID.randomUUID().toString(), userId, Timestamp.from(Instant.now()))
+        repository.save(token)
+        return token
     }
 }
