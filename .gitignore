@@ -1,5 +1,4 @@
 .gradle
 .idea
 build
-bin/
 server/src/main/resources/secret.json
