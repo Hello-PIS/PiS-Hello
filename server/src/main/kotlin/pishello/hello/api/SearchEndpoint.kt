@@ -3,7 +3,7 @@ package pishello.hello.api
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import pishello.hello.database.*
+import pishello.hello.persistence.database.entities.Card
 import pishello.hello.persistence.database.ports.CardPort
 
 @RestController

@@ -1,9 +1,9 @@
-package pishello.hello.database
+package pishello.hello.persistence.database.repositories
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
-
+import pishello.hello.persistence.database.entities.Card
 
 interface CardRepository: JpaRepository<Card?, String?> {
 

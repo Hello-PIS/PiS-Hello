@@ -1,11 +1,8 @@
-package pishello.hello.database
+package pishello.hello.persistence.database.entities
 
 import org.hibernate.Hibernate
-import java.sql.Timestamp
 import javax.persistence.Entity
 import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
 
 @Entity(name = "card")
 data class Card(
