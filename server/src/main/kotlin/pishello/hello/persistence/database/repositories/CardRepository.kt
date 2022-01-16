@@ -8,8 +8,6 @@ import pishello.hello.database.Card
 
 interface CardRepository: JpaRepository<Card?, String?> {
 
-    @Query("SELECT * FROM CARDS C WHERE C.ID = :id AND C.MODE = \"PUBLIC\"", nativeQuery = true)
+    @Query("SELECT * FROM CARD C WHERE C.ID = :id AND C.MODE = \"PUBLIC\"", nativeQuery = true)
     fun findById(@Param("id") id: Int?): List<Card>?
-
-
 }

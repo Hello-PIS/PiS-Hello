@@ -4,9 +4,10 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pishello.hello.database.*
+import pishello.hello.persistence.database.ports.CardPort
 
 @RestController
-class SearchEndpoint(val searchConnection: CardConnection) {
+class SearchEndpoint(val searchConnection: CardPort) {
     @GetMapping("/search")
     fun search(@RequestParam id: Int): ResponseEntity<List<Card>> {
         val result = searchConnection.getCardsById(id)
