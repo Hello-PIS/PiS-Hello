@@ -34,7 +34,7 @@ class TokenConnection(val repository: TokenRepository) {
 
 @Component
 class CardConnection(val repository: CardRepository) {
-    fun getCardsById(cardId: Int): List<Card> {
+    fun getCardsById(cardId: Int): List<Card>? {
         return repository.findById(cardId)
     }
 }
