@@ -31,3 +31,10 @@ class TokenConnection(val repository: TokenRepository) {
         return token
     }
 }
+
+@Component
+class CardConnection(val repository: CardRepository) {
+    fun getCardsById(cardId: Int): List<Card> {
+        return repository.findById(cardId)
+    }
+}
