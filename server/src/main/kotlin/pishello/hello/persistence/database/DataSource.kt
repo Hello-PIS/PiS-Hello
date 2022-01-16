@@ -1,4 +1,4 @@
-package pishello.hello.database
+package pishello.hello.persistence.database
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean

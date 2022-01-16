@@ -1,4 +1,4 @@
-package pishello.hello.database
+package pishello.hello.persistence.database.entities
 
 import org.hibernate.Hibernate
 import java.sql.Timestamp
