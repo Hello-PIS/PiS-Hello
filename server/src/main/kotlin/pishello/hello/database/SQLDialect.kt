@@ -1,4 +1,4 @@
-package pishello.hello.persistence.database
+package pishello.hello.database
 
 import org.hibernate.dialect.Dialect
 import org.hibernate.dialect.function.SQLFunctionTemplate
