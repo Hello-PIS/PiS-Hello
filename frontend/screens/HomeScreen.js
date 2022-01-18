@@ -33,6 +33,7 @@ export default function HomeScreen() {
             {renderHeader()}
             <MenuItem text={'Nowa wizytówka'} icon={'pluscircleo'} onPress={() => navigation.navigate('Camera', { setImageUri: () => console.log("Do implementacji tego potrzeba serwera") })} />
             <MenuItem text={'Moje wizytówki'} icon={'creditcard'} onPress={() => navigation.navigate('MyBusinessCards')} />
+            <MenuItem text={'Znajdź wizytówkę'} icon={'search1'} onPress={() => navigation.navigate('SearchBusinessCards')} />
             <MenuItem text={'Wyloguj'} icon={'logout'} onPress={() => {global.user_id = null; navigation.navigate('SignIn'); }} />
           </View>
         </ScrollView>
