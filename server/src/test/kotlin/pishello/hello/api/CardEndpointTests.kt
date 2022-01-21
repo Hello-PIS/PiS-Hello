@@ -20,12 +20,21 @@ import pishello.hello.createUser
 class CardEndpointTests(@Autowired val mockMvc: MockMvc) {
 
     @Test
-    fun shouldReturnDefaultMessage() {
+    fun shouldCreateCard() {
         createUser(mockMvc)
         mockMvc
             .perform(MockMvcRequestBuilders.post("/card")
                 .header("Content-Type", "application/json")
                 .content(correctAddCardRequestData()))
             .andExpect(MockMvcResultMatchers.status().isOk)
+    }
+
+    @Test
+    fun shouldNotCreateCardForNonExistingUser() {
+        mockMvc
+            .perform(MockMvcRequestBuilders.post("/card")
+                .header("Content-Type", "application/json")
+                .content(correctAddCardRequestData()))
+            .andExpect(MockMvcResultMatchers.status().isNotFound)
     }
 }
