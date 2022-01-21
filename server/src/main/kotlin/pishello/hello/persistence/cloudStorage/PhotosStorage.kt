@@ -43,6 +43,10 @@ class PhotosStorage {
         write(name, content.toByteArray(Charsets.UTF_8))
     }
 
+    fun writeImage(name: String, content: ByteArray) {
+        write(name, content)
+    }
+
     fun readText(name: String): String? {
         return read(name)?.toString(Charsets.UTF_8)
     }
