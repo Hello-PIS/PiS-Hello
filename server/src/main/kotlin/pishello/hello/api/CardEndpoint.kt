@@ -38,7 +38,7 @@ class CardEndpoint(val cardPort: CardPort, val photosStorage: PhotosStorage) {
         }
     }
 
-    @PutMapping("/image")
+    @PostMapping("/image")
     fun addImage(
         @RequestParam id: Int,
         @RequestParam image: MultipartFile
