@@ -6,7 +6,7 @@ import javax.persistence.*
 @Entity(name = "cards")
 data class Card(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     val id: Int,
     val mode: String,
     var path: String?,

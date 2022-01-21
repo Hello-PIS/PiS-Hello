@@ -21,4 +21,4 @@ create table cards
 );
 
 create unique index users_name_uindex on users (name);
-create unique index token_token_uindex on token (token);
+create unique index token_token_uindex on tokens (token);
