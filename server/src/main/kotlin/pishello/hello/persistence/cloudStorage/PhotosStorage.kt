@@ -35,8 +35,8 @@ class PhotosStorage {
 
     private fun read(name: String): ByteArray? {
         val storage = storage()
-        val blob: Blob = storage[BlobId.of(bucketName, name)]
-        return blob.getContent()
+        val blob: Blob? = storage[BlobId.of(bucketName, name)]
+        return blob?.getContent()
     }
 
     fun writeText(name: String, content: String) {

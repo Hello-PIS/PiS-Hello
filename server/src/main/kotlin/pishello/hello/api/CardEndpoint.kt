@@ -27,7 +27,12 @@ class CardEndpoint(val cardPort: CardPort, val photosStorage: PhotosStorage) {
     fun getImage(@RequestParam id: Int): ResponseEntity<ByteArray?> {
         val result = cardPort.findById(id)
         return if (result?.path != null) {
-            ResponseEntity(photosStorage.readImage(result.path!!), HttpStatus.OK)
+            val image = photosStorage.readImage(result.path!!)
+            return if (image != null) {
+                ResponseEntity(image, HttpStatus.OK)
+            } else {
+                ResponseEntity(HttpStatus.NOT_FOUND)
+            }
         } else {
             ResponseEntity(HttpStatus.NOT_FOUND)
         }
