@@ -19,6 +19,13 @@ or straight from the root
 ```shell
 server/gradlew -b server/build.gradle.kts bootRun
 ```
+#### Available endpoints
+Search:
+```
+http://127.0.0.1:8080/search?ownername=5
+http://127.0.0.1:8080/search?profession=lawyer
+http://127.0.0.1:8080/search?id=3
+```
 
 ### Mobile app
 Prior to running the app, you need to install node.js on your PC.
