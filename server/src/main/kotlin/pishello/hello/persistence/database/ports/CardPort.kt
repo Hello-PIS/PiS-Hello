@@ -22,7 +22,7 @@ class CardPort(val repository: CardRepository, val userRepository: UserRepositor
 
     fun createNewCard(userName: String, mode: String, category: String?): Card? {
         val user = userRepository.findByName(userName) ?: return null
-        val card = Card(0, mode, null, category, user)
+        val card = Card(0, mode, null, category, userName)
         return repository.save(card)
     }
 

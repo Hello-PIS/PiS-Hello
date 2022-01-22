@@ -11,9 +11,7 @@ data class Card(
     val mode: String,
     var path: String?,
     val category: String?,
-    @ManyToOne
-    @JoinColumn(name = "owner", referencedColumnName = "name")
-    val owner: User
+    val owner: String   // "FK"
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
