@@ -21,8 +21,7 @@ class RootEndpointTests(@Autowired val mockMvc: MockMvc) {
 
 	@Test
 	fun shouldReturnDefaultMessage() {
-		this.mockMvc
-			.perform(get("/"))
+		mockMvc.perform(get("/"))
 			.andExpect(status().isOk)
 			.andExpect(content().string("Hello world"))
 	}

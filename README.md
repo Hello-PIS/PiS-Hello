@@ -19,6 +19,77 @@ or straight from the root
 ```shell
 server/gradlew -b server/build.gradle.kts bootRun
 ```
+#### Available endpoints
+##### Search:
+```
+http://127.0.0.1:8080/search?ownername=5
+http://127.0.0.1:8080/search?profession=lawyer
+http://127.0.0.1:8080/search?id=3
+```
+Response Exanple:
+```
+[
+  {
+    "id": 2,
+    "mode": "PUBLIC",
+    "path": "test/photo2",
+    "category": "lawyer",
+    "owner": "5"
+  },
+  {
+    "id": 3,
+    "mode": "PUBLIC",
+    "path": "test/photo3",
+    "category": "lawyer",
+    "owner": "5"
+  },
+  {
+    "id": 4,
+    "mode": "PUBLIC",
+    "path": "test/photo4",
+    "category": "cook",
+    "owner": "5"
+  }
+]
+```
+
+##### User cards:
+```
+http://127.0.0.1:8080/5/cards
+```
+Response Example:
+```
+[
+  {
+    "id": 1,
+    "mode": "PRIVATE",
+    "path": "test/photo1",
+    "category": null,
+    "owner": "5"
+  },
+  {
+    "id": 2,
+    "mode": "PUBLIC",
+    "path": "test/photo2",
+    "category": "lawyer",
+    "owner": "5"
+  },
+  {
+    "id": 3,
+    "mode": "PUBLIC",
+    "path": "test/photo3",
+    "category": "lawyer",
+    "owner": "5"
+  },
+  {
+    "id": 4,
+    "mode": "PUBLIC",
+    "path": "test/photo4",
+    "category": "cook",
+    "owner": "5"
+  }
+]
+```
 
 ### Mobile app
 Prior to running the app, you need to install node.js on your PC.

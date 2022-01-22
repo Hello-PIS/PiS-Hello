@@ -5,20 +5,24 @@ import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.storage.*
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
+import java.io.FileNotFoundException
 import java.nio.file.Paths
 
 
 @Component
 class PhotosStorage {
-    val projectId = "strong-compiler-334811"
     val bucketName = "pis2021"
     val secretPath = "secret.json"
 
     private fun storage(): Storage {
-        val credentials: Credentials = GoogleCredentials.fromStream(ClassPathResource(secretPath).inputStream)
+        val credentials: Credentials = try {
+            GoogleCredentials.fromStream(ClassPathResource(secretPath).inputStream)
+        } catch (e: FileNotFoundException) {
+            val json = System.getenv("GCP_JSON")
+            GoogleCredentials.fromStream(json.byteInputStream())
+        }
         return StorageOptions.newBuilder()
             .setCredentials(credentials)
-            .setProjectId(projectId)
             .build().service
     }
 
@@ -35,12 +39,16 @@ class PhotosStorage {
 
     private fun read(name: String): ByteArray? {
         val storage = storage()
-        val blob: Blob = storage[BlobId.of(bucketName, name)]
-        return blob.getContent()
+        val blob: Blob? = storage[BlobId.of(bucketName, name)]
+        return blob?.getContent()
     }
 
     fun writeText(name: String, content: String) {
         write(name, content.toByteArray(Charsets.UTF_8))
+    }
+
+    fun writeImage(name: String, content: ByteArray) {
+        write(name, content)
     }
 
     fun readText(name: String): String? {
