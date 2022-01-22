@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-	val springBootVersion = "2.6.1"
+	val springBootVersion = "2.6.2"
 	val jacocoVersion = "0.8.7"
 	val sqliteJDBCVersion = "3.36.0.2"
 

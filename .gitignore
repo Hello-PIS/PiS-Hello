@@ -1,4 +1,4 @@
-.gradle
-.idea
+.gradle/
+.idea/
 build
-server/src/main/resources/secret.json
+secret.json

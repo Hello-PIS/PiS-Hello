@@ -3,22 +3,37 @@ package pishello.hello.persistence.cloudStorage
 import com.google.auth.Credentials
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.storage.*
+import com.google.gson.Gson
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
+import java.io.FileNotFoundException
 import java.nio.file.Paths
 
 
 @Component
 class PhotosStorage {
-    val projectId = "strong-compiler-334811"
     val bucketName = "pis2021"
     val secretPath = "secret.json"
 
     private fun storage(): Storage {
-        val credentials: Credentials = GoogleCredentials.fromStream(ClassPathResource(secretPath).inputStream)
+        val credentials: Credentials = try {
+            GoogleCredentials.fromStream(ClassPathResource(secretPath).inputStream)
+        } catch (e: FileNotFoundException) {
+            GoogleCredentials.fromStream(Gson().toJson(mapOf(
+                "type" to System.getenv("GCP_TYPE"),
+                "project_id" to System.getenv("GCP_PROJECT_ID"),
+                "private_key_id" to System.getenv("GCP_PRIVATE_KEY_ID"),
+                "private_key" to System.getenv("GCP_PRIVATE_KEY"),
+                "client_email" to System.getenv("GCP_CLIENT_EMAIL"),
+                "client_id" to System.getenv("GCP_CLIENT_ID"),
+                "auth_uri" to System.getenv("GCP_AUTH_URI"),
+                "token_uri" to System.getenv("GCP_TOKEN_URI"),
+                "auth_provider_x509_cert_url" to System.getenv("GCP_AUTH_PROVIDER_X509_CERT_URL"),
+                "client_x509_cert_url" to System.getenv("GCP_CLIENT_X509_CERT_URL")
+            )).toString().byteInputStream())
+        }
         return StorageOptions.newBuilder()
             .setCredentials(credentials)
-            .setProjectId(projectId)
             .build().service
     }
 
