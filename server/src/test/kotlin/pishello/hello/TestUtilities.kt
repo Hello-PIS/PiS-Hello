@@ -14,13 +14,13 @@ class TestUtilities {
         """{ "name": "test_user", "password": "yes, this is a hash" }"""
 
     fun correctSearchByIdRequestData(): String =
-        """[{"id":1, "mode":"PUBLIC", "path":"cards/1.jpg", "category":"lawyer", "owner":"test_user"}]"""
+        """[{ "id":1, "mode":"PUBLIC", "path":"cards/1.jpg", "category":"lawyer", "owner":"test_user" }]"""
 
     fun incorrectAuthRequestData(): String =
         """{ "name": "test_user", "password": "no, this is not a hash" }"""
 
     fun correctAddCardRequestData(): String =
-        """{ "userName": "test_user", "mode": "PUBLIC", "category": "lawyer"}"""
+        """{ "userName": "test_user", "mode": "PUBLIC", "category": "lawyer" }"""
 
     fun createUser(mockMvc: MockMvc) {
         mockMvc.perform(MockMvcRequestBuilders.post("/register")
@@ -38,7 +38,6 @@ class TestUtilities {
         mockMvc.perform(MockMvcRequestBuilders.multipart("/card/image")
                 .file(correctPutCardImageData())
                 .param("id", "1"))
-
     }
 
     fun createCard(mockMvc: MockMvc) {

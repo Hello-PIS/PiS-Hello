@@ -7,7 +7,7 @@ import pishello.hello.persistence.database.repositories.UserRepository
 
 @Component
 class CardPort(val repository: CardRepository, val userRepository: UserRepository) {
-    fun searchCards(id: Int?=null, profession: String?=null, ownerName: String?=null): List<Card>? {
+    fun searchCards(id: Int?, profession: String?, ownerName: String?): List<Card>? {
         return when {
             id != null -> repository.searchById(id)
             profession != null -> repository.searchByProfession(profession)

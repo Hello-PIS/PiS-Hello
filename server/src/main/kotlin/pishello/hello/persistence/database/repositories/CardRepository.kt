@@ -16,7 +16,6 @@ interface CardRepository: JpaRepository<Card?, String?> {
     @Query("SELECT * FROM CARDS C WHERE C.OWNER= :ownerName AND C.MODE = :mode", nativeQuery = true)
     fun searchByOwnerName(@Param("ownerName") ownerName: String?, @Param("mode") mode: String? = "PUBLIC"): List<Card>?
 
-    @Query("SELECT * FROM CARDS C WHERE C.OWNER= :ownerName", nativeQuery = true)
     fun findByOwner(@Param("ownerName") ownerName: String):List<Card>?
 
     fun findById(id: Int): Card?
