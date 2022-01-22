@@ -1,14 +1,17 @@
 package pishello.hello.persistence.database.entities
 
 import org.hibernate.Hibernate
-import javax.persistence.Entity
-import javax.persistence.Id
+import javax.persistence.*
 
-@Entity(name = "card")
+@Entity(name = "cards")
 data class Card(
-    @Id val id: Int,
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    val id: Int,
     val mode: String,
-    val path: String
+    var path: String?,
+    val category: String?,
+    val owner: String   // "FK"
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

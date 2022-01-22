@@ -90,15 +90,15 @@ export default function SignInScreen() {
                     <TouchableOpacity style={styles.signInButton} onPress={onSignInPressed} >
                         <Text style={styles.signInText }>Zaloguj</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity style={{margin: 10}} onPress={onRegisterPressed}>
+                        <Text style={{color: 'white'}}>Nie masz konta? Zarejestruj się</Text>
+                    </TouchableOpacity>
                     <View style={{flex: 1}} />
                 </View>
             </Card>
 
             <TouchableOpacity style={{margin: 10}} onPress={onForgotPasswordPressed}>
                 <Text style={{color: 'white'}}>Zapomniałeś hasła?</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={{margin: 10}} onPress={onRegisterPressed}>
-                <Text style={{color: 'white'}}>Nie masz konta? Zarejestruj się</Text>
             </TouchableOpacity>
             <LoadingScreenModal amIVisible={waitingForResponse} />
             <OverscreenModal

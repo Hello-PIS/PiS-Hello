@@ -17,5 +17,5 @@ Content-Type: application/json
 
 {
   "name": "test",
-  "password": "yes, this is a hash"
+  "password": "test"
 }
