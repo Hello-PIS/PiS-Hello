@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import pishello.hello.TestUtilities
 
 
 @SpringBootTest
@@ -20,77 +21,59 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class AuthEndpointTests(@Autowired val mockMvc: MockMvc) {
 
+	val util = TestUtilities()
+
 	@Test
 	fun contextLoads() { }
 
 	@Test
 	fun shouldAcknowledgeThatThereIsNoSuchUser() {
-		mockMvc
-			.perform(get("/check")
-				.param("name", getSampleUserName()))
+		mockMvc.perform(get("/check")
+				.param("name", util.correctUserName()))
 			.andExpect(status().isOk)
 	}
 
 	@Test
 	fun shouldRegisterUser() {
-		mockMvc
-			.perform(post("/register")
+		mockMvc.perform(post("/register")
 				.header("Content-Type", "application/json")
-				.content(correctUserData()))
+				.content(util.correctAuthRequestData()))
 			.andExpect(status().isCreated)
 	}
 
 	@Test
 	fun shouldAcknowledgeThatSuchUserAlreadyExists() {
-		createSampleUser()
-		this.mockMvc
-			.perform(get("/check")
-				.param("name", getSampleUserName()))
+		util.createUser(mockMvc)
+		mockMvc.perform(get("/check")
+				.param("name", util.correctUserName()))
 			.andExpect(status().isConflict)
 	}
 
 	@Test
 	fun shouldFailToRegisterTheSameUser() {
-		createSampleUser()
-		this.mockMvc
-			.perform(post("/register")
+		util.createUser(mockMvc)
+		mockMvc.perform(post("/register")
 				.header("Content-Type", "application/json")
-				.content(correctUserData()))
+				.content(util.correctAuthRequestData()))
 			.andExpect(status().isConflict)
 	}
 
 	@Test
 	fun shouldLoginProperly() {
-		createSampleUser()
-		this.mockMvc
-			.perform(post("/login")
+		util.createUser(mockMvc)
+		mockMvc.perform(post("/login")
 				.header("Content-Type", "application/json")
-				.content(correctUserData()))
+				.content(util.correctAuthRequestData()))
 			.andExpect(status().isOk)
 			.andExpect(content().string(containsString("token")))
 	}
 
 	@Test
 	fun shouldFailToLogin() {
-		createSampleUser()
-		this.mockMvc
-			.perform(post("/login")
+		util.createUser(mockMvc)
+		mockMvc.perform(post("/login")
 				.header("Content-Type", "application/json")
-				.content(incorrectUserData()))
+				.content(util.incorrectAuthRequestData()))
 			.andExpect(status().isForbidden)
 	}
-
-	fun createSampleUser() {
-		mockMvc.perform(post("/register")
-				.header("Content-Type", "application/json")
-				.content(correctUserData()))
-	}
-
-	fun getSampleUserName() = "test_user"
-
-	fun correctUserData(): String =
-		"""{ "name": "test_user", "password": "yes, this is a hash" }"""
-
-	fun incorrectUserData(): String =
-		"""{ "name": "test_user", "password": "no, this is not a hash" }"""
 }

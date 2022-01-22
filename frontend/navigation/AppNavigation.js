@@ -8,6 +8,7 @@ import HomeScreen from '../screens/HomeScreen';
 import CameraScreen from '../screens/CameraScreen';
 import MyBusinessCardsScreen from '../screens/MyBusinessCardsScreen';
 
+
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigation() {
