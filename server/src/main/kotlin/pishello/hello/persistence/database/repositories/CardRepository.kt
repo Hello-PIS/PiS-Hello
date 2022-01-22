@@ -7,8 +7,16 @@ import pishello.hello.persistence.database.entities.Card
 
 interface CardRepository: JpaRepository<Card?, String?> {
 
-    @Query("SELECT * FROM CARDS C WHERE C.ID = :id AND C.MODE = \"PUBLIC\"", nativeQuery = true)
-    fun searchById(@Param("id") id: Int?): List<Card>?
+    @Query("SELECT * FROM CARDS C WHERE C.ID = :id AND C.MODE = :mode", nativeQuery = true)
+    fun searchById(@Param("id") id: Int?, @Param("mode") mode: String? = "PUBLIC"): List<Card>?
+
+    @Query("SELECT * FROM CARDS C WHERE C.CATEGORY= :profession AND C.MODE = :mode", nativeQuery = true)
+    fun searchByProfession(@Param("profession") profession: String?, @Param("mode") mode: String? = "PUBLIC"): List<Card>?
+
+    @Query("SELECT * FROM CARDS C WHERE C.OWNER= :ownerName AND C.MODE = :mode", nativeQuery = true)
+    fun searchByOwnerName(@Param("ownerName") ownerName: String?, @Param("mode") mode: String? = "PUBLIC"): List<Card>?
+
+    fun findByOwner(@Param("ownerName") ownerName: String):List<Card>?
 
     fun findById(id: Int): Card?
 }
