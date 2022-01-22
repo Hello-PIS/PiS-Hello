@@ -8,15 +8,27 @@ import org.springframework.web.multipart.MultipartFile
 import pishello.hello.persistence.cloudStorage.PhotosStorage
 import pishello.hello.persistence.database.ports.CardPort
 
-data class AddCardRequest(val userName: String, val mode: String?, val category: String?)
+data class CardRequest(val id: Int, val mode: String?, val category: String?)
 
 @RestController
 @RequestMapping("/card")
 class CardEndpoint(val cardPort: CardPort, val photosStorage: PhotosStorage) {
 
     @PostMapping
-    fun addCard(@RequestBody request: AddCardRequest): ResponseEntity<Unit> {
-        return if (cardPort.createNewCard(request.userName, request.mode ?: "PRIVATE", request.category) != null) {
+    fun addCard(@RequestParam image: MultipartFile, @RequestParam ownerName: String): ResponseEntity<Unit> {
+        val card = cardPort.createNewCard(ownerName, "PRIVATE", null)
+        return if (card != null) {
+            photosStorage.writeImage("cards/${card.id}.jpg", image.bytes)
+            cardPort.setPath(card, "cards/${card.id}.jpg")
+            ResponseEntity(HttpStatus.CREATED)
+        } else {
+            ResponseEntity(HttpStatus.NOT_FOUND)
+        }
+    }
+
+    @PostMapping("/set")
+    fun setCard(@RequestBody request: CardRequest): ResponseEntity<Unit> {
+        return if (cardPort.updateCard(request.id, request.mode, request.category) != null) {
             ResponseEntity(HttpStatus.OK)
         } else {
             ResponseEntity(HttpStatus.NOT_FOUND)
@@ -33,19 +45,6 @@ class CardEndpoint(val cardPort: CardPort, val photosStorage: PhotosStorage) {
             } else {
                 ResponseEntity(HttpStatus.NOT_FOUND)
             }
-        } else {
-            ResponseEntity(HttpStatus.NOT_FOUND)
-        }
-    }
-
-    @PostMapping("/image")
-    fun addImage(
-        @RequestParam id: Int,
-        @RequestParam image: MultipartFile
-    ): ResponseEntity<Unit> {
-        photosStorage.writeImage("cards/$id.jpg", image.bytes)
-        return if (cardPort.setPath(id, "cards/$id.jpg") != null) {
-            ResponseEntity(HttpStatus.OK)
         } else {
             ResponseEntity(HttpStatus.NOT_FOUND)
         }

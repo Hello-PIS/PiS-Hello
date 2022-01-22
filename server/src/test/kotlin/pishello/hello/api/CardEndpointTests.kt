@@ -25,35 +25,36 @@ class CardEndpointTests(@Autowired val mockMvc: MockMvc) {
     fun shouldCreateCard() {
         util.createUser(mockMvc)
         mockMvc
-            .perform(MockMvcRequestBuilders.post("/card")
+            .perform(MockMvcRequestBuilders.multipart("/card")
+                .file(util.correctPutCardImageData())
+                .param("ownerName", util.correctUserName()))
+            .andExpect(MockMvcResultMatchers.status().isCreated)
+    }
+
+    @Test
+    fun shouldSetCard() {
+        util.createUser(mockMvc)
+        util.createCard(mockMvc)
+        mockMvc
+            .perform(MockMvcRequestBuilders.post("/card/set")
                 .header("Content-Type", "application/json")
-                .content(util.correctAddCardRequestData()))
+                .content(util.correctSetRequestData(1, null, null)))
             .andExpect(MockMvcResultMatchers.status().isOk)
     }
 
     @Test
     fun shouldNotCreateCardForNonExistingUser() {
         mockMvc
-            .perform(MockMvcRequestBuilders.post("/card")
-                .header("Content-Type", "application/json")
-                .content(util.correctAddCardRequestData()))
+            .perform(MockMvcRequestBuilders.multipart("/card")
+                .file(util.correctPutCardImageData())
+                .param("ownerName", util.correctUserName()))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
     }
 
     @Test
-    fun shouldUploadCardImage() {
+    fun shouldGetCardImage() {
         util.createUser(mockMvc)
         util.createCard(mockMvc)
-        mockMvc
-            .perform(MockMvcRequestBuilders.multipart("/card/image")
-                .file(util.correctPutCardImageData())
-                .param("id", "1"))
-            .andExpect(MockMvcResultMatchers.status().isOk)
-    }
-
-    @Test
-    fun shouldGetCardImage() {
-        shouldUploadCardImage()
         mockMvc
             .perform(MockMvcRequestBuilders.get("/card/image")
                 .param("id", "1"))
