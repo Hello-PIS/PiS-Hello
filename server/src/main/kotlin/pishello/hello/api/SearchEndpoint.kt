@@ -7,10 +7,10 @@ import pishello.hello.persistence.database.entities.Card
 import pishello.hello.persistence.database.ports.CardPort
 
 @RestController
-class SearchEndpoint(val searchConnection: CardPort) {
+class SearchEndpoint(val searchPort: CardPort) {
     @GetMapping("/search")
-    fun search(@RequestParam id: Int): ResponseEntity<List<Card>> {
-        val result = searchConnection.searchCardsById(id)
+    fun search(@RequestParam id: Int?, @RequestParam profession: String?, @RequestParam ownername: String?): ResponseEntity<List<Card>> {
+        val result = searchPort.searchCards(id, profession, ownername)
         return if (result != null) {
             ResponseEntity(result, HttpStatus.OK)
         } else
