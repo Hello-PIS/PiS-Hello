@@ -1,9 +1,6 @@
 package pishello.hello.api
 
-import org.aspectj.lang.annotation.Before
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,6 +30,17 @@ class SearchEndpointTests(@Autowired val mockMvc: MockMvc) {
         mockMvc
                 .perform(MockMvcRequestBuilders.get("/search")
                         .param(paramName, paramValue))
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andExpect(MockMvcResultMatchers.content().json(util.correctSearchByIdRequestData()))
+    }
+
+    @Test
+    fun shouldReturnUserCards() {
+        util.createUser(mockMvc)
+        util.createCard(mockMvc)
+        util.uploadPhotoCard(mockMvc)
+        mockMvc
+                .perform(MockMvcRequestBuilders.get("/test_user/cards"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().json(util.correctSearchByIdRequestData()))
     }
