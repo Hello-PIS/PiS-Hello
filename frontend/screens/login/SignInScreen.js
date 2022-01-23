@@ -9,7 +9,7 @@ import backgroundImage from '../../assets/purple-bg.jpg';
 import purple from '../../assets/gradient.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { logInAsync } from 'expo-google-app-auth';
-import * as loginActions from '../../actions/login';
+import * as authActions from '../../actions/auth';
 
 export default function SignInScreen() {
 
@@ -18,8 +18,8 @@ export default function SignInScreen() {
     const [failureModalVisible, setFailureModalVisible] = useState(false);
     const [waitingForResponse, setWaitingForResponse] = useState(false);
 
-    const token = useSelector((state) => state.login.token);
-    const loginResponse = useSelector((state) => state.login.loginResponseTimestamp);
+    const token = useSelector((state) => state.auth.token);
+    const loginResponse = useSelector((state) => state.auth.loginResponseTimestamp);
 
     const dispatch = useDispatch();
     const navigation = useNavigation();
@@ -36,11 +36,7 @@ export default function SignInScreen() {
 
     const onSignInPressed = async () => {
         setWaitingForResponse(true);
-        dispatch(loginActions.signIn(username, password));
-    }
-
-    const onForgotPasswordPressed = () => {
-        navigation.navigate('ForgotPassword');
+        dispatch(authActions.signIn(username, password));
     }
 
     const onRegisterPressed = () => {
@@ -90,15 +86,12 @@ export default function SignInScreen() {
                     <TouchableOpacity style={styles.signInButton} onPress={onSignInPressed} >
                         <Text style={styles.signInText }>Zaloguj</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{margin: 10}} onPress={onRegisterPressed}>
-                        <Text style={{color: 'white'}}>Nie masz konta? Zarejestruj się</Text>
-                    </TouchableOpacity>
                     <View style={{flex: 1}} />
                 </View>
             </Card>
 
-            <TouchableOpacity style={{margin: 10}} onPress={onForgotPasswordPressed}>
-                <Text style={{color: 'white'}}>Zapomniałeś hasła?</Text>
+            <TouchableOpacity style={{margin: 10}} onPress={onRegisterPressed}>
+                <Text style={{color: 'white'}}>Nie masz konta? Zarejestruj się</Text>
             </TouchableOpacity>
             <LoadingScreenModal amIVisible={waitingForResponse} />
             <OverscreenModal

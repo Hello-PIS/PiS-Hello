@@ -7,7 +7,7 @@ import MenuItem from '../components/MenuItem';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
-  const token = useSelector((state) => state.login.token);
+  const token = useSelector((state) => state.auth.token);
   
   function renderHeader() {
     return (

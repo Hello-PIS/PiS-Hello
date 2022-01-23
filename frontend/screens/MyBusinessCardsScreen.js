@@ -1,18 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity, ImageBackground, Dimensions, FlatList } from 'react-native';
 import { Camera } from 'expo-camera';
 import { AntDesign } from '@expo/vector-icons';
-import { HeaderBackButton } from 'react-navigation';
 import { useNavigation } from '@react-navigation/core';
+import * as ScreenOrientation from 'expo-screen-orientation';
+import { useDispatch, useSelector } from 'react-redux';
+import * as searchActions from '../actions/search';
 
 const MyBusinessCardsScreen = props => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const businessCards = []; // useSelector((state) => state.search.MyBusinessCards)
+    const [waitingForResponse, setWaitingForResponse] = useState(false);
+    const [fetchFailureModal, showFetchFailureModal] = useState(false);
 
-    const [businessCards, setBusinessCards] = useState([]);
-
-    const addPhoto = uri => {
-        setBusinessCards([...businessCards, uri]);
+    async function fetchBusinessCards() {
+        setWaitingForResponse(true);
+        await dispatch(businessCardsActions.fetchMyCars());
+        console.log(`Fetched cars. carsResponse: ${carsResponse}`);
+        setWaitingForResponse(false);
     };
+
+    useEffect(() => {
+        // fetchBusinessCards();
+        // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+    }, [dispatch])
 
     function renderHeader() {
         return (
@@ -23,7 +35,7 @@ const MyBusinessCardsScreen = props => {
                         <TouchableOpacity
                             onPress={ navigation.goBack }
                             style={styles.backButton}>
-                            <AntDesign name='back' size={34} color='#fff' />
+                            <AntDesign name='back' size={28} color='#fff' />
                         </TouchableOpacity>
                     </View>
                     <Text style={styles.title}>Moje wizytówki</Text>
@@ -48,8 +60,8 @@ const MyBusinessCardsScreen = props => {
                         <View style={{backgroundColor: '#23272a', borderRadius: 20, overflow: 'hidden', marginBottom: 5}}>
                             <Image source={{uri: item}} resizeMode='cover' style={{width: '100%', aspectRatio: 16/9}} />
                         </View>
-                        <Text style={{fontFamily: 'open-sans', fontSize: 20,}}><Text>Status: </Text><Text style={{fontWeight: "bold"}}>publiczny</Text></Text>
-                        <Text style={{fontFamily: 'open-sans', fontSize: 20,}}><Text>Profesja: </Text><Text style={{fontWeight: "bold"}}>na razie żadna</Text></Text>
+                        <Text style={{ fontFamily: 'open-sans', fontSize: 20,}}><Text>Status: </Text><Text style={{fontWeight: "bold"}}>publiczny</Text></Text>
+                        <Text style={{ fontFamily: 'open-sans',  fontSize: 20,}}><Text>Profesja: </Text><Text style={{fontWeight: "bold"}}>na razie żadna</Text></Text>
                         
                     </TouchableOpacity>
                 );
@@ -57,9 +69,14 @@ const MyBusinessCardsScreen = props => {
         />
         
         <TouchableOpacity
-            onPress={() => navigation.navigate('Camera', { setImageUri: addPhoto }) }
+            onPress={() => navigation.navigate('Camera') }
+            style={{...styles.roundButton, bottom: 90}}>
+            <AntDesign name='picture' size={50} color='#fff' />
+        </TouchableOpacity>
+        <TouchableOpacity
+            onPress={() => navigation.navigate('Camera') }
             style={styles.roundButton}>
-            <AntDesign name='plus' size={50} color='#fff' />
+            <AntDesign name='camera' size={50} color='#fff' />
         </TouchableOpacity>
     </View>
 };
@@ -86,7 +103,7 @@ const styles = StyleSheet.create({
     },
     title: {
         color: 'white',
-        fontSize: 36,
+        fontSize: 28,
         fontFamily: 'open-sans-bold',
     },
     header: {

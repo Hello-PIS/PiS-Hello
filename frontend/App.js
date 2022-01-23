@@ -8,17 +8,22 @@ import ReduxThunk from 'redux-thunk';
 import { StyleSheet, SafeAreaView, View } from 'react-native';
 import AppNavigation from './navigation/AppNavigation';
 
-import loginReducer from './reducers/login';
+import authReducer from './reducers/auth';
+import searchReducer from './reducers/search';
+import businessCardsReducer from './reducers/businessCards';
 import LoadingScreenModal from './components/LoadingScreenModal';
 
 const rootReducer = combineReducers({
-  login: loginReducer,
+  auth: authReducer,
+  search: searchReducer,
+  businessCards: businessCardsReducer,
+  // storage: storageReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
-const fetchFonts = () => {
-  return Font.loadAsync({
+const fetchFonts = async () => {
+  await Font.loadAsync({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
     'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
     'roboto-medium': require('./assets/fonts/Roboto-Medium.ttf'),
@@ -54,6 +59,13 @@ export default function App() {
         </SafeAreaView>
       </Provider>
     );
+
+  // return (
+  //   <AppLoading
+  //   startAsync={fetchFonts}
+  //   onFinish={() => setFontLoaded(true)}
+  //   onError={(error) => console.warn(error)}
+  // />
 
   // return (
   //   ##### That's how it's gonna look eventually #####

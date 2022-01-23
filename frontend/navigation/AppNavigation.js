@@ -16,12 +16,12 @@ export default function AppNavigation() {
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown: false}}>
-                <Stack.Screen name='HomeScreen' component={HomeScreen} />
                 <Stack.Screen name='SignIn' component={SignInScreen} />
                 <Stack.Screen name='Register' component={RegisterScreen} />
-                <Stack.Screen name='Camera' component={CameraScreen} />
+                <Stack.Screen name='HomeScreen' component={HomeScreen} />
                 <Stack.Screen name='MyBusinessCards' component={MyBusinessCardsScreen} />
                 <Stack.Screen name='SearchBusinessCards' component={SearchBusinessCardsScreen} />
+                <Stack.Screen name='Camera' component={CameraScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
