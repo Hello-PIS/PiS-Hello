@@ -74,7 +74,7 @@ const MyBusinessCardsScreen = props => {
         />
 
         <TouchableOpacity
-            onPress={() => navigation.navigate('Camera') }
+            onPress={() => navigation.navigate('Gallery') }
             style={{...styles.roundButton, bottom: 90}}>
             <AntDesign name='picture' size={50} color='#fff' />
         </TouchableOpacity>
