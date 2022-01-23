@@ -6,23 +6,27 @@ import { useNavigation } from '@react-navigation/core';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useDispatch, useSelector } from 'react-redux';
 import * as searchActions from '../actions/search';
+import serverAddress from '../constants/serverAddress';
+import LoadingScreenModal from '../components/LoadingScreenModal';
+import OverscreenModal from '../components/OverscreenModal';
 
 const MyBusinessCardsScreen = props => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
-    const businessCards = []; // useSelector((state) => state.search.MyBusinessCards)
+    const businessCards = useSelector((state) => state.search.businessCards)
+    const username = useSelector((state) => state.auth.username)
     const [waitingForResponse, setWaitingForResponse] = useState(false);
-    const [fetchFailureModal, showFetchFailureModal] = useState(false);
+    const [failureModalVisible, setFailureModalVisible] = useState(false);
 
     async function fetchBusinessCards() {
         setWaitingForResponse(true);
-        await dispatch(businessCardsActions.fetchMyCars());
-        console.log(`Fetched cars. carsResponse: ${carsResponse}`);
+        await dispatch(searchActions.searchBusinessCards(username));
+        console.log(`Fetched my business cards`);
         setWaitingForResponse(false);
     };
 
     useEffect(() => {
-        // fetchBusinessCards();
+        fetchBusinessCards();
         // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
     }, [dispatch])
 
@@ -50,15 +54,16 @@ const MyBusinessCardsScreen = props => {
         {renderHeader()}
         <FlatList
             data={businessCards}
-            keyExtractor={item => item}
+            keyExtractor={item => item.id}
             contentContainerStyle={{ paddingVertical: 20 }}
             renderItem={({item}) => {
+                console.log(item);
                 return (
                     <TouchableOpacity
                         style={{flex: 1, backgroundColor: 'white', elevation: 10, marginBottom: 15, marginHorizontal: 20, padding: 15, borderRadius: 20, alignItems: 'flex-start',}}
                     >
                         <View style={{backgroundColor: '#23272a', borderRadius: 20, overflow: 'hidden', marginBottom: 5}}>
-                            <Image source={{uri: item}} resizeMode='cover' style={{width: '100%', aspectRatio: 16/9}} />
+                            <Image source={{uri: `http://${serverAddress.address}:8080/card/image?id=${item.id}`}} resizeMode='cover' style={{width: '100%', aspectRatio: 16/9}} />
                         </View>
                         <Text style={{ fontFamily: 'open-sans', fontSize: 20,}}><Text>Status: </Text><Text style={{fontWeight: "bold"}}>publiczny</Text></Text>
                         <Text style={{ fontFamily: 'open-sans',  fontSize: 20,}}><Text>Profesja: </Text><Text style={{fontWeight: "bold"}}>na razie żadna</Text></Text>
@@ -67,7 +72,7 @@ const MyBusinessCardsScreen = props => {
                 );
             }}
         />
-        
+
         <TouchableOpacity
             onPress={() => navigation.navigate('Camera') }
             style={{...styles.roundButton, bottom: 90}}>
@@ -78,6 +83,16 @@ const MyBusinessCardsScreen = props => {
             style={styles.roundButton}>
             <AntDesign name='camera' size={50} color='#fff' />
         </TouchableOpacity>
+
+        <LoadingScreenModal amIVisible={waitingForResponse} />      
+        
+        <OverscreenModal
+          title={"Wystąpił błąd"}
+          message={"Nie udało się uzyskać odpowiedzi od serwera."}
+          buttonType='arrowleft'
+          onClick={() => setFailureModalVisible(false)}          
+          amIVisible={failureModalVisible}
+        />
     </View>
 };
 
