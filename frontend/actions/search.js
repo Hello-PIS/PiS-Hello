@@ -38,7 +38,7 @@ async function fetchWithTimeout(resource, options = {}) {
         var respData = [];
         if(response.status == 200) {
             respData = await response.json();
-            console.log(respData);
+            // console.log(respData);
         } else if (response.status == 404) {
             console.log(`No business cards found.`);
         } else {
