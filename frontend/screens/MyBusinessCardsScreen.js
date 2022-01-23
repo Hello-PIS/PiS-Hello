@@ -65,8 +65,8 @@ const MyBusinessCardsScreen = props => {
                         <View style={{backgroundColor: '#23272a', borderRadius: 20, overflow: 'hidden', marginBottom: 5}}>
                             <Image source={{uri: `http://${serverAddress.address}:8080/card/image?id=${item.id}`}} resizeMode='cover' style={{width: '100%', aspectRatio: 16/9}} />
                         </View>
-                        <Text style={{ fontFamily: 'open-sans', fontSize: 20,}}><Text>Status: </Text><Text style={{fontWeight: "bold"}}>publiczny</Text></Text>
-                        <Text style={{ fontFamily: 'open-sans',  fontSize: 20,}}><Text>Profesja: </Text><Text style={{fontWeight: "bold"}}>na razie żadna</Text></Text>
+                        <Text style={{ fontFamily: 'open-sans', fontSize: 20, padding: 3,}}><Text>Status: </Text><Text style={{fontWeight: "bold"}}>{item.mode}</Text></Text>
+                        {item.category !== null && <Text style={{ fontFamily: 'open-sans',  fontSize: 20, padding: 3,}}><Text>Profesja: </Text><Text style={{fontWeight: "bold"}}>{item.category}</Text></Text>}
                         
                     </TouchableOpacity>
                 );
