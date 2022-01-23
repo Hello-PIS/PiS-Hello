@@ -18,13 +18,7 @@ export default function GalleryScreen() {
 
   const dispatch = useDispatch();
 
-  // const { setImageUri } = route.params;
-  const { height, width } = Dimensions.get('window');
-  const screenRatio = height / width;
-
   const [hasPermission, setPermission] = useState(null);
-  const [cameraMargin, setCameraMargin] = useState(0);
-  const [ratio, setRatio] = useState(null);
   const [picture, setPicture] = useState(null);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
   const [failureModalVisible, setFailureModalVisible] = useState(false);
@@ -33,16 +27,15 @@ export default function GalleryScreen() {
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
+      // allowsEditing: true,
+      // aspect: [16, 9],
       quality: 1,
     });
-
-    console.log(result);
 
     if (!result.cancelled) {
       setPicture(result);
     } else {
+      setPicture(null);
       navigation.goBack();
     }
   };
@@ -68,72 +61,70 @@ export default function GalleryScreen() {
     (async() => {
       // await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted')
-        Alert.alert(
-            'Brak uprawnień do obsługi aparatu',
-            'Aby skorzystać z tej funkcji, musisz nadać aplikacji uprawnienia do używania aparatu.',
-            [{text: 'Rozumiem'}]
-        );
       setPermission(status === 'granted');
+      if (status !== 'granted') {
+        Alert.alert(
+          'Brak uprawnień do obsługi aparatu',
+          'Aby skorzystać z tej funkcji, musisz nadać aplikacji uprawnienia do używania aparatu.',
+          [{text: 'Rozumiem',
+            onPress: () => navigation.goBack(),
+          }]
+        );
+      }
     })();
   }, []);
 
   if (hasPermission === null) {
     return <View />;
   }
-  if (hasPermission === false) {
-    return <View style={{alignItems: 'center', justifyContent: 'center'}}>
-      <Text>No access to camera</Text>
-    </View>;
+  
+  if (picture === null) {
+    pickImage();
+    return <View />
   }
-  if (picture === null)
-    return (
-        <View style={{...styles.imagePicker, paddingVertical: cameraMargin }}>
-            <Button title="Pick an image from camera roll" onPress={pickImage} />
-        </View>
-    );
   else
     return (
-        <View style={{flex: 1, backgroundColor: 'black'}}>
-          <Image style={{flex: 1}} resizeMode='contain' source={{uri: picture.uri}} />
-          <View style={{height: 80, width: '100%', position: 'absolute', bottom: 0, flexDirection: 'row'}}>
-            <View style={{flex: 1}} />
-            <TouchableOpacity
-                onPress={ () => setPicture(null) }
-                style={{...styles.backButton, backgroundColor: 'rgba(255,0,0,0.8)'}}>
-              <AntDesign name='back' size={40} color='#fff' />
-            </TouchableOpacity>
-            <View style={{flex: 1}} />
-            <TouchableOpacity
-                onPress={ sendPhoto }
-                style={{...styles.backButton, backgroundColor: 'rgba(0,255,0,0.8)'}}>
-              <AntDesign name='check' size={40} color='#fff' />
-            </TouchableOpacity>
-            <View style={{flex: 1}} />
-          </View>
-
-          <LoadingScreenModal amIVisible={waitingForResponse} />
-
-          <OverscreenModal
-              title={"Gotowe!"}
-              message={"Zdjęcie zostało pomyślnie przesłane."}
-              buttonType='check'
-              onClick={() => {
-                setSuccessModalVisible(false);
-                navigation.navigate('HomeScreen');
-              }}
-              amIVisible={successModalVisible}
-          />
-
-          <OverscreenModal
-              title={"Wystąpił błąd!"}
-              message={"Nie udało się przesłać zdjęcia. Spróbuj ponownie."}
-              buttonType='arrowleft'
-              onClick={() => setFailureModalVisible(false)}
-              amIVisible={failureModalVisible}
-          />
-
+      <View style={{flex: 1, backgroundColor: 'black'}}>
+        <Image style={{flex: 1}} resizeMode='contain' source={{uri: picture.uri}} />
+        <View style={{height: 80, width: '100%', position: 'absolute', bottom: 0, flexDirection: 'row'}}>
+          <View style={{flex: 1}} />
+          <TouchableOpacity
+              onPress={ () => { setPicture(null); navigation.goBack();} }
+              style={{...styles.backButton, backgroundColor: 'rgba(255,0,0,0.8)'}}>
+            <AntDesign name='back' size={40} color='#fff' />
+          </TouchableOpacity>
+          <View style={{flex: 1}} />
+          <TouchableOpacity
+              onPress={ sendPhoto }
+              style={{...styles.backButton, backgroundColor: 'rgba(0,255,0,0.8)'}}>
+            <AntDesign name='check' size={40} color='#fff' />
+          </TouchableOpacity>
+          <View style={{flex: 1}} />
         </View>
+
+        <LoadingScreenModal amIVisible={waitingForResponse} />
+
+        <OverscreenModal
+            title={"Gotowe!"}
+            message={"Zdjęcie zostało pomyślnie przesłane."}
+            buttonType='check'
+            onClick={() => {
+              setSuccessModalVisible(false);
+              setPicture(null);
+              navigation.navigate('HomeScreen');
+            }}
+            amIVisible={successModalVisible}
+        />
+
+        <OverscreenModal
+            title={"Wystąpił błąd!"}
+            message={"Nie udało się przesłać zdjęcia. Spróbuj ponownie."}
+            buttonType='arrowleft'
+            onClick={() => setFailureModalVisible(false)}
+            amIVisible={failureModalVisible}
+        />
+
+      </View>
     );
 }
 
@@ -176,6 +167,5 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
-    // width: '100%',
   },
 });
