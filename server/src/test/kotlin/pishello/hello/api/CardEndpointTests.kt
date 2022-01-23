@@ -17,28 +17,26 @@ import pishello.hello.TestUtilities
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class CardEndpointTests(@Autowired val mockMvc: MockMvc) {
-
-    val util = TestUtilities()
+class CardEndpointTests(@Autowired val mockMvc: MockMvc): TestUtilities() {
 
     @Test
     fun shouldCreateCard() {
-        util.createUser(mockMvc)
+        createUser(mockMvc)
         mockMvc
             .perform(MockMvcRequestBuilders.multipart("/card")
-                .file(util.correctPutCardImageData())
-                .param("ownerName", util.correctUserName()))
+                .file(correctPutCardImageData())
+                .param("ownerName", correctUserName()))
             .andExpect(MockMvcResultMatchers.status().isCreated)
     }
 
     @Test
     fun shouldSetCard() {
-        util.createUser(mockMvc)
-        util.createCard(mockMvc)
+        createUser(mockMvc)
+        createCard(mockMvc)
         mockMvc
             .perform(MockMvcRequestBuilders.post("/card/set")
                 .header("Content-Type", "application/json")
-                .content(util.correctSetRequestData(1, null, null)))
+                .content(correctSetRequestData(1, null, null)))
             .andExpect(MockMvcResultMatchers.status().isOk)
     }
 
@@ -46,15 +44,15 @@ class CardEndpointTests(@Autowired val mockMvc: MockMvc) {
     fun shouldNotCreateCardForNonExistingUser() {
         mockMvc
             .perform(MockMvcRequestBuilders.multipart("/card")
-                .file(util.correctPutCardImageData())
-                .param("ownerName", util.correctUserName()))
+                .file(correctPutCardImageData())
+                .param("ownerName", correctUserName()))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
     }
 
     @Test
     fun shouldGetCardImage() {
-        util.createUser(mockMvc)
-        util.createCard(mockMvc)
+        createUser(mockMvc)
+        createCard(mockMvc)
         mockMvc
             .perform(MockMvcRequestBuilders.get("/card/image")
                 .param("id", "1"))

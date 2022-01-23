@@ -5,7 +5,7 @@ import org.springframework.mock.web.MockMultipartFile
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 
-class TestUtilities {
+open class TestUtilities {
 
     fun correctUserName() = "test_user"
 
