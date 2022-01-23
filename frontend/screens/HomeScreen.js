@@ -13,10 +13,9 @@ export default function HomeScreen() {
     return (
       <View style={{
         width: '100%',
-        height: '30%',
+        height: '25%',
         alignItems: 'center',
         backgroundColor: '#9932CC',
-        marginBottom: 10,
       }}>
         <View style={{flex: 2}}/>
         <Text style={styles.headerPrimary}>Witaj.</Text>
@@ -27,27 +26,16 @@ export default function HomeScreen() {
 }
   return (
     <View style={{justifyContent: 'center', width: '100%', flex: 1}}>
-        <ScrollView contentContainerStyle={styles.list}>
-          <View>
-            <StatusBar translucent backgroundColor='transparent' />
-            {renderHeader()}
-            <MenuItem text={'Nowa wizytówka'} icon={'pluscircleo'} onPress={() => navigation.navigate('Camera', { setImageUri: () => console.log("Do implementacji tego potrzeba serwera") })} />
+        <StatusBar translucent backgroundColor='transparent' />
+        {renderHeader()}
+        <ScrollView>
+            <MenuItem text={'Nowa wizytówka (Aparat)'} icon={'camera'} onPress={() => navigation.navigate('Camera')} />
+            <MenuItem text={'Nowa wizytówka (Galeria)'} icon={'picture'} onPress={() => navigation.navigate('Gallery')} />
             <MenuItem text={'Moje wizytówki'} icon={'creditcard'} onPress={() => navigation.navigate('MyBusinessCards')} />
             <MenuItem text={'Znajdź wizytówkę'} icon={'search1'} onPress={() => navigation.navigate('SearchBusinessCards')} />
             <MenuItem text={'Wyloguj'} icon={'logout'} onPress={() => {global.user_id = null; navigation.navigate('SignIn'); }} />
-          </View>
         </ScrollView>
     </View>
-
-    // <View style={styles.container}>
-    //   <StatusBar style="auto" />
-    //   <Text style={{marginTop: 40, marginBottom: 10,}}>Hello, your token: {token}</Text>
-
-    //   {/* <Image
-    //     resizeMode='center'
-    //     source={{uri: `http://${serverAddress.address}:8080/image` }}
-    //     style={{flex: 1, borderRadius: 10, aspectRatio: 1}}
-    //   /> */}
   );
 }
 

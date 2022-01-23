@@ -186,6 +186,7 @@ export default function CameraScreen() {
           buttonType='check'
           onClick={() => {
             setSuccessModalVisible(false);
+            setPicture(null);
             navigation.navigate('HomeScreen');
           }}
           amIVisible={successModalVisible}
