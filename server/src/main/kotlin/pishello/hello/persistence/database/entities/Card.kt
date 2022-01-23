@@ -6,11 +6,11 @@ import javax.persistence.*
 @Entity(name = "cards")
 data class Card(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     val id: Int,
-    val mode: String,
+    var mode: String,
     var path: String?,
-    val category: String?,
+    var category: String?,
     val owner: String   // "FK"
 ) {
     override fun equals(other: Any?): Boolean {

@@ -17,43 +17,42 @@ import pishello.hello.TestUtilities
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class CardEndpointTests(@Autowired val mockMvc: MockMvc) {
-
-    val util = TestUtilities()
+class CardEndpointTests(@Autowired val mockMvc: MockMvc): TestUtilities() {
 
     @Test
     fun shouldCreateCard() {
-        util.createUser(mockMvc)
+        createUser(mockMvc)
         mockMvc
-            .perform(MockMvcRequestBuilders.post("/card")
+            .perform(MockMvcRequestBuilders.multipart("/card")
+                .file(correctPutCardImageData())
+                .param("ownerName", correctUserName()))
+            .andExpect(MockMvcResultMatchers.status().isCreated)
+    }
+
+    @Test
+    fun shouldSetCard() {
+        createUser(mockMvc)
+        createCard(mockMvc)
+        mockMvc
+            .perform(MockMvcRequestBuilders.post("/card/set")
                 .header("Content-Type", "application/json")
-                .content(util.correctAddCardRequestData()))
+                .content(correctSetRequestData(1, null, null)))
             .andExpect(MockMvcResultMatchers.status().isOk)
     }
 
     @Test
     fun shouldNotCreateCardForNonExistingUser() {
         mockMvc
-            .perform(MockMvcRequestBuilders.post("/card")
-                .header("Content-Type", "application/json")
-                .content(util.correctAddCardRequestData()))
+            .perform(MockMvcRequestBuilders.multipart("/card")
+                .file(correctPutCardImageData())
+                .param("ownerName", correctUserName()))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
     }
 
     @Test
-    fun shouldUploadCardImage() {
-        util.createUser(mockMvc)
-        util.createCard(mockMvc)
-        mockMvc
-            .perform(MockMvcRequestBuilders.multipart("/card/image")
-                .file(util.correctPutCardImageData())
-                .param("id", "1"))
-            .andExpect(MockMvcResultMatchers.status().isOk)
-    }
-
-    @Test
     fun shouldGetCardImage() {
-        shouldUploadCardImage()
+        createUser(mockMvc)
+        createCard(mockMvc)
         mockMvc
             .perform(MockMvcRequestBuilders.get("/card/image")
                 .param("id", "1"))

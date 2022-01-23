@@ -26,7 +26,7 @@ http://127.0.0.1:8080/search?ownername=5
 http://127.0.0.1:8080/search?profession=lawyer
 http://127.0.0.1:8080/search?id=3
 ```
-Response Exanple:
+Response Example:
 ```
 [
   {
@@ -55,7 +55,7 @@ Response Exanple:
 
 ##### User cards:
 ```
-http://127.0.0.1:8080/5/cards
+http://127.0.0.1:8080/{username}/cards
 ```
 Response Example:
 ```

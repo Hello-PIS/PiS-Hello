@@ -4,7 +4,7 @@ import { View, TouchableOpacity, Text, Image, ActivityIndicator, StyleSheet } fr
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { useDispatch } from 'react-redux';
-import * as loginActions from '../actions/login';
+import * as authActions from '../actions/auth';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -21,7 +21,7 @@ export default function GoogleSignInButton (props) {
       return;
     if (response.type === 'success') {
       const { authentication: { accessToken } } = response;
-      dispatch(loginActions.logInWithGoogle(accessToken));
+      dispatch(authActions.logInWithGoogle(accessToken));
     }
   }, [response]);
 

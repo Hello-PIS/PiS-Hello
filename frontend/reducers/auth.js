@@ -1,4 +1,4 @@
-import { SIGN_IN, REGISTER, CHECK_LOGIN } from '../actions/login';
+import { SIGN_IN, REGISTER, CHECK_LOGIN } from '../actions/auth';
 
 const initialState = {
   token: null,
@@ -10,6 +10,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         token: action.token,
+        username: action.username,
         loginResponseTimestamp: Date.now(),
       }; 
     case REGISTER:

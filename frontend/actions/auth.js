@@ -46,10 +46,10 @@ export const signIn = (login, password) => {
         } catch (error) {
             if (error.name === 'AbortError') {
                 console.log("AbortError occurred");
-                return dispatch({ type: SIGN_IN, token: null });
+                return dispatch({ type: SIGN_IN, token: null, username: null });
             }
             console.log("error occurred: " + error.toString());
-            return dispatch({ type: SIGN_IN, token: null });
+            return dispatch({ type: SIGN_IN, token: null, username: null });
         }
 
         console.log(`response status: ${response.status}`);
@@ -64,7 +64,7 @@ export const signIn = (login, password) => {
             console.log(`Request rejected for unknown reason.`);
         }
         
-        dispatch({ type: SIGN_IN, token: token });
+        dispatch({ type: SIGN_IN, token: token, username: login });
     }
 };
 

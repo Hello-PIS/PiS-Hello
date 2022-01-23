@@ -7,7 +7,7 @@ import purple from '../../assets/gradient.png';
 import Card from '../../components/Card';
 import OverscreenModal from '../../components/OverscreenModal';
 import LoadingScreenModal from '../../components/LoadingScreenModal';
-import * as loginActions from '../../actions/login';
+import * as authActions from '../../actions/auth';
 
 export default function RegisterScreen() {
     const [username, setUsername] = useState('');
@@ -17,8 +17,8 @@ export default function RegisterScreen() {
     const [failureModalVisible, setFailureModalVisible] = useState(false);
     const [successModalVisible, setSuccessModalVisible] = useState(false);
 
-    const registerResponse = useSelector((state) => state.login.registerResponseTimestamp);
-    const registerOutcome = useSelector((state) => state.login.registerOutcome);
+    const registerResponse = useSelector((state) => state.auth.registerResponseTimestamp);
+    const registerOutcome = useSelector((state) => state.auth.registerOutcome);
 
     const dispatch = useDispatch();
     const navigation = useNavigation();
@@ -35,7 +35,7 @@ export default function RegisterScreen() {
 
     const onRegisterPressed = () => {
         setWaitingForResponse(true);
-        dispatch(loginActions.register(username, password));
+        dispatch(authActions.register(username, password));
     }
 
     const onSignInPressed = () => {
