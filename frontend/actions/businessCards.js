@@ -5,7 +5,7 @@ import serverAddress from '../constants/serverAddress';
 export const ADD_CARD = 'ADD_CARD';
 
 async function fetchWithTimeout(resource, options = {}) {
-    const { timeout = 10000 } = options;
+    const { timeout = 20000 } = options;
     
     const controller = new AbortController();
 
