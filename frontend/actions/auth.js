@@ -134,12 +134,13 @@ export const logInWithGoogle = googleToken => {
     }
 };
 
-export const register = (login, password) => {
+export const register = (login, password, passwordRepeat) => {
     return async dispatch => {
         console.log('registering...');
 
         const name = login;
         password = SHA256(password).toString();
+        passwordRepeat = SHA256(passwordRepeat).toString();
 
         var response;
         try {
@@ -152,7 +153,8 @@ export const register = (login, password) => {
                     },
                     body: JSON.stringify({
                         name,
-                        password
+                        password,
+                        passwordRepeat
                     })
                 }
             );

@@ -2,6 +2,9 @@ import groovy.lang.GroovyObject
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jfrog.gradle.plugin.artifactory.dsl.PublisherConfig
 
+//apply(plugin = "com.android.application")
+apply(plugin = "com.google.android.gms.strict-version-matcher-plugin")
+
 plugins {
 	id("org.springframework.boot") version "2.6.1"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
@@ -13,6 +16,7 @@ plugins {
 	jacoco
 }
 
+
 group = "pis-hello"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
@@ -23,9 +27,11 @@ repositories {
 }
 
 dependencies {
+	implementation("androidx.camera:camera-camera2:1.0.0-alpha07")
 	val springBootVersion = "2.6.2"
 	val jacocoVersion = "0.8.7"
 	val sqliteJDBCVersion = "3.36.0.2"
+	val textRecognitionVersion = "17.0.1"
 
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -37,7 +43,7 @@ dependencies {
 	implementation(platform("com.google.cloud:libraries-bom:24.1.0"))
 	implementation("com.google.cloud:google-cloud-storage")
 	implementation( "com.google.android.gms:play-services-vision:19.0.0")
-	implementation("com.google.android.gms:play-services-mlkit-text-recognition:17.0.1")
+	implementation("com.google.android.gms:play-services-mlkit-text-recognition:$textRecognitionVersion")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
 }
@@ -60,6 +66,15 @@ tasks.test {
 }
 tasks.jacocoTestReport {
 	dependsOn(tasks.test)
+}
+
+buildscript {
+	repositories {
+		google()
+	}
+	dependencies {
+		classpath("com.google.android.gms:strict-version-matcher-plugin:1.2.1")
+	}
 }
 
 apply(plugin = "com.jfrog.artifactory")
