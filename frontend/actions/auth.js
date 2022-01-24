@@ -174,6 +174,9 @@ export const register = (login, password, passwordRepeat) => {
         } else if (response.status == 409) {
             console.log(`Request rejected. Wrong credentials. Try changing your login.`);
             dispatch({ type: REGISTER, outcome: false });
+        } else if (response.status == 406) {
+            console.log(`Request rejected. Wrong credentials. Password does not match repeated password.`);
+            dispatch({ type: REGISTER, outcome: false });
         } else {
             console.log(`Request rejected for unknown reason.`);
             dispatch({ type: REGISTER, outcome: null });

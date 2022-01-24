@@ -27,7 +27,7 @@ class AuthEndpoint(val userPort: UserPort, val tokenPort: TokenPort) {
                 userPort.createNewUser(request.name, request.password)
                 ResponseEntity(HttpStatus.CREATED)
             } else
-                ResponseEntity(HttpStatus.CONFLICT)
+                ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
         } else
             ResponseEntity(HttpStatus.CONFLICT)
     }
