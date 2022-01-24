@@ -18,6 +18,7 @@ version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
+	google()
 	mavenCentral()
 }
 
@@ -35,6 +36,8 @@ dependencies {
 	implementation("org.jacoco:org.jacoco.core:$jacocoVersion")
 	implementation(platform("com.google.cloud:libraries-bom:24.1.0"))
 	implementation("com.google.cloud:google-cloud-storage")
+	implementation( "com.google.android.gms:play-services-vision:19.0.0")
+	implementation("com.google.android.gms:play-services-mlkit-text-recognition:17.0.1")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
 }
