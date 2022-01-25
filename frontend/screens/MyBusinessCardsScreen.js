@@ -60,7 +60,6 @@ const MyBusinessCardsScreen = props => {
             renderItem={({item}) => {
                 console.log(item);
                 return (
-                    // onPress={() => navigation.navigate('Edit', {itemId: 86, otherParam: 'anything you want here',}
                     <TouchableOpacity onPress={() => navigation.navigate('Edit', {itemData: item}) }
                         style={{flex: 1, backgroundColor: 'white', elevation: 10, marginBottom: 15, marginHorizontal: 20, padding: 15, borderRadius: 20, alignItems: 'flex-start',}}
                     >
