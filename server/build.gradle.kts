@@ -2,8 +2,6 @@ import groovy.lang.GroovyObject
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jfrog.gradle.plugin.artifactory.dsl.PublisherConfig
 
-apply(plugin = "com.google.android.gms.strict-version-matcher-plugin")
-
 plugins {
 	id("org.springframework.boot") version "2.6.1"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
@@ -20,7 +18,6 @@ version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
-	google()
 	mavenCentral()
 }
 
@@ -42,9 +39,6 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
 }
 
-
-
-
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		jvmTarget = "11"
@@ -60,15 +54,6 @@ tasks.test {
 }
 tasks.jacocoTestReport {
 	dependsOn(tasks.test)
-}
-
-buildscript {
-	repositories {
-		google()
-	}
-	dependencies {
-		classpath("com.google.android.gms:strict-version-matcher-plugin:1.2.1")
-	}
 }
 
 apply(plugin = "com.jfrog.artifactory")
