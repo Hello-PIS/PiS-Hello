@@ -9,6 +9,7 @@ import CameraScreen from '../screens/CameraScreen';
 import GalleryScreen from '../screens/GalleryScreen';
 import MyBusinessCardsScreen from '../screens/MyBusinessCardsScreen';
 import SearchBusinessCardsScreen from '../screens/SearchBusinessCardsScreen';
+import EditCardScreen from '../screens/EditCardScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -24,6 +25,7 @@ export default function AppNavigation() {
                 <Stack.Screen name='SearchBusinessCards' component={SearchBusinessCardsScreen} />
                 <Stack.Screen name='Camera' component={CameraScreen} />
                 <Stack.Screen name='Gallery' component={GalleryScreen} />
+                <Stack.Screen name='Edit' component={EditCardScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
