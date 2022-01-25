@@ -8,7 +8,6 @@ import pishello.hello.persistence.database.ports.TokenPort
 import pishello.hello.persistence.database.ports.UserPort
 
 data class LoginRequest(val name: String, val password: String)
-data class RegisterRequest(val name: String, val password: String, val passwordRepeat: String)
 
 @RestController
 class AuthEndpoint(val userPort: UserPort, val tokenPort: TokenPort) {
@@ -21,7 +20,7 @@ class AuthEndpoint(val userPort: UserPort, val tokenPort: TokenPort) {
     }
 
     @PostMapping("/register", consumes = ["application/json"])
-    fun register(@RequestBody request: RegisterRequest): ResponseEntity<Unit> {
+    fun register(@RequestBody request: LoginRequest): ResponseEntity<Unit> {
         return if (!userPort.checkIfUserExists(request.name)) {
             userPort.createNewUser(request.name, request.password)
             ResponseEntity(HttpStatus.CREATED)

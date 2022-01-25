@@ -157,8 +157,7 @@ export const register = (login, password, passwordRepeat) => {
                     },
                     body: JSON.stringify({
                         name,
-                        password,
-                        passwordRepeat
+                        password
                     })
                 }
             );
