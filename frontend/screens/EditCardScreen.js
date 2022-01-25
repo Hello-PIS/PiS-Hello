@@ -1,5 +1,5 @@
 import React, {useDebugValue, useEffect, useState} from 'react';
-import { View, StyleSheet, Text, TextInput, Image, useWindowDimensions, ScrollView, ImageBackground, Pressable, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, TextInput, Image, useWindowDimensions, ScrollView, ImageBackground, Pressable, TouchableOpacity, Button } from 'react-native';
 import GoogleSignInButton from '../components/GoogleSignInButton';
 import { CommonActions, useNavigation, useRoute} from '@react-navigation/core';
 import Card from '../components/Card';
@@ -17,6 +17,9 @@ export default function EditCardScreen({ route, navigation }) {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
+    const [category, setCategory] = useState('');
+    const [mode, setMode] = useState('');
+
     const [failureModalVisible, setFailureModalVisible] = useState(false);
     const [waitingForResponse, setWaitingForResponse] = useState(false);
 
@@ -26,7 +29,7 @@ export default function EditCardScreen({ route, navigation }) {
     const dispatch = useDispatch();
     const {itemData } = route.params;
     const photoId = itemData.id
-    
+
     useEffect(() => {
         setWaitingForResponse(false);
         if (editResponse == null)
@@ -46,13 +49,23 @@ export default function EditCardScreen({ route, navigation }) {
     const onChangeDataPressed = async () => {
         setWaitingForResponse(true);
 
-        dispatch(authActions.editCardData(photoId, company, name, phone, email));
+        dispatch(authActions.editCardData(photoId, company, name, phone, email, category, mode));
     }
 
     const onReturnPressed = () => {
         navigation.navigate('HomeScreen');
     }
 
+    function onChangeModePressed () {
+        if (mode == 'PRIVATE') {
+            setMode('PUBLIC')
+        }
+        else{
+            setMode('PRIVATE')
+        }
+    }
+
+    
     return (
         <View style={styles.screenView}>
             <Image 
@@ -61,11 +74,14 @@ export default function EditCardScreen({ route, navigation }) {
             blurRadius={100}
             />
             <Card style={styles.mainCard}>
-                <Image
-                    source={backgroundImage}
-                    style={StyleSheet.absoluteFillObject}
-                    blurRadius={10}
-                />
+
+                <View style={styles.formRow}>
+                    <Text style={styles.text}>Widoczność</Text>
+                    <TouchableOpacity style={styles.changeButton} onPress={onChangeModePressed} >
+                        <Text style={styles.changeText }>{mode}</Text>
+                    </TouchableOpacity>
+                </View>
+
                 <View style={styles.formRow}>
                     <Text style={styles.text}>Firma</Text>
                     <Card style={styles.inputCard}>
@@ -73,6 +89,17 @@ export default function EditCardScreen({ route, navigation }) {
                             value={company}
                             onChangeText={setCompany}
                             placeholder={itemData.company}
+                            style={styles.input}
+                        />
+                    </Card>
+                </View>
+                <View style={styles.formRow}>
+                    <Text style={styles.text}>Kategoria</Text>
+                    <Card style={styles.inputCard}>
+                        <TextInput
+                            value={category}
+                            onChangeText={setCategory}
+                            placeholder={itemData.category}
                             style={styles.input}
                         />
                     </Card>
@@ -110,7 +137,8 @@ export default function EditCardScreen({ route, navigation }) {
                         />
                     </Card>
                 </View>
-                <View style={styles.formRow}>
+                <View style={{flexDirection: 'row', marginVertical: 15,}}>
+                    <View style={{flex: 1}} />
                     <TouchableOpacity style={styles.signInButton} onPress={onChangeDataPressed} >
                         <Text style={styles.signInText }>Wprowadź zmiany</Text>
                     </TouchableOpacity>
@@ -118,7 +146,9 @@ export default function EditCardScreen({ route, navigation }) {
                     <TouchableOpacity style={styles.signInButton} onPress={onReturnPressed} >
                         <Text style={styles.signInText }>Powrót</Text>
                     </TouchableOpacity>
+                    <View style={{flex: 1}} />
                 </View>
+
             </Card>
 
             <LoadingScreenModal amIVisible={waitingForResponse} />
@@ -151,11 +181,12 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
     formRow: {
-        height: 90,
+        height: 80,
         width: '100%',
         alignItems: 'stretch',
         justifyContent: 'center',
-        marginVertical: 10,
+        marginVertical: 5,
+        
     },
     text: {
         fontFamily: 'open-sans-bold',
@@ -167,6 +198,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         marginHorizontal: 10,
         marginVertical: 10,
+        backgroundColor: '#E6E6FA',
     },
     input: {
         fontFamily: 'open-sans',
@@ -180,13 +212,29 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         alignItems: 'center',
         borderRadius: 5,
-        backgroundColor: '#4285F4',
+        backgroundColor: '#8e56c2',
+    },
+    changeButton: {
+        margin: 0,
+        height: 35,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        alignItems: 'center',
+        borderRadius: 5,
+        backgroundColor: '#E6E6FA',
     },
     signInText: {
         fontFamily: 'open-sans',
         fontSize: 20,
         textAlign: 'center',
         color: 'white',
+    },
+
+    changeText: {
+        fontFamily: 'open-sans',
+        fontSize: 20,
+        textAlign: 'center',
+        color: 'black',
     }
 
 });

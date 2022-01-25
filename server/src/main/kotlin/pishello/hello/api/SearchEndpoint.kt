@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*
 import pishello.hello.persistence.database.entities.Card
 import pishello.hello.persistence.database.ports.CardPort
 
-data class CardData(val id: Int, val company: String?, val name: String?, val phone: String?, val email: String?)
+data class CardData(val id: Int, val company: String?, val name: String?, val phone: String?, val email: String?, val category: String?, val mode: String?)
 
 @RestController
 class SearchEndpoint(val searchPort: CardPort) {
@@ -35,6 +35,8 @@ class SearchEndpoint(val searchPort: CardPort) {
         var name: String?
         var phone: String?
         var email: String?
+        var category: String?
+        var mode: String?
         if (request.company ==""){
             company = null
         }
@@ -59,7 +61,19 @@ class SearchEndpoint(val searchPort: CardPort) {
         else{
             email = request.email
         }
-        return if (searchPort.updateData(request.id, company, name, phone, email) != null) {
+        if (request.category ==""){
+            category = null
+        }
+        else{
+            category = request.category
+        }
+        if (request.mode ==""){
+            mode = null
+        }
+        else{
+            mode = request.mode
+        }
+        return if (searchPort.updateData(request.id, company, name, phone, email, category, mode) != null) {
             ResponseEntity(HttpStatus.OK)
         } else {
             ResponseEntity(HttpStatus.NOT_FOUND)

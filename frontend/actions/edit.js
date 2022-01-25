@@ -22,7 +22,7 @@ async function fetchWithTimeout(resource, options = {}) {
 }
 };
 
-export const editCardData = (idU, company,name, phone, email ) => {
+export const editCardData = (idU, company, name, phone, email, category, mode) => {
 
     return async dispatch => {
         const id = parseInt(idU);
@@ -31,7 +31,6 @@ export const editCardData = (idU, company,name, phone, email ) => {
         
         var response;
 
-        console.log("próbuje wysłać???????")
         try {
             response = await fetchWithTimeout(
                 `http://${serverAddress.address}:8080/changedata`,
@@ -45,7 +44,9 @@ export const editCardData = (idU, company,name, phone, email ) => {
                         company,
                         name,
                         phone,
-                        email
+                        email,
+                        category,
+                        mode
                     })
                 }
             );

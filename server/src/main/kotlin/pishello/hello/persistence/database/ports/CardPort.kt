@@ -44,7 +44,7 @@ class CardPort(val repository: CardRepository, val userRepository: UserRepositor
         return repository.save(card)
     }
 
-    fun updateData(id: Int, company: String?, name: String?, phone: String?, email: String?): Card? {
+    fun updateData(id: Int, company: String?, name: String?, phone: String?, email: String?, category: String?, mode: String?): Card? {
         val card = repository.findById(id) ?: return null
         if (company != null)
             card.company = company
@@ -54,6 +54,10 @@ class CardPort(val repository: CardRepository, val userRepository: UserRepositor
             card.phone = phone
         if (email != null)
             card.email = email
+        if (category != null)
+            card.category = category
+        if (mode != null)
+            card.mode = mode
         return repository.save(card)
     }
 }
