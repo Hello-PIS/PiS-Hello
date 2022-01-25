@@ -39,9 +39,6 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
 }
 
-
-
-
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		jvmTarget = "11"

@@ -134,12 +134,18 @@ export const logInWithGoogle = googleToken => {
     }
 };
 
-export const register = (login, password) => {
+export const register = (login, password, passwordRepeat) => {
     return async dispatch => {
         console.log('registering...');
 
+        if (password != passwordRepeat) {
+            console.log('Passwords are not the same. Please try again.');
+            return dispatch({ type: REGISTER, outcome: null });
+        }
+
         const name = login;
         password = SHA256(password).toString();
+
 
         var response;
         try {
