@@ -10,7 +10,7 @@ open class TestUtilities {
     fun correctUserName() = "test_user"
 
     fun correctAuthRequestData(): String =
-        """{ "name": "test_user", "password": "yes, this is a hash" }"""
+        """{ "name": "test_user", "password": "yes, this is a hash", "passwordRepeat": "yes, this is a hash" }"""
 
     fun correctSearchByIdRequestData(): String =
         """[{ "id": 1, "mode": "PUBLIC", "path": "cards/1.jpg", "category": "lawyer", "owner": "test_user" }]"""
