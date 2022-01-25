@@ -11,6 +11,10 @@ data class Card(
     var mode: String,
     var path: String?,
     var category: String?,
+    var company: String?,
+    var name: String?,
+    var phone: String?,
+    var email: String?,
     val owner: String   // "FK"
 ) {
     override fun equals(other: Any?): Boolean {

@@ -12,11 +12,13 @@ import authReducer from './reducers/auth';
 import searchReducer from './reducers/search';
 import businessCardsReducer from './reducers/businessCards';
 import LoadingScreenModal from './components/LoadingScreenModal';
+import editReducer from './reducers/edit';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   search: searchReducer,
   businessCards: businessCardsReducer,
+  edit: editReducer,
   // storage: storageReducer,
 });
 

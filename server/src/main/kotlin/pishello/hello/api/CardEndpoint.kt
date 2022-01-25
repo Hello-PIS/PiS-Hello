@@ -9,6 +9,7 @@ import pishello.hello.persistence.cloudStorage.PhotosStorage
 import pishello.hello.persistence.database.ports.CardPort
 
 data class CardRequest(val id: Int, val mode: String?, val category: String?)
+data class CardDataa(val id: Int, val company: String?, val name: String?, val phone: String?, val email: String?)
 
 @RestController
 @RequestMapping("/card")
@@ -48,5 +49,24 @@ class CardEndpoint(val cardPort: CardPort, val photosStorage: PhotosStorage) {
         } else {
             ResponseEntity(HttpStatus.NOT_FOUND)
         }
+    }
+
+    @PostMapping("/changedata", consumes = ["application/json"])
+    fun setCard(@RequestBody request: CardDataa): ResponseEntity<Unit> {
+        return if (cardPort.updateData(request.id, request.company, request.name, request.phone, request.email) != null) {
+            ResponseEntity(HttpStatus.OK)
+        } else {
+            ResponseEntity(HttpStatus.NOT_FOUND)
+        }
+//        print("Do dinasours still exist?\n")
+//        print("id ${request.id} \n company ${request.company} name ${request.name} phone ${request.phone} email ${request.email}")
+//        val result = cardPort.findById(request.id)
+//        return if (result != null) {
+//            ResponseEntity(HttpStatus.OK)
+//        } else {
+//            ResponseEntity(HttpStatus.NOT_FOUND)
+//        }
+
+
     }
 }

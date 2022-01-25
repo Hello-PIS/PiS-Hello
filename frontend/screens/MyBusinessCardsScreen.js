@@ -10,6 +10,7 @@ import serverAddress from '../constants/serverAddress';
 import LoadingScreenModal from '../components/LoadingScreenModal';
 import OverscreenModal from '../components/OverscreenModal';
 
+
 const MyBusinessCardsScreen = props => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
@@ -59,7 +60,8 @@ const MyBusinessCardsScreen = props => {
             renderItem={({item}) => {
                 console.log(item);
                 return (
-                    <TouchableOpacity
+                    // onPress={() => navigation.navigate('Edit', {itemId: 86, otherParam: 'anything you want here',}
+                    <TouchableOpacity onPress={() => navigation.navigate('Edit', {itemData: item}) }
                         style={{flex: 1, backgroundColor: 'white', elevation: 10, marginBottom: 15, marginHorizontal: 20, padding: 15, borderRadius: 20, alignItems: 'flex-start',}}
                     >
                         <View style={{backgroundColor: '#23272a', borderRadius: 20, overflow: 'hidden', marginBottom: 5}}>
