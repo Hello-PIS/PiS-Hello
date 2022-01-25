@@ -26,4 +26,5 @@ class SearchEndpoint(val searchPort: CardPort) {
         } else
             ResponseEntity(HttpStatus.NOT_FOUND)
     }
+
 }
