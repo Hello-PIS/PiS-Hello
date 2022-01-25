@@ -52,7 +52,7 @@ class CardEndpoint(val cardPort: CardPort, val photosStorage: PhotosStorage) {
     }
 
     @PostMapping("/changedata", consumes = ["application/json"])
-    fun setCard(@RequestBody request: CardData): ResponseEntity<Unit> {
+    fun editCard(@RequestBody request: CardData): ResponseEntity<Unit> {
         var company: String?
         var name: String?
         var phone: String?
