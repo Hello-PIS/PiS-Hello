@@ -37,6 +37,7 @@ class SearchEndpoint(val searchPort: CardPort) {
         var email: String?
         var category: String?
         var mode: String?
+
         if (request.company ==""){
             company = null
         }
