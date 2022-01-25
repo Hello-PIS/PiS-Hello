@@ -33,7 +33,7 @@ export const editCardData = (idU, company, name, phone, email, category, mode) =
 
         try {
             response = await fetchWithTimeout(
-                `http://${serverAddress.address}:8080/changedata`,
+                `http://${serverAddress.address}:8080/card/changedata`,
                 {
                     method: 'POST',
                     headers: {
