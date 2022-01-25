@@ -13,14 +13,14 @@ import OverscreenModal from '../components/OverscreenModal';
 const MyBusinessCardsScreen = props => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
-    const businessCards = useSelector((state) => state.search.businessCards)
-    const username = useSelector((state) => state.auth.username)
+    const businessCards = useSelector((state) => state.search.businessCards);
+    const username = useSelector((state) => state.auth.username);
     const [waitingForResponse, setWaitingForResponse] = useState(false);
     const [failureModalVisible, setFailureModalVisible] = useState(false);
 
     async function fetchBusinessCards() {
         setWaitingForResponse(true);
-        await dispatch(searchActions.searchBusinessCards(username));
+        await dispatch(searchActions.getMyBusinessCards(username));
         console.log(`Fetched my business cards`);
         setWaitingForResponse(false);
     };

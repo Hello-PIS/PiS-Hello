@@ -1,40 +1,61 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity, ImageBackground, Dimensions, FlatList, TextInput } from 'react-native';
-import { Camera } from 'expo-camera';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
-import * as ScreenOrientation from 'expo-screen-orientation';
+import { useSelector, useDispatch } from 'react-redux';
+// import * as ScreenOrientation from 'expo-screen-orientation';
+import * as searchActions from '../actions/search';
+import serverAddress from '../constants/serverAddress';
 
-const manufacturer_pic = [
-    {name: 'audi', uri: 'https://www.carlogos.org/logo/Audi-logo-1999-1920x1080.png'},
-    {name: 'bmw', uri: 'https://www.carlogos.org/car-logos/bmw-logo-1997-1200x1200.png'},
-    {name: 'volkswagen', uri: 'https://www.carlogos.org/logo/Volkswagen-emblem-2014-1920x1080.png'},
-    {name: 'ferrari', uri: 'https://www.carlogos.org/car-logos/scuderia-ferrari-logo-800x1050.png'},
-    {name: 'porsche', uri: 'https://www.carlogos.org/car-logos/porsche-logo-950x1100.png'},
-    {name: 'ford', uri: 'https://www.carlogos.org/car-logos/ford-logo-2017.png'},
-    {name: 'tesla', uri: 'https://www.carlogos.org/car-logos/tesla-logo-2200x2800.png'},
-    {name: 'mercedes-benz', uri: 'https://www.carlogos.org/logo/Mercedes-Benz-logo-2011-1920x1080.png'},
-    {name: 'toyota', uri: 'https://www.carlogos.org/car-logos/toyota-logo-1989-1400x1200.png'},
-]
+const available_filters = ['kategoria', 'nazwa użytkownika', 'ID wizytówki'];
   
 const SearchBusinessCardsScreen = props => {
     const navigation = useNavigation();
-    const [businessCards, setBusinessCards] = useState([]);
+    const dispatch = useDispatch();
+    const businessCards = useSelector((state) => state.search.businessCards);
     const [textInputValue, setTextInputValue] = useState('');
-    const [searchValue, setSearchValue] = useState(null);
 
-    useEffect(() => {
-        ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
-    }, [])
+    const [chosenFilter, setChosenFilter] = useState(null);
+    const [waitingForResponse, setWaitingForResponse] = useState(false);
+    const [failureModalVisible, setFailureModalVisible] = useState(false);
 
-    const addPhoto = uri => {
-        setBusinessCards([...businessCards, uri]);
-    };
+    async function searchForCards () {
+        setWaitingForResponse(true);
+        switch (chosenFilter) {
+            case 'kategoria':
+                await dispatch(searchActions.searchBusinessCards({profession: textInputValue}));
+                break;
+            case 'nazwa użytkownika':
+                await dispatch(searchActions.searchBusinessCards({ownername: textInputValue}));
+                break;
+            case 'ID wizytówki':
+                await dispatch(searchActions.searchBusinessCards({id: textInputValue}));
+                break;
+            case null:
+                await dispatch(searchActions.searchBusinessCards({}));
+                break;
+            default:
+                console.log(`Unrecognized command.`);
+        }
+        // await dispatch(searchActions.searchBusinessCards(username));
+        console.log(`Fetched business cards`);
+        setWaitingForResponse(false);
+    }
+
+    const changeFilter = new_filter => {
+        if (new_filter === null || !available_filters.includes(new_filter))
+            return;
+        
+        if (new_filter === chosenFilter) {
+            setChosenFilter(null);
+        } else {
+            setChosenFilter(new_filter);
+        }
+    }
 
     function renderHeader() {
         return (
             <View style={styles.header}>
-                <View style={{flex: 3}} />
                 <View style={{flexDirection: 'row', paddingHorizontal: 10}}>
                         <TouchableOpacity
                             onPress={ navigation.goBack }
@@ -43,11 +64,25 @@ const SearchBusinessCardsScreen = props => {
                         </TouchableOpacity>
                     <TextInput style={styles.searchBar} placeholder='Wpisz nazwę wizytówki...' onChangeText={setTextInputValue} value={textInputValue} />
                     <TouchableOpacity
-                        onPress={ () => setSearchValue(textInputValue) }
+                        onPress={searchForCards}
                         style={styles.searchButton}>
                         <AntDesign name='search1' size={26} color='#fff' style={{margin: 5,}} />
                     </TouchableOpacity>
                 </View>
+                <View style={{flex: 1}} />
+                <FlatList
+                    horizontal={true}
+                    data={available_filters}
+                    keyExtractor={item => item}
+                    renderItem={({item}) => {
+                    const bgcolor = chosenFilter === item ? 'white' : 'rgba(232,232,232,0.5)'
+                    return <TouchableOpacity
+                        style={{...styles.searchCategory, backgroundColor: bgcolor}}
+                        onPress={() => changeFilter(item)}
+                    >
+                        <Text>{item}</Text>
+                    </TouchableOpacity>
+                }} />
                 <View style={{flex: 1}} />
             </View>
         );
@@ -57,24 +92,26 @@ const SearchBusinessCardsScreen = props => {
         {renderHeader()}
         <FlatList
             style={{width: '100%'}}
-            data={manufacturer_pic}
-            keyExtractor={item => item.name}
+            data={businessCards}
+            keyExtractor={item => item.id}
             contentContainerStyle={{flexGrow: 1, paddingVertical: 20,}}
             renderItem={({item}) => {
-                if (searchValue !== null && item.name.toLowerCase().includes(searchValue.toLowerCase()))
-                    return<TouchableOpacity
-                        style={{flex: 1, backgroundColor: 'white', elevation: 10, marginBottom: 15, marginHorizontal: 20, padding: 15, borderRadius: 20, alignItems: 'flex-start',}}
-                    >
-                        <Text style={{fontFamily: 'open-sans', fontSize: 30, width: '100%', textAlign: 'center', fontWeight: 'bold'}}>{item.name.toUpperCase()}</Text>
-                        <View style={{backgroundColor: 'transparent', borderRadius: 20, overflow: 'hidden', marginBottom: 5}}>
-                            <Image source={{uri: item.uri}} resizeMode='contain' style={{width: '100%', aspectRatio: 16/9}} />
-                        </View>
-                    </TouchableOpacity>
-                else return <View />
+            return <TouchableOpacity style={styles.listItem} >
+                {/* <Text style={{fontFamily: 'open-sans', fontSize: 30, width: '100%', textAlign: 'center', fontWeight: 'bold'}}>{item.name.toUpperCase()}</Text> */}
+                <View style={{backgroundColor: 'transparent', borderRadius: 20, overflow: 'hidden', marginBottom: 5}}>
+                    <Image source={{uri: `http://${serverAddress.address}:8080/card/image?id=${item.id}`}} resizeMode='cover' style={{width: '100%', aspectRatio: 16/9,}} />
+                </View>
+                <Text><Text style={{fontSize: 17, fontFamily: 'open-sans'}}>Profesja:  </Text><Text style={{fontSize: 20, fontFamily: 'open-sans'}}>{item.category}</Text></Text>
+                <Text><Text style={{fontSize: 17, fontFamily: 'open-sans'}}>Właściciel:  </Text><Text style={{fontSize: 20, fontFamily: 'open-sans'}}>{item.owner}</Text></Text>
+            </TouchableOpacity>
             }}
         />
     </View>
 };
+
+'open-sans'
+    'open-sans-bold'
+    'roboto-medium'
 
 const styles = StyleSheet.create({
     imagePicker: {
@@ -82,7 +119,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         flex: 1,
     },
-
     roundButton: {
         width: 75,
         height: 75,
@@ -102,8 +138,9 @@ const styles = StyleSheet.create({
         fontFamily: 'open-sans-bold',
     },
     header: {
+        paddingTop: 80,
         width: '100%',
-        height: '15%',
+        height: '25%',
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#9A58FF',
@@ -130,7 +167,25 @@ const styles = StyleSheet.create({
         elevation: 3,
         padding: 10,
         fontSize: 18,
-    }
+    },
+    searchCategory: {
+        backgroundColor: 'white',
+        borderRadius: 12,
+        alignSelf: 'center',
+        elevation: 10,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        marginHorizontal: 5,
+    },
+    listItem: {
+        flex: 1,
+        backgroundColor: 'white',
+        elevation: 10, marginBottom: 15,
+        marginHorizontal: 20,
+        padding: 15,
+        borderRadius: 20,
+        alignItems: 'flex-start',
+    },
 });
 
 export default SearchBusinessCardsScreen;
