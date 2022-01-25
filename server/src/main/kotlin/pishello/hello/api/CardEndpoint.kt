@@ -9,6 +9,7 @@ import pishello.hello.persistence.cloudStorage.PhotosStorage
 import pishello.hello.persistence.database.ports.CardPort
 
 data class CardRequest(val id: Int, val mode: String?, val category: String?)
+data class CardData(val id: Int, val company: String?, val name: String?, val phone: String?, val email: String?, val category: String?, val mode: String?)
 
 @RestController
 @RequestMapping("/card")
@@ -45,6 +46,58 @@ class CardEndpoint(val cardPort: CardPort, val photosStorage: PhotosStorage) {
             } else {
                 ResponseEntity(HttpStatus.NOT_FOUND)
             }
+        } else {
+            ResponseEntity(HttpStatus.NOT_FOUND)
+        }
+    }
+
+    @PostMapping("/changedata", consumes = ["application/json"])
+    fun editCard(@RequestBody request: CardData): ResponseEntity<Unit> {
+        var company: String?
+        var name: String?
+        var phone: String?
+        var email: String?
+        var category: String?
+        var mode: String?
+
+        if (request.company ==""){
+            company = null
+        }
+        else{
+            company = request.company
+        }
+        if (request.name ==""){
+            name = null
+        }
+        else{
+            name = request.name
+        }
+        if (request.phone ==""){
+            phone = null
+        }
+        else{
+            phone = request.phone
+        }
+        if (request.email ==""){
+            email = null
+        }
+        else{
+            email = request.email
+        }
+        if (request.category ==""){
+            category = null
+        }
+        else{
+            category = request.category
+        }
+        if (request.mode ==""){
+            mode = null
+        }
+        else{
+            mode = request.mode
+        }
+        return if (cardPort.updateData(request.id, company, name, phone, email, category, mode) != null) {
+            ResponseEntity(HttpStatus.OK)
         } else {
             ResponseEntity(HttpStatus.NOT_FOUND)
         }

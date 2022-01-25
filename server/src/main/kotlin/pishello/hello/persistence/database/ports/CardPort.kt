@@ -26,7 +26,7 @@ class CardPort(val repository: CardRepository, val userRepository: UserRepositor
 
     fun createNewCard(userName: String, mode: String, category: String?): Card? {
         userRepository.findByName(userName) ?: return null
-        val card = Card(0, mode, null, category, userName)
+        val card = Card(0, mode, null, category, null, null, null, null, userName)
         return repository.save(card)
     }
 
@@ -41,6 +41,23 @@ class CardPort(val repository: CardRepository, val userRepository: UserRepositor
 
     fun setPath(card: Card, path: String): Card? {
         card.path = path
+        return repository.save(card)
+    }
+
+    fun updateData(id: Int, company: String?, name: String?, phone: String?, email: String?, category: String?, mode: String?): Card? {
+        val card = repository.findById(id) ?: return null
+        if (company != null)
+            card.company = company
+        if (name != null)
+            card.name = name
+        if (phone != null)
+            card.phone = phone
+        if (email != null)
+            card.email = email
+        if (category != null)
+            card.category = category
+        if (mode != null)
+            card.mode = mode
         return repository.save(card)
     }
 }

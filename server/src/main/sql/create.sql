@@ -17,6 +17,10 @@ create table cards
     mode        text        not null,
     path        text,
     category    text,
+    company     text,
+    name        text,
+    phone       text,
+    email       text,
     owner       integer     not null    references users
 );
 

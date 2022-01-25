@@ -21,6 +21,10 @@ open class TestUtilities {
     fun correctSetRequestData(id: Int, mode: String?, category: String?): String =
         """{ "id": $id, "mode": "$mode", "category": "$category" }"""
 
+    fun correctEditRequestData(id: Int, company: String?, name: String?, phone: String?, email: String?, category: String?, mode: String?): String =
+        """{ "id": $id, "company": "$company", "name": "$name", "phone": "$phone", "email": "$email", "category": "$category", "mode": "$mode"}"""
+
+
     fun correctPutCardImageData(): MockMultipartFile =
         MockMultipartFile(
             "image", "photos-business-card.jpg",
@@ -43,5 +47,11 @@ open class TestUtilities {
         mockMvc.perform(MockMvcRequestBuilders.post("/card/set")
             .header("Content-Type", "application/json")
             .content(correctSetRequestData(id, mode, category)))
+    }
+
+    fun editCard(mockMvc: MockMvc, id: Int, company: String?, name: String?, phone: String?, email: String?, category: String?, mode: String?) {
+        mockMvc.perform(MockMvcRequestBuilders.post("/card/changedata")
+            .header("Content-Type", "application/json")
+            .content(correctEditRequestData(id, company, name, phone, email, category, mode)))
     }
 }
