@@ -23,11 +23,8 @@ class AuthEndpoint(val userPort: UserPort, val tokenPort: TokenPort) {
     @PostMapping("/register", consumes = ["application/json"])
     fun register(@RequestBody request: RegisterRequest): ResponseEntity<Unit> {
         return if (!userPort.checkIfUserExists(request.name)) {
-            if (request.password == request.passwordRepeat) {
-                userPort.createNewUser(request.name, request.password)
-                ResponseEntity(HttpStatus.CREATED)
-            } else
-                ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+            userPort.createNewUser(request.name, request.password)
+            ResponseEntity(HttpStatus.CREATED)
         } else
             ResponseEntity(HttpStatus.CONFLICT)
     }

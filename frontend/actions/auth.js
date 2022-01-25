@@ -142,6 +142,10 @@ export const register = (login, password, passwordRepeat) => {
         password = SHA256(password).toString();
         passwordRepeat = SHA256(passwordRepeat).toString();
 
+        if (password != passwordRepeat) {
+            console.log('Passwords are not the same. Please try again.');
+            return dispatch({ type: REGISTER, outcome: null });
+        }
         var response;
         try {
         response = await fetch(
@@ -173,9 +177,6 @@ export const register = (login, password, passwordRepeat) => {
             dispatch({ type: REGISTER, outcome: true });
         } else if (response.status == 409) {
             console.log(`Request rejected. Wrong credentials. Try changing your login.`);
-            dispatch({ type: REGISTER, outcome: false });
-        } else if (response.status == 406) {
-            console.log(`Request rejected. Wrong credentials. Password does not match repeated password.`);
             dispatch({ type: REGISTER, outcome: false });
         } else {
             console.log(`Request rejected for unknown reason.`);
