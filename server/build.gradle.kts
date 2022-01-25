@@ -62,15 +62,6 @@ tasks.jacocoTestReport {
 	dependsOn(tasks.test)
 }
 
-buildscript {
-	repositories {
-		google()
-	}
-	dependencies {
-		classpath("com.google.android.gms:strict-version-matcher-plugin:1.2.1")
-	}
-}
-
 apply(plugin = "com.jfrog.artifactory")
 
 publishing {
