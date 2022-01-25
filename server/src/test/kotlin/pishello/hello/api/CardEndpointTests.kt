@@ -64,7 +64,7 @@ class CardEndpointTests(@Autowired val mockMvc: MockMvc): TestUtilities() {
         createUser(mockMvc)
         createCard(mockMvc)
         mockMvc
-            .perform(MockMvcRequestBuilders.post("/card/set")
+            .perform(MockMvcRequestBuilders.post("/card/changedata")
                 .header("Content-Type", "application/json")
                 .content(correctEditRequestData(1, "company", "name",null ,null, null, null)))
             .andExpect(MockMvcResultMatchers.status().isOk)
