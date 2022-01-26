@@ -42,7 +42,7 @@ jobs:
       - checkout
       - run:
           name: "Build project"
-          command: "cd server && cat <<< "$GCP_JSON" > src/main/resources/secret.json && gradle build"
+          command: "cd server && cat <<< $GCP_JSON > src/main/resources/secret.json && gradle build"
       - run:
           name: "Run tests"
           command: "cd server && gradle test"
@@ -61,7 +61,7 @@ jobs:
       - checkout
       - run:
           name: "Build project"
-          command: "cd server && cat <<< "$GCP_JSON" > src/main/resources/secret.json && gradle build"
+          command: "cd server && cat <<< $GCP_JSON > src/main/resources/secret.json && gradle build"
       - run:
           name: "Publish a package"
           command: |
@@ -79,7 +79,7 @@ jobs:
       - checkout
       - run:
           name: "Build app"
-          command: "cd server && cat <<< "$GCP_JSON" > src/main/resources/secret.json && gradle build"
+          command: "cd server && cat <<< $GCP_JSON > src/main/resources/secret.json && gradle build"
       - run:
           name: "Store jar"
           command: |
