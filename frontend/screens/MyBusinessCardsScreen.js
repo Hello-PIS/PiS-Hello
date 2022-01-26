@@ -19,7 +19,6 @@ const MyBusinessCardsScreen = props => {
     const [failureModalVisible, setFailureModalVisible] = useState(false);
 
     async function fetchBusinessCards() {
-        console.log("I'm here")
         setWaitingForResponse(true);
         await dispatch(searchActions.getMyBusinessCards(username));
         console.log(`Fetched my business cards`);
@@ -29,7 +28,6 @@ const MyBusinessCardsScreen = props => {
     useEffect(() => {
         if (getMyCardsTimestamp === undefined)
             return;
-        console.log("I'm there")
         setWaitingForResponse(false);
         if (businessCards === null)
             setFailureModalVisible(true);
@@ -73,9 +71,12 @@ const MyBusinessCardsScreen = props => {
                         <View style={{backgroundColor: '#23272a', borderRadius: 20, overflow: 'hidden', marginBottom: 5}}>
                             <Image source={{uri: `http://${serverAddress.address}:8080/card/image?id=${item.id}`}} resizeMode='cover' style={{width: '100%', aspectRatio: 16/9}} />
                         </View>
+                        {item.name !== null && <Text style={{ fontFamily: 'open-sans',  fontSize: 20, padding: 3,}}><Text>Nazwa: </Text><Text style={{fontWeight: "bold"}}>{item.name}</Text></Text>}
                         <Text style={{ fontFamily: 'open-sans', fontSize: 20, padding: 3,}}><Text>Status: </Text><Text style={{fontWeight: "bold"}}>{item.mode}</Text></Text>
                         {item.category !== null && <Text style={{ fontFamily: 'open-sans',  fontSize: 20, padding: 3,}}><Text>Profesja: </Text><Text style={{fontWeight: "bold"}}>{item.category}</Text></Text>}
-                        
+                        {item.company !== null && <Text style={{ fontFamily: 'open-sans',  fontSize: 20, padding: 3,}}><Text>Firma: </Text><Text style={{fontWeight: "bold"}}>{item.company}</Text></Text>}
+                        {item.phone !== null && <Text style={{ fontFamily: 'open-sans',  fontSize: 20, padding: 3,}}><Text>Telefon: </Text><Text style={{fontWeight: "bold"}}>{item.phone}</Text></Text>}
+                        {item.email !== null && <Text style={{ fontFamily: 'open-sans',  fontSize: 20, padding: 3,}}><Text>E-mail: </Text><Text style={{fontWeight: "bold"}}>{item.email}</Text></Text>}
                     </TouchableOpacity>
                 );
             }}
