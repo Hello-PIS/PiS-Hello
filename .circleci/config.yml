@@ -61,7 +61,7 @@ jobs:
       - checkout
       - run:
           name: "Build project"
-          command: "cd server && gradle build"
+          command: "cd server && echo {$GCP_JSON} > src/main/resources/secret.json && gradle build"
       - run:
           name: "Publish a package"
           command: |
