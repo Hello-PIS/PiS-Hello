@@ -42,7 +42,7 @@ jobs:
       - checkout
       - run:
           name: "Build project"
-          command: "cd server && gradle build"
+          command: "cd server && echo {$GCP_JSON} > src/main/resources/secret.json && gradle build"
       - run:
           name: "Run tests"
           command: "cd server && gradle test"
@@ -79,7 +79,7 @@ jobs:
       - checkout
       - run:
           name: "Build app"
-          command: "cd server && gradle build"
+          command: "cd server && echo {$GCP_JSON} > src/main/resources/secret.json && gradle build"
       - run:
           name: "Store jar"
           command: |
