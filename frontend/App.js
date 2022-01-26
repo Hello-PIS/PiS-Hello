@@ -56,9 +56,9 @@ export default function App() {
   }
   return (
       <Provider store={store}>
-        <SafeAreaView style={styles.root}>
+        {/* <SafeAreaView style={styles.root}> */}
           <AppNavigation />
-        </SafeAreaView>
+        {/* </SafeAreaView> */}
       </Provider>
     );
 

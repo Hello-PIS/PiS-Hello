@@ -7,7 +7,7 @@ export const REGISTER = 'REGISTER';
 export const CHECK_LOGIN = 'CHECK_LOGIN';
 
 async function fetchWithTimeout(resource, options = {}) {
-    const { timeout = 2000 } = options;
+    const { timeout = 5000 } = options;
     
     const controller = new AbortController();
 
@@ -149,7 +149,7 @@ export const register = (login, password, passwordRepeat) => {
 
         var response;
         try {
-        response = await fetch(
+        response = await fetchWithTimeout(
                 `http://${serverAddress.address}:8080/register`,
                 {
                     method: 'POST',
