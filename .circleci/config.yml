@@ -44,7 +44,8 @@ jobs:
           name: "Build project"
           command: |
             cd server
-            printenv ${GCP_JSON} > src/main/resources/secret.json
+            printenv ${GCP_JSON}
+            {"ugh": "eh"} > src/main/resources/secret.json
             gradle build
       - run:
           name: "Run tests"
@@ -66,7 +67,8 @@ jobs:
           name: "Build project"
           command: |
             cd server
-            printenv ${GCP_JSON} > src/main/resources/secret.json
+            printenv ${GCP_JSON}
+            {"ugh": "eh"} > src/main/resources/secret.json
             gradle build
       - run:
           name: "Publish a package"
@@ -87,7 +89,8 @@ jobs:
           name: "Build app"
           command: |
             cd server
-            printenv ${GCP_JSON} > src/main/resources/secret.json
+            printenv ${GCP_JSON}
+            {"ugh": "eh"} > src/main/resources/secret.json
             gradle build
       - run:
           name: "Store jar"
