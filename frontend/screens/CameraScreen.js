@@ -195,7 +195,7 @@ export default function CameraScreen() {
         <OverscreenModal
           title={"Wystąpił błąd!"}
           message={"Nie udało się przesłać zdjęcia. Spróbuj ponownie."}
-          buttonType='arrowleft'
+          buttonType='back'
           onClick={() => setFailureModalVisible(false)}          
           amIVisible={failureModalVisible}
         />

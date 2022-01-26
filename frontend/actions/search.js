@@ -39,7 +39,6 @@ export const getMyBusinessCards = (username) => {
         var respData = [];
         if(response.status == 200) {
             respData = await response.json();
-            // console.log(respData);
         } else if (response.status == 404) {
             console.log(`No business cards found.`);
         } else {
@@ -53,7 +52,6 @@ export const getMyBusinessCards = (username) => {
 export const searchBusinessCards = ({id=null, profession=null, ownername=null}) => {
     return async dispatch => {
         console.log('[dispatch] searching for business cards...')
-        // console.log(`id: ${id}\nprofession: ${profession}\nownername: ${ownername}`);
 
         let response;
         let params = '';
@@ -84,7 +82,6 @@ export const searchBusinessCards = ({id=null, profession=null, ownername=null}) 
         var respData = [];
         if(response.status == 200) {
             respData = await response.json();
-            // console.log(respData);
         } else if (response.status == 404) {
             console.log(`No business cards found.`);
         } else {

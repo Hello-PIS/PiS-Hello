@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, TextInput, ScrollView, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, TextInput, ScrollView, Image, ImageBackground, TouchableOpacity, StatusBar } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/core';
 import gradient from '../../assets/purple-bg.jpg';
@@ -44,29 +44,23 @@ export default function RegisterScreen() {
 
     return (
         <View style={styles.screenView}>
-            <Image
-                source={purple}
-                style={StyleSheet.absoluteFillObject}
-                blurRadius={100}
-            />
-            <ScrollView style={{width: '90%'}} contentContainerStyle={{alignItems: 'center'}}>
+            <StatusBar translucent backgroundColor='transparent' />
+            <View style={{...StyleSheet.absoluteFillObject, backgroundColor: '#7967F0'}}>
+                {/* <Image 
+                    resizeMode='stretch'
+                    source={purple}
+                    blurRadius={100}
+                /> */}
+            </View>
+
+            <ScrollView style={{width: '90%'}} contentContainerStyle={{alignItems: 'center',}}>
                 <View style={{
                     width: '100%',
                     height: 150,
                 }} >
-                    <ImageBackground
-                        source={purple}
-                        resizeMode='stretch'
-                        blurRadius={10}
-                        style={{
-                            flex: 1,
-                            alignItems: 'center'
-                        }}
-                    >
                     <View style={{flex: 3}}/>
                     <Text style={styles.title}>Utwórz konto</Text>
                     <View style={{flex: 1}}/>
-                    </ImageBackground>
                 </View>
                 <Card style={{width: '100%', overflow: 'hidden', padding: 20, alignItems: 'stretch', borderRadius: 30, marginVertical: 20, elevation: 10,}}>
                     <Image 
@@ -123,12 +117,13 @@ export default function RegisterScreen() {
                 <TouchableOpacity style={{margin: 5, alignItems: 'center'}} onPress={onSignInPressed}>
                     <Text style={{color: 'white'}}>Masz już konto? Zaloguj się</Text>
                 </TouchableOpacity>
+                <View style={{flex: 1}} />
             </ScrollView>
             <LoadingScreenModal amIVisible={waitingForResponse} />
             <OverscreenModal
                 title={"Rejestracja nie powiodła się"}
                 message={"Serwer odrzucił próbę rejestracji."}
-                buttonType={'reload1'}
+                buttonType={'back'}
                 buttonColor={'#9932CC'}
                 onClick={ () => setFailureModalVisible(false) }
                 amIVisible={failureModalVisible}

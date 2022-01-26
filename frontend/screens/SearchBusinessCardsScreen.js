@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from 'react-redux';
 // import * as ScreenOrientation from 'expo-screen-orientation';
 import * as searchActions from '../actions/search';
 import serverAddress from '../constants/serverAddress';
+import LoadingScreenModal from '../components/LoadingScreenModal';
+import OverscreenModal from '../components/OverscreenModal';
 
 const available_filters = ['kategoria', 'nazwa użytkownika', 'ID wizytówki'];
   
@@ -13,11 +15,20 @@ const SearchBusinessCardsScreen = props => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const businessCards = useSelector((state) => state.search.businessCards);
+    const searchTimestamp = useSelector((state) => state.search.searchResponseTimestamp);
     const [textInputValue, setTextInputValue] = useState('');
 
     const [chosenFilter, setChosenFilter] = useState(null);
     const [waitingForResponse, setWaitingForResponse] = useState(false);
     const [failureModalVisible, setFailureModalVisible] = useState(false);
+
+    useEffect(() => {
+        if (searchTimestamp === undefined)
+            return;
+        setWaitingForResponse(false);
+        if (businessCards === null)
+            setFailureModalVisible(true);
+    }, [searchTimestamp]);
 
     async function searchForCards () {
         setWaitingForResponse(true);
@@ -37,9 +48,7 @@ const SearchBusinessCardsScreen = props => {
             default:
                 console.log(`Unrecognized command.`);
         }
-        // await dispatch(searchActions.searchBusinessCards(username));
         console.log(`Fetched business cards`);
-        setWaitingForResponse(false);
     }
 
     const changeFilter = new_filter => {
@@ -106,12 +115,18 @@ const SearchBusinessCardsScreen = props => {
             </TouchableOpacity>
             }}
         />
+
+        <LoadingScreenModal amIVisible={waitingForResponse} />
+        <OverscreenModal
+            title={"Wyszukiwanie nie powiodło się"}
+            message={"Serwer odrzucił próbę wyszukiwania. Spróbuj ponownie."}
+            buttonType={'back'}
+            buttonColor={'#9932CC'}
+            onClick={ () => setFailureModalVisible(false) }
+            amIVisible={failureModalVisible}
+        />
     </View>
 };
-
-'open-sans'
-    'open-sans-bold'
-    'roboto-medium'
 
 const styles = StyleSheet.create({
     imagePicker: {

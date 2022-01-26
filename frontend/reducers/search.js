@@ -3,6 +3,7 @@ import { SEARCH, GET } from '../actions/search';
 const initialState = {
   token: null,
   businessCards: [],
+  myBusinessCards: [],
 };
 
 export default (state = initialState, action) => {
@@ -10,12 +11,14 @@ export default (state = initialState, action) => {
     case GET:
       return {
           ...state,
-          businessCards: action.businessCards,
+          myBusinessCards: action.businessCards,
+          getResponseTimestamp: Date.now(),
       };
     case SEARCH:
       return {
           ...state,
           businessCards: action.businessCards,
+          searchResponseTimestamp: Date.now(),
       };
   }
   return state;

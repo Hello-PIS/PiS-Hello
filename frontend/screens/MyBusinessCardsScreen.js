@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity, ImageBackground, Dimensions, FlatList } from 'react-native';
-import { Camera } from 'expo-camera';
+import { View, StyleSheet, Text, Image, TouchableOpacity, FlatList, Platform } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
-import * as ScreenOrientation from 'expo-screen-orientation';
 import { useDispatch, useSelector } from 'react-redux';
 import * as searchActions from '../actions/search';
 import serverAddress from '../constants/serverAddress';
@@ -13,12 +11,14 @@ import OverscreenModal from '../components/OverscreenModal';
 const MyBusinessCardsScreen = props => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
-    const businessCards = useSelector((state) => state.search.businessCards);
+    const businessCards = useSelector((state) => state.search.myBusinessCards);
+    const getMyCardsTimestamp = useSelector((state) => state.search.getResponseTimestamp);
     const username = useSelector((state) => state.auth.username);
     const [waitingForResponse, setWaitingForResponse] = useState(false);
     const [failureModalVisible, setFailureModalVisible] = useState(false);
 
     async function fetchBusinessCards() {
+        console.log("I'm here")
         setWaitingForResponse(true);
         await dispatch(searchActions.getMyBusinessCards(username));
         console.log(`Fetched my business cards`);
@@ -26,9 +26,17 @@ const MyBusinessCardsScreen = props => {
     };
 
     useEffect(() => {
+        if (getMyCardsTimestamp === undefined)
+            return;
+        console.log("I'm there")
+        setWaitingForResponse(false);
+        if (businessCards === null)
+            setFailureModalVisible(true);
+    }, [getMyCardsTimestamp]);
+
+    useEffect(() => {
         fetchBusinessCards();
-        // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
-    }, [dispatch])
+    }, [])
 
     function renderHeader() {
         return (
@@ -57,7 +65,6 @@ const MyBusinessCardsScreen = props => {
             keyExtractor={item => item.id}
             contentContainerStyle={{ paddingVertical: 20 }}
             renderItem={({item}) => {
-                console.log(item);
                 return (
                     <TouchableOpacity
                         style={{flex: 1, backgroundColor: 'white', elevation: 10, marginBottom: 15, marginHorizontal: 20, padding: 15, borderRadius: 20, alignItems: 'flex-start',}}
@@ -84,8 +91,7 @@ const MyBusinessCardsScreen = props => {
             <AntDesign name='camera' size={50} color='#fff' />
         </TouchableOpacity>
 
-        <LoadingScreenModal amIVisible={waitingForResponse} />      
-        
+        <LoadingScreenModal amIVisible={Platform.OS === 'android' ? waitingForResponse : false} />
         <OverscreenModal
           title={"Wystąpił błąd"}
           message={"Nie udało się uzyskać odpowiedzi od serwera."}

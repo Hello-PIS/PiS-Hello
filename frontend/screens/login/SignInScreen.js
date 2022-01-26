@@ -1,5 +1,6 @@
 import React, {useDebugValue, useEffect, useState} from 'react';
-import { View, StyleSheet, Text, TextInput, Image, useWindowDimensions, ScrollView, ImageBackground, Pressable, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, TextInput, Image, TouchableOpacity } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import GoogleSignInButton from '../../components/GoogleSignInButton';
 import { useNavigation } from '@react-navigation/core';
 import Card from '../../components/Card';
@@ -45,11 +46,15 @@ export default function SignInScreen() {
 
     return (
         <View style={styles.screenView}>
-            <Image 
-            source={purple}
-            style={StyleSheet.absoluteFillObject}
-            blurRadius={100}
-            />
+            <StatusBar translucent backgroundColor='transparent' />
+            <View style={{...StyleSheet.absoluteFillObject, backgroundColor: '#7967F0'}}>
+                {/* <Image 
+                    resizeMode='stretch'
+                    source={purple}
+                    blurRadius={100}
+                /> */}
+            </View>
+            
             <Card style={styles.mainCard}>
                 <Image
                     source={backgroundImage}
@@ -97,7 +102,7 @@ export default function SignInScreen() {
             <OverscreenModal
                 title={"Logowanie nie powiodło się"}
                 message={"Serwer odrzucił próbę logowania. Sprawdź, czy wprowadzone hasło na pewno jest prawidłowe."}
-                buttonType={'reload1'}
+                buttonType={'back'}
                 buttonColor={'#9932CC'}
                 onClick={ () => setFailureModalVisible(false) }
                 amIVisible={failureModalVisible}
