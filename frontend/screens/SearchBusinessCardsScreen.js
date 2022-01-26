@@ -110,8 +110,12 @@ const SearchBusinessCardsScreen = props => {
                 <View style={{backgroundColor: 'transparent', borderRadius: 20, overflow: 'hidden', marginBottom: 5}}>
                     <Image source={{uri: `http://${serverAddress.address}:8080/card/image?id=${item.id}`}} resizeMode='cover' style={{width: '100%', aspectRatio: 16/9,}} />
                 </View>
+                {item.name !== null && <Text style={{ fontFamily: 'open-sans',  fontSize: 17}}><Text>Nazwa: </Text><Text style={{fontSize: 20, fontFamily: 'open-sans'}}>{item.name}</Text></Text>}
                 <Text><Text style={{fontSize: 17, fontFamily: 'open-sans'}}>Profesja:  </Text><Text style={{fontSize: 20, fontFamily: 'open-sans'}}>{item.category}</Text></Text>
                 <Text><Text style={{fontSize: 17, fontFamily: 'open-sans'}}>Właściciel:  </Text><Text style={{fontSize: 20, fontFamily: 'open-sans'}}>{item.owner}</Text></Text>
+                {item.company !== null && <Text style={{ fontFamily: 'open-sans',  fontSize: 17}}><Text>Firma: </Text><Text style={{fontSize: 20, fontFamily: 'open-sans'}}>{item.company}</Text></Text>}
+                {item.phone !== null && <Text style={{ fontFamily: 'open-sans',  fontSize: 17}}><Text>Telefon: </Text><Text style={{fontSize: 20, fontFamily: 'open-sans'}}>{item.phone}</Text></Text>}
+                {item.email !== null && <Text style={{ fontFamily: 'open-sans',  fontSize: 17}}><Text>E-mail: </Text><Text style={{fontSize: 20, fontFamily: 'open-sans'}}>{item.email}</Text></Text>}
             </TouchableOpacity>
             }}
         />
