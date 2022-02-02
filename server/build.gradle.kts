@@ -13,7 +13,7 @@ plugins {
 	jacoco
 }
 
-group = "pis-hello"
+group = "hello"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 

@@ -33,7 +33,7 @@
         "foregroundImage": "./assets/business-card.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.pishello.hellopis"
+      "package": "com.hello.hello"
     },
     "web": {
       "favicon": "./assets/business-card.png"

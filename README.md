@@ -1,4 +1,4 @@
-# PiS-Hello
+# Hello
 Business card holder app
 
 Timeline:  
