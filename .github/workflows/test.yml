@@ -27,3 +27,5 @@ jobs:
 
     - name: Test
       run: cd server && ./gradlew test
+      env:
+        GCP_JSON: ${{ secrets.GCP_JSON }}
