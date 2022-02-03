@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import hello.hello.adapters.persistence.cloudStorage.PhotosStorage
 import hello.hello.adapters.persistence.database.adapters.CardAdapter
+import hello.hello.domain.ports.CardPort
 
 data class CardRequest(val id: Int, val mode: String?, val category: String?)
 data class CardData(val id: Int, val company: String?, val name: String?, val phone: String?, val email: String?, val category: String?, val mode: String?)
@@ -14,7 +15,7 @@ data class CardData(val id: Int, val company: String?, val name: String?, val ph
 @RestController
 @RequestMapping("/card")
 class CardEndpoint(val photosStorage: PhotosStorage) {
-    val cardPort = CardAdapter()
+    val cardPort: CardPort = CardAdapter()
 
     @PostMapping
     fun addCard(@RequestParam image: MultipartFile, @RequestParam ownerName: String): ResponseEntity<Unit> {

@@ -6,13 +6,15 @@ import org.springframework.web.bind.annotation.*
 import hello.hello.adapters.persistence.database.adapters.TokenAdapter
 import hello.hello.adapters.persistence.database.adapters.UserAdapter
 import hello.hello.domain.models.Token
+import hello.hello.domain.ports.TokenPort
+import hello.hello.domain.ports.UserPort
 
 data class LoginRequest(val name: String, val password: String)
 
 @RestController
 class AuthEndpoint {
-    val userPort = UserAdapter()
-    val tokenPort = TokenAdapter()
+    val userPort: UserPort = UserAdapter()
+    val tokenPort: TokenPort = TokenAdapter()
 
     @GetMapping("/check")
     fun check(@RequestParam name: String): ResponseEntity<Unit> {

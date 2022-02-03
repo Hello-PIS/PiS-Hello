@@ -6,13 +6,14 @@ import hello.hello.adapters.persistence.database.entities.toToken
 import hello.hello.adapters.persistence.database.entities.toUserEntity
 import hello.hello.domain.models.Token
 import hello.hello.domain.models.User
+import hello.hello.domain.ports.TokenPort
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.Instant
 import java.util.*
 
-class TokenAdapter {
-    fun createNewToken(user: User): Token =
+class TokenAdapter: TokenPort() {
+    override fun createNewToken(user: User): Token =
         transaction {
             TokenEntity.new {
                 this.token = EntityID(UUID.randomUUID().toString(), TokenTable)
