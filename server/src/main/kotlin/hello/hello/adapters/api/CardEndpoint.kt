@@ -1,19 +1,20 @@
-package hello.hello.api
+package hello.hello.adapters.api
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
-import hello.hello.persistence.cloudStorage.PhotosStorage
-import hello.hello.persistence.database.ports.CardPort
+import hello.hello.adapters.persistence.cloudStorage.PhotosStorage
+import hello.hello.adapters.persistence.database.adapters.CardAdapter
 
 data class CardRequest(val id: Int, val mode: String?, val category: String?)
 data class CardData(val id: Int, val company: String?, val name: String?, val phone: String?, val email: String?, val category: String?, val mode: String?)
 
 @RestController
 @RequestMapping("/card")
-class CardEndpoint(val cardPort: CardPort, val photosStorage: PhotosStorage) {
+class CardEndpoint(val photosStorage: PhotosStorage) {
+    val cardPort = CardAdapter()
 
     @PostMapping
     fun addCard(@RequestParam image: MultipartFile, @RequestParam ownerName: String): ResponseEntity<Unit> {

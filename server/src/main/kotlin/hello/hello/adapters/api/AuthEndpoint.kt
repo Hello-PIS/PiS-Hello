@@ -1,16 +1,19 @@
-package hello.hello.api
+package hello.hello.adapters.api
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import hello.hello.persistence.database.entities.Token
-import hello.hello.persistence.database.ports.TokenPort
-import hello.hello.persistence.database.ports.UserPort
+import hello.hello.adapters.persistence.database.adapters.TokenAdapter
+import hello.hello.adapters.persistence.database.adapters.UserAdapter
+import hello.hello.domain.models.Token
 
 data class LoginRequest(val name: String, val password: String)
 
 @RestController
-class AuthEndpoint(val userPort: UserPort, val tokenPort: TokenPort) {
+class AuthEndpoint {
+    val userPort = UserAdapter()
+    val tokenPort = TokenAdapter()
+
     @GetMapping("/check")
     fun check(@RequestParam name: String): ResponseEntity<Unit> {
         return if (userPort.checkIfUserExists(name)) {

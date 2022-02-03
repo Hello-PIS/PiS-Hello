@@ -1,5 +1,6 @@
 package hello.hello
 
+import hello.hello.adapters.persistence.database.init
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
@@ -7,5 +8,6 @@ import org.springframework.boot.runApplication
 class HelloApplication
 
 fun main(args: Array<String>) {
-	runApplication<HelloApplication>(*args)
+	val context = runApplication<HelloApplication>(*args)
+	init(context.environment)
 }

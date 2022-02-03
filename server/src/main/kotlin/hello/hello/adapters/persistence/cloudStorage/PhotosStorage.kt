@@ -1,4 +1,4 @@
-package hello.hello.persistence.cloudStorage
+package hello.hello.adapters.persistence.cloudStorage
 
 import com.google.auth.Credentials
 import com.google.auth.oauth2.GoogleCredentials

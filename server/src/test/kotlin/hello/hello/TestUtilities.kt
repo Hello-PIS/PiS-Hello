@@ -1,10 +1,23 @@
 package hello.hello
 
+import hello.hello.adapters.persistence.database.create
+import hello.hello.adapters.persistence.database.drop
+import hello.hello.adapters.persistence.database.init
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.core.env.Environment
 import org.springframework.core.io.ClassPathResource
 import org.springframework.mock.web.MockMultipartFile
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
 open class TestUtilities {
 
     fun correctUserName() = "test_user"
@@ -53,5 +66,19 @@ open class TestUtilities {
         mockMvc.perform(MockMvcRequestBuilders.post("/card/changedata")
             .header("Content-Type", "application/json")
             .content(correctEditRequestData(id, company, name, phone, email, category, mode)))
+    }
+
+    @Autowired
+    var env: Environment? = null
+
+    @BeforeEach
+    fun setup() {
+        init(env!!)
+        create()
+    }
+
+    @AfterEach
+    fun cleanUp() {
+        drop()
     }
 }
