@@ -1,11 +1,5 @@
 # Hello
-Business card holder app
-
-Timeline:  
-17.11 - 1 stage  
-13.12 - 2 stage  
-03.01 - 3 stage  
-24.01 - 4 stage  
+Application for holding and sharing business cards
 
 ### Server
 
@@ -110,7 +104,8 @@ npm start
 ```
 After that, you can run the app on an android/iOS device emulator or directly on your mobile device using Expo Go app.
 
-Links:
+Useful links:
 * [Jira Board](https://hello-pis.atlassian.net/jira/software/projects/HPIS/boards/1)
-* [CI documentation](https://circleci.com/docs/2.0/configuration-reference)
-* [Documentation](https://www.overleaf.com/read/gyhnrhzrhfxw)
+* [CI documentation](https://docs.github.com/en/actions)
+* [ORM documentation](https://github.com/JetBrains/Exposed/wiki)
+* [Project documentation](https://www.overleaf.com/read/gyhnrhzrhfxw)
