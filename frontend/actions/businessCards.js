@@ -1,6 +1,4 @@
-import { SHA256 } from 'crypto-js';
-
-import serverAddress from '../constants/serverAddress';
+import { serverAddress } from '../constants/serverAddress';
 
 export const ADD_CARD = 'ADD_CARD';
 
@@ -57,7 +55,7 @@ export const addBusinessCard = (photo, ownerName) => {
 
         console.log(`response status: ${response.status}`);
 
-        const outcome = response.status === 201 ? true : false;
+        const outcome = response.status === 201;
 
         dispatch({ type: ADD_CARD, outcome: outcome });
     }

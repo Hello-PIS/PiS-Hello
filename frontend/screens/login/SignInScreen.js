@@ -1,4 +1,4 @@
-import React, {useDebugValue, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, StyleSheet, Text, TextInput, Image, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import GoogleSignInButton from '../../components/GoogleSignInButton';
@@ -7,9 +7,7 @@ import Card from '../../components/Card';
 import OverscreenModal from '../../components/OverscreenModal';
 import LoadingScreenModal from '../../components/LoadingScreenModal';
 import backgroundImage from '../../assets/purple-bg.jpg';
-import purple from '../../assets/gradient.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { logInAsync } from 'expo-google-app-auth';
 import * as authActions from '../../actions/auth';
 
 export default function SignInScreen() {

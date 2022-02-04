@@ -37,9 +37,9 @@ export const getMyBusinessCards = (username) => {
 
         console.log(`response status: ${response.status}`);
         var respData = [];
-        if(response.status == 200) {
+        if(response.status === 200) {
             respData = await response.json();
-        } else if (response.status == 404) {
+        } else if (response.status === 404) {
             console.log(`No business cards found.`);
         } else {
             console.log(`Request rejected for unknown reason.`);
@@ -80,9 +80,9 @@ export const searchBusinessCards = ({id=null, profession=null, ownername=null}) 
 
         console.log(`response status: ${response.status}`);
         var respData = [];
-        if(response.status == 200) {
+        if(response.status === 200) {
             respData = await response.json();
-        } else if (response.status == 404) {
+        } else if (response.status === 404) {
             console.log(`No business cards found.`);
         } else {
             console.log(`Request rejected for unknown reason.`);

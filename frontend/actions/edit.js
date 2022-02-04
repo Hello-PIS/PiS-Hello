@@ -22,7 +22,7 @@ async function fetchWithTimeout(resource, options = {}) {
 }
 };
 
-export const editCardData = (idU, company, name, phone, email, category, mode) => {
+export const setCardData = (idU, company, name, phone, email, category, mode) => {
 
     return async dispatch => {
         const id = parseInt(idU);
@@ -33,7 +33,7 @@ export const editCardData = (idU, company, name, phone, email, category, mode) =
 
         try {
             response = await fetchWithTimeout(
-                `http://${serverAddress.address}:8080/card/changedata`,
+                `http://${serverAddress.address}:8080/card/set`,
                 {
                     method: 'POST',
                     headers: {
@@ -60,10 +60,10 @@ export const editCardData = (idU, company, name, phone, email, category, mode) =
         }
 
         console.log(`Response status: ${response.status}`);
-        if(response.status == 200) {
+        if(response.status === 200) {
             console.log(`Update data successfully`);
             dispatch({ type: EDIT_DATA, outcome: true });
-        } else if (response.status == 404) {
+        } else if (response.status === 404) {
             console.log(`Request rejected. Wrong credentials.`);
             dispatch({ type: EDIT_DATA, outcome: false });
         } else {

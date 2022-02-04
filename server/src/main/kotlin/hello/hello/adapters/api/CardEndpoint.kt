@@ -43,8 +43,7 @@ class CardEndpoint(val photosStorage: PhotosStorage) {
         }
     }
 
-    // TODO: change URI to /set
-    @PostMapping("/changedata", consumes = ["application/json"])
+    @PostMapping("/set", consumes = ["application/json"])
     fun setCard(@RequestBody request: SetCardRequest): ResponseEntity<Unit> {
         val company: String? = request.company?.ifBlank { null }
         val name: String? = request.name?.ifBlank { null }

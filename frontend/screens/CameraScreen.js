@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, Image, Alert, TouchableOpacity, Dimensions } from 'react-native';
 import { Camera } from 'expo-camera';
 import { AntDesign } from '@expo/vector-icons';
-import * as ScreenOrientation from 'expo-screen-orientation';
 import * as businessCardsActions from '../actions/businessCards';
 import LoadingScreenModal from '../components/LoadingScreenModal';
 import OverscreenModal from '../components/OverscreenModal';

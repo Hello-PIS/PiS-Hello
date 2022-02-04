@@ -2,12 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import * as Font from 'expo-font';
-import AppLoading from 'expo-app-loading';
 import ReduxThunk from 'redux-thunk';
-
-import { StyleSheet, SafeAreaView, View } from 'react-native';
+import { View } from 'react-native';
 import AppNavigation from './navigation/AppNavigation';
-
 import authReducer from './reducers/auth';
 import searchReducer from './reducers/search';
 import businessCardsReducer from './reducers/businessCards';
@@ -50,7 +47,7 @@ export default function App() {
   if (!fontLoaded) {
     return (
       <View>
-        <LoadingScreenModal amIVisible={Platform.OS === 'ios' ? false : true} />
+        <LoadingScreenModal amIVisible={Platform.OS !== 'ios'} />
       </View>
     );
   }
@@ -77,11 +74,3 @@ export default function App() {
   //   )
   // }
 }
-
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: '#F9FBFC'
-  }
-});
-

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, TextInput, ScrollView, Image, ImageBackground, TouchableOpacity, StatusBar } from 'react-native';
+import { View, StyleSheet, Text, TextInput, ScrollView, Image, TouchableOpacity, StatusBar } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/core';
 import gradient from '../../assets/purple-bg.jpg';
-import purple from '../../assets/gradient.png';
 import Card from '../../components/Card';
 import OverscreenModal from '../../components/OverscreenModal';
 import LoadingScreenModal from '../../components/LoadingScreenModal';
@@ -27,7 +26,7 @@ export default function RegisterScreen() {
         setWaitingForResponse(false);
         if (registerResponse == null)
             return;
-        if (registerOutcome == true)
+        if (registerOutcome === true)
             setSuccessModalVisible(true);
         else
             setFailureModalVisible(true);

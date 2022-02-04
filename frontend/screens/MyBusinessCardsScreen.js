@@ -23,7 +23,7 @@ const MyBusinessCardsScreen = props => {
         await dispatch(searchActions.getMyBusinessCards(username));
         console.log(`Fetched my business cards`);
         setWaitingForResponse(false);
-    };
+    }
 
     useEffect(() => {
         if (getMyCardsTimestamp === undefined)

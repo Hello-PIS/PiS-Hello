@@ -35,7 +35,7 @@ class CardEndpointTests(@Autowired val mockMvc: MockMvc): TestUtilities() {
         createUser(mockMvc)
         createCard(mockMvc)
         mockMvc
-            .perform(MockMvcRequestBuilders.post("/card/changedata")
+            .perform(MockMvcRequestBuilders.post("/card/set")
                 .header("Content-Type", "application/json")
                 .content(correctSetRequestData(1, "company", "name", null, null, null, null)))
             .andExpect(MockMvcResultMatchers.status().isOk)
@@ -45,7 +45,7 @@ class CardEndpointTests(@Autowired val mockMvc: MockMvc): TestUtilities() {
     fun shouldNotSetCardForNonExistingCard() {
         createUser(mockMvc)
         mockMvc
-            .perform(MockMvcRequestBuilders.post("/card/changedata")
+            .perform(MockMvcRequestBuilders.post("/card/set")
                 .header("Content-Type", "application/json")
                 .content(correctSetRequestData(1, "company", "name", null, null, null, null)))
             .andExpect(MockMvcResultMatchers.status().isNotFound)

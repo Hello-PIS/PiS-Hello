@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, View, StyleSheet, Image, Dimensions, TouchableOpacity, Text, Alert} from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { useDispatch, useSelector } from 'react-redux';
 import * as ImagePicker from 'expo-image-picker';
@@ -7,7 +7,6 @@ import {AntDesign} from "@expo/vector-icons";
 import LoadingScreenModal from "../components/LoadingScreenModal";
 import OverscreenModal from "../components/OverscreenModal";
 import * as businessCardsActions from "../actions/businessCards";
-import {Camera} from "expo-camera";
 
 export default function GalleryScreen() {
   const navigation = useNavigation();

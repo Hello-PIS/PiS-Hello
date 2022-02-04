@@ -54,11 +54,11 @@ export const signIn = (login, password) => {
 
         console.log(`response status: ${response.status}`);
         let token = null;
-        if(response.status == 200) {
+        if(response.status === 200) {
             const respData = await response.json();
             token = respData.token;
             console.log(`Received token: ${token}`);
-        } else if (response.status == 403) {
+        } else if (response.status === 403) {
             console.log(`Request rejected. Wrong credentials.`);
         } else {
             console.log(`Request rejected for unknown reason.`);
@@ -120,11 +120,11 @@ export const logInWithGoogle = googleToken => {
 
         console.log(`response status: ${second_response.status}`);
         let token = null;
-        if(first_response.status == 200) {
+        if(first_response.status === 200) {
             const respData = await second_response.json();
             token = respData.token;
             console.log(`Received token: ${token}`);
-        } else if (first_response.status == 403) {
+        } else if (first_response.status === 403) {
             console.log(`Request rejected. Wrong credentials.`);
         } else {
             console.log(`Request rejected for unknown reason.`);
@@ -138,7 +138,7 @@ export const register = (login, password, passwordRepeat) => {
     return async dispatch => {
         console.log('registering...');
 
-        if (password != passwordRepeat) {
+        if (password !== passwordRepeat) {
             console.log('Passwords are not the same. Please try again.');
             return dispatch({ type: REGISTER, outcome: null });
         }
@@ -172,10 +172,10 @@ export const register = (login, password, passwordRepeat) => {
         }
 
         console.log(`response status: ${response.status}`);
-        if(response.status == 201) {
+        if(response.status === 201) {
             console.log(`Registration successful!`);
             dispatch({ type: REGISTER, outcome: true });
-        } else if (response.status == 409) {
+        } else if (response.status === 409) {
             console.log(`Request rejected. Wrong credentials. Try changing your login.`);
             dispatch({ type: REGISTER, outcome: false });
         } else {
@@ -192,10 +192,10 @@ export const checkLogin = (login) => {
             `http://${serverAddress.address}:8080/check?name=${login}`
         );
         console.log(`response status: ${response.status}`);
-        if(response.status == 200) {
+        if(response.status === 200) {
             console.log(`Login available`);
             dispatch({ type: CHECK_LOGIN, outcome: true });
-        } else if (response.status == 409) {
+        } else if (response.status === 409) {
             console.log(`User with this name already exists.`);
             dispatch({ type: CHECK_LOGIN, outcome: false });
         } else {

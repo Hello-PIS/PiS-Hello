@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity, ImageBackground, Dimensions, FlatList, TextInput } from 'react-native';
+import { View, StyleSheet, Text, Image, TouchableOpacity, FlatList, TextInput } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import { useSelector, useDispatch } from 'react-redux';
-// import * as ScreenOrientation from 'expo-screen-orientation';
 import * as searchActions from '../actions/search';
 import serverAddress from '../constants/serverAddress';
 import LoadingScreenModal from '../components/LoadingScreenModal';
@@ -179,10 +178,9 @@ const styles = StyleSheet.create({
     },
     searchBar: {
         flexGrow: 1,
-        backgroundColor: 'magenta',
+        backgroundColor: 'white',
         borderRadius: 10,
         marginHorizontal: 5,
-        backgroundColor: 'white',
         elevation: 3,
         padding: 10,
         fontSize: 18,

@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-open class TestUtilities {
+class TestUtilities {
 
     fun correctUserName() = "test_user"
 
@@ -54,7 +54,7 @@ open class TestUtilities {
     }
 
     fun setCard(mockMvc: MockMvc, id: Int, company: String? = null, name: String? = null, phone: String? = null, email: String? = null, category: String? = null, mode: String? = null) {
-        mockMvc.perform(MockMvcRequestBuilders.post("/card/changedata")
+        mockMvc.perform(MockMvcRequestBuilders.post("/card/set")
             .header("Content-Type", "application/json")
             .content(correctSetRequestData(id, company, name, phone, email, category, mode)))
     }

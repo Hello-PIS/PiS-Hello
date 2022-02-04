@@ -1,14 +1,10 @@
-import React, {useDebugValue, useEffect, useState} from 'react';
-import { View, StyleSheet, Text, TextInput, Image, useWindowDimensions, ScrollView, ImageBackground, Pressable, TouchableOpacity, Button } from 'react-native';
-import GoogleSignInButton from '../components/GoogleSignInButton';
-import { CommonActions, useNavigation, useRoute} from '@react-navigation/core';
+import React, {useEffect, useState} from 'react';
+import { View, StyleSheet, Text, TextInput, Image, TouchableOpacity } from 'react-native';
 import Card from '../components/Card';
 import OverscreenModal from '../components/OverscreenModal';
 import LoadingScreenModal from '../components/LoadingScreenModal';
-import backgroundImage from '../assets/purple-bg.jpg';
 import purple from '../assets/gradient.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { logInAsync } from 'expo-google-app-auth';
 import * as authActions from '../actions/edit';
 
 export default function EditCardScreen({ route, navigation }) {
@@ -36,7 +32,7 @@ export default function EditCardScreen({ route, navigation }) {
             return;
         if (editOutcome == null)
             return;
-        if (editOutcome == true)
+        if (editOutcome === true)
         {
             dispatch(authActions.editFinished());
             navigation.navigate('HomeScreen');
@@ -46,10 +42,10 @@ export default function EditCardScreen({ route, navigation }) {
     }, [editResponse]);
 
 
-    const onChangeDataPressed = async () => {
+    const onSetDataPressed = async () => {
         setWaitingForResponse(true);
 
-        dispatch(authActions.editCardData(photoId, company, name, phone, email, category, mode));
+        dispatch(authActions.setCardData(photoId, company, name, phone, email, category, mode));
     }
 
     const onReturnPressed = () => {
@@ -57,7 +53,7 @@ export default function EditCardScreen({ route, navigation }) {
     }
 
     function onChangeModePressed () {
-        if (mode == 'PRIVATE') {
+        if (mode === 'PRIVATE') {
             setMode('PUBLIC')
         }
         else{
@@ -139,7 +135,7 @@ export default function EditCardScreen({ route, navigation }) {
                 </View>
                 <View style={{flexDirection: 'row', marginVertical: 15,}}>
                     <View style={{flex: 1}} />
-                    <TouchableOpacity style={styles.signInButton} onPress={onChangeDataPressed} >
+                    <TouchableOpacity style={styles.signInButton} onPress={onSetDataPressed} >
                         <Text style={styles.signInText }>Wprowadź zmiany</Text>
                     </TouchableOpacity>
                     <View style={{flex: 1}} />

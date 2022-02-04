@@ -14,7 +14,3 @@ export default function LoadingScreenModal({amIVisible}){
         </Modal>
     );
 };
-
-const styles = StyleSheet.create({
-
-})
