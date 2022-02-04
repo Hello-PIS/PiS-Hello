@@ -12,32 +12,20 @@ import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class CardAdapter: CardPort() {
-    private fun searchById(id: Int): List<Card> =
-        CardEntity.find { (CardTable.id eq id) and (CardTable.mode eq "PUBLIC") }.toList().map { it.toCard() }
-    private fun searchByProfession(profession: String): List<Card> =
+
+    private fun search(cardId: Int): List<Card> =
+        CardEntity.find { (CardTable.id eq cardId) and (CardTable.mode eq "PUBLIC") }.toList().map { it.toCard() }
+
+    private fun search(profession: String): List<Card> =
         CardEntity.find { (CardTable.category eq profession) and (CardTable.mode eq "PUBLIC") }.toList().map { it.toCard() }
-    private fun searchByOwnerName(owner: EntityID<Int>): List<Card> =
-        CardEntity.find { (CardTable.owner eq owner) and (CardTable.mode eq "PUBLIC") }.toList().map { it.toCard() }
-    private fun findByOwner(owner: EntityID<Int>): List<Card> =
-        CardEntity.find { CardTable.owner eq owner }.toList().map { it.toCard() }
 
-    override fun searchCards(id: Int?, profession: String?, ownerName: String?): List<Card>? =
-        transaction {
-            when {
-                id != null -> searchById(id)
-                profession != null -> searchByProfession(profession)
-                ownerName != null -> findByName(ownerName)?.let { searchByOwnerName(it.id) } ?: emptyList()
-                else -> null
-            }
-        }
+    private fun search(ownerId: EntityID<Int>): List<Card> =
+        CardEntity.find { (CardTable.owner eq ownerId) and (CardTable.mode eq "PUBLIC") }.toList().map { it.toCard() }
 
-    override fun searchOwnerCards(ownerName: String?): List<Card>? =
-        transaction { ownerName?.let { findByName(ownerName)?.let { findByOwner(it.id) } } }
+    private fun find(ownerId: EntityID<Int>): List<Card> =
+        CardEntity.find { CardTable.owner eq ownerId }.toList().map { it.toCard() }
 
-    override fun findById(id: Int): Card? =
-        transaction { CardEntity.findById(id)?.toCard() }
-
-    override fun createNewCard(userName: String, mode: String, category: String?): Card? =
+    override fun create(userName: String, mode: String, category: String?): Card? =
         transaction {
             val owner = findByName(userName) ?: return@transaction null
             CardEntity.new {
@@ -47,22 +35,23 @@ class CardAdapter: CardPort() {
             }.toCard()
         }
 
-    override fun updateCard(id: Int, mode: String?, category: String?): Card? =
+    override fun read(cardId: Int): Card? =
+        transaction { CardEntity.findById(cardId)?.toCard() }
+
+    override fun read(ownerName: String?): List<Card>? =
+        transaction { ownerName?.let { findByName(ownerName)?.let { find(it.id) } } }
+
+    override fun search(id: Int?, profession: String?, ownerName: String?): List<Card>? =
         transaction {
-            val cardEntity = CardEntity.findById(id) ?: return@transaction null
-            mode?.let { cardEntity.mode = it }
-            category?.let { cardEntity.category = it }
-            cardEntity.toCard()
+            when {
+                id != null -> search(id)
+                profession != null -> search(profession)
+                ownerName != null -> findByName(ownerName)?.let { search(it.id) } ?: emptyList()
+                else -> null
+            }
         }
 
-    override fun setPath(card: Card, path: String): Card =
-        transaction {
-            val cardEntity = card.toCardEntity()
-            cardEntity.path = path
-            cardEntity.toCard()
-        }
-
-    override fun updateData(id: Int, company: String?, name: String?, phone: String?, email: String?, category: String?, mode: String?): Card? =
+    override fun update(id: Int, company: String?, name: String?, phone: String?, email: String?, category: String?, mode: String?): Card? =
         transaction {
             val cardEntity = CardEntity.findById(id) ?: return@transaction null
             mode?.let { cardEntity.mode = it }
@@ -71,6 +60,13 @@ class CardAdapter: CardPort() {
             phone?.let { cardEntity.phone = it }
             email?.let { cardEntity.email = it }
             category?.let { cardEntity.category = it }
+            cardEntity.toCard()
+        }
+
+    override fun updatePath(card: Card, path: String): Card =
+        transaction {
+            val cardEntity = card.toCardEntity()
+            cardEntity.path = path
             cardEntity.toCard()
         }
 }

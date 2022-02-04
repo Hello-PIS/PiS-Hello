@@ -9,8 +9,7 @@ import hello.hello.adapters.persistence.cloudStorage.PhotosStorage
 import hello.hello.adapters.persistence.database.adapters.CardAdapter
 import hello.hello.domain.ports.CardPort
 
-data class CardRequest(val id: Int, val mode: String?, val category: String?)
-data class CardData(val id: Int, val company: String?, val name: String?, val phone: String?, val email: String?, val category: String?, val mode: String?)
+data class SetCardRequest(val id: Int, val company: String?, val name: String?, val phone: String?, val email: String?, val category: String?, val mode: String?)
 
 @RestController
 @RequestMapping("/card")
@@ -18,21 +17,12 @@ class CardEndpoint(val photosStorage: PhotosStorage) {
     val cardPort: CardPort = CardAdapter()
 
     @PostMapping
-    fun addCard(@RequestParam image: MultipartFile, @RequestParam ownerName: String): ResponseEntity<Unit> {
-        val card = cardPort.createNewCard(ownerName, "PRIVATE", null)
+    fun putCard(@RequestParam image: MultipartFile, @RequestParam ownerName: String): ResponseEntity<Unit> {
+        val card = cardPort.create(ownerName, "PRIVATE", null)
         return if (card != null) {
             photosStorage.writeImage("cards/${card.id}.jpg", image.bytes)
-            cardPort.setPath(card, "cards/${card.id}.jpg")
+            cardPort.updatePath(card, "cards/${card.id}.jpg")
             ResponseEntity(HttpStatus.CREATED)
-        } else {
-            ResponseEntity(HttpStatus.NOT_FOUND)
-        }
-    }
-
-    @PostMapping("/set")
-    fun setCard(@RequestBody request: CardRequest): ResponseEntity<Unit> {
-        return if (cardPort.updateCard(request.id, request.mode, request.category) != null) {
-            ResponseEntity(HttpStatus.OK)
         } else {
             ResponseEntity(HttpStatus.NOT_FOUND)
         }
@@ -40,7 +30,7 @@ class CardEndpoint(val photosStorage: PhotosStorage) {
 
     @GetMapping("/image", produces = [MediaType.IMAGE_JPEG_VALUE])
     fun getImage(@RequestParam id: Int): ResponseEntity<ByteArray?> {
-        val result = cardPort.findById(id)
+        val result = cardPort.read(id)
         return if (result?.path != null) {
             val image = photosStorage.readImage(result.path!!)
             return if (image != null) {
@@ -53,52 +43,17 @@ class CardEndpoint(val photosStorage: PhotosStorage) {
         }
     }
 
+    // TODO: change URI to /set
     @PostMapping("/changedata", consumes = ["application/json"])
-    fun editCard(@RequestBody request: CardData): ResponseEntity<Unit> {
-        var company: String?
-        var name: String?
-        var phone: String?
-        var email: String?
-        var category: String?
-        var mode: String?
+    fun setCard(@RequestBody request: SetCardRequest): ResponseEntity<Unit> {
+        val company: String? = request.company?.ifBlank { null }
+        val name: String? = request.name?.ifBlank { null }
+        val phone: String? = request.phone?.ifBlank { null }
+        val email: String? = request.email?.ifBlank { null }
+        val category: String? = request.category?.ifBlank { null }
+        val mode: String? = request.mode?.ifBlank { null }
 
-        if (request.company ==""){
-            company = null
-        }
-        else{
-            company = request.company
-        }
-        if (request.name ==""){
-            name = null
-        }
-        else{
-            name = request.name
-        }
-        if (request.phone ==""){
-            phone = null
-        }
-        else{
-            phone = request.phone
-        }
-        if (request.email ==""){
-            email = null
-        }
-        else{
-            email = request.email
-        }
-        if (request.category ==""){
-            category = null
-        }
-        else{
-            category = request.category
-        }
-        if (request.mode ==""){
-            mode = null
-        }
-        else{
-            mode = request.mode
-        }
-        return if (cardPort.updateData(request.id, company, name, phone, email, category, mode) != null) {
+        return if (cardPort.update(request.id, company, name, phone, email, category, mode) != null) {
             ResponseEntity(HttpStatus.OK)
         } else {
             ResponseEntity(HttpStatus.NOT_FOUND)

@@ -26,9 +26,9 @@ class CardEndpointTests(@Autowired val mockMvc: MockMvc): TestUtilities() {
         createUser(mockMvc)
         createCard(mockMvc)
         mockMvc
-            .perform(MockMvcRequestBuilders.post("/card/set")
+            .perform(MockMvcRequestBuilders.post("/card/changedata")
                 .header("Content-Type", "application/json")
-                .content(correctSetRequestData(1, null, null)))
+                .content(correctSetRequestData(1, "company", "name", null, null, null, null)))
             .andExpect(MockMvcResultMatchers.status().isOk)
     }
 
@@ -48,17 +48,6 @@ class CardEndpointTests(@Autowired val mockMvc: MockMvc): TestUtilities() {
         mockMvc
             .perform(MockMvcRequestBuilders.get("/card/image")
                 .param("id", "1"))
-            .andExpect(MockMvcResultMatchers.status().isOk)
-    }
-
-    @Test
-    fun shouldEditCard() {
-        createUser(mockMvc)
-        createCard(mockMvc)
-        mockMvc
-            .perform(MockMvcRequestBuilders.post("/card/changedata")
-                .header("Content-Type", "application/json")
-                .content(correctEditRequestData(1, "company", "name",null ,null, null, null)))
             .andExpect(MockMvcResultMatchers.status().isOk)
     }
 }

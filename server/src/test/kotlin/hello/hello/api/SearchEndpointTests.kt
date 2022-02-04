@@ -16,7 +16,7 @@ class SearchEndpointTests(@Autowired val mockMvc: MockMvc): TestUtilities() {
     fun shouldSearchCardsByParam(paramName: String, paramValue: String) {
         createUser(mockMvc)
         createCard(mockMvc)
-        setCard(mockMvc, 1, "PUBLIC", "lawyer")
+        setCard(mockMvc, 1, mode = "PUBLIC", category = "lawyer")
         mockMvc
                 .perform(MockMvcRequestBuilders.get("/search")
                         .param(paramName, paramValue))
@@ -28,7 +28,7 @@ class SearchEndpointTests(@Autowired val mockMvc: MockMvc): TestUtilities() {
     fun shouldReturnUserCards() {
         createUser(mockMvc)
         createCard(mockMvc)
-        setCard(mockMvc, 1, "PUBLIC", "lawyer")
+        setCard(mockMvc, 1, mode = "PUBLIC", category = "lawyer")
         mockMvc
                 .perform(MockMvcRequestBuilders.get("/test_user/cards"))
                 .andExpect(MockMvcResultMatchers.status().isOk)

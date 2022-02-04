@@ -13,7 +13,7 @@ class SearchEndpoint {
 
     @GetMapping("/search")
     fun search(@RequestParam id: Int?, @RequestParam profession: String?, @RequestParam ownername: String?): ResponseEntity<Iterable<Card>> {
-        val result = cardPort.searchCards(id, profession, ownername)
+        val result = cardPort.search(id, profession, ownername)
         return if (result != null) {
             ResponseEntity(result, HttpStatus.OK)
         } else
@@ -22,7 +22,7 @@ class SearchEndpoint {
 
     @GetMapping("/{user}/cards")
     fun getUserCards(@PathVariable user: String?): ResponseEntity<Iterable<Card>> {
-        val result = cardPort.searchOwnerCards(ownerName = user)
+        val result = cardPort.read(ownerName = user)
         return if (result != null) {
             ResponseEntity(result, HttpStatus.OK)
         } else

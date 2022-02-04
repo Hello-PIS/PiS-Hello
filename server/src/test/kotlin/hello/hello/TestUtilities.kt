@@ -31,10 +31,7 @@ open class TestUtilities {
     fun incorrectAuthRequestData(): String =
         """{ "name": "test_user", "password": "no, this is not a hash" }"""
 
-    fun correctSetRequestData(id: Int, mode: String?, category: String?): String =
-        """{ "id": $id, "mode": "$mode", "category": "$category" }"""
-
-    fun correctEditRequestData(id: Int, company: String?, name: String?, phone: String?, email: String?, category: String?, mode: String?): String =
+    fun correctSetRequestData(id: Int, company: String?, name: String?, phone: String?, email: String?, category: String?, mode: String?): String =
         """{ "id": $id, "company": "$company", "name": "$name", "phone": "$phone", "email": "$email", "category": "$category", "mode": "$mode"}"""
 
 
@@ -56,16 +53,10 @@ open class TestUtilities {
             .param("ownerName", correctUserName()))
     }
 
-    fun setCard(mockMvc: MockMvc, id: Int, mode: String?, category: String?) {
-        mockMvc.perform(MockMvcRequestBuilders.post("/card/set")
-            .header("Content-Type", "application/json")
-            .content(correctSetRequestData(id, mode, category)))
-    }
-
-    fun editCard(mockMvc: MockMvc, id: Int, company: String?, name: String?, phone: String?, email: String?, category: String?, mode: String?) {
+    fun setCard(mockMvc: MockMvc, id: Int, company: String? = null, name: String? = null, phone: String? = null, email: String? = null, category: String? = null, mode: String? = null) {
         mockMvc.perform(MockMvcRequestBuilders.post("/card/changedata")
             .header("Content-Type", "application/json")
-            .content(correctEditRequestData(id, company, name, phone, email, category, mode)))
+            .content(correctSetRequestData(id, company, name, phone, email, category, mode)))
     }
 
     @Autowired
