@@ -3,9 +3,9 @@ package hello.hello.domain.ports
 import hello.hello.domain.models.User
 
 abstract class UserPort {
-    abstract fun checkIfUserExists(username: String): Boolean
+    abstract fun create(argName: String, argPassword: String): User
 
-    abstract fun checkLogin(username: String, password: String): User?
+    abstract fun checkIfUserExists(name: String): Boolean
 
-    abstract fun createNewUser(argName: String, argPassword: String): User
+    abstract fun checkLogin(name: String, password: String): User?
 }

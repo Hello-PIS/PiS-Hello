@@ -4,5 +4,5 @@ import hello.hello.domain.models.Token
 import hello.hello.domain.models.User
 
 abstract class TokenPort {
-    abstract fun createNewToken(user: User): Token
+    abstract fun create(user: User): Token
 }

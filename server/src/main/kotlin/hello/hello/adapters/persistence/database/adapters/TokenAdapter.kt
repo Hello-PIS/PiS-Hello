@@ -13,7 +13,7 @@ import java.time.Instant
 import java.util.*
 
 class TokenAdapter: TokenPort() {
-    override fun createNewToken(user: User): Token =
+    override fun create(user: User): Token =
         transaction {
             TokenEntity.new {
                 this.token = EntityID(UUID.randomUUID().toString(), TokenTable)

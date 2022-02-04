@@ -9,13 +9,13 @@ import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class UserAdapter: UserPort() {
-    override fun checkIfUserExists(username: String): Boolean =
-        transaction { findByName(username) != null }
+    override fun checkIfUserExists(name: String): Boolean =
+        transaction { findByName(name) != null }
 
-    override fun checkLogin(username: String, password: String): User? =
-        transaction { UserEntity.find { (UserTable.name eq username) and (UserTable.password eq password) }.firstOrNull()?.toUser() }
+    override fun checkLogin(name: String, password: String): User? =
+        transaction { UserEntity.find { (UserTable.name eq name) and (UserTable.password eq password) }.firstOrNull()?.toUser() }
 
-    override fun createNewUser(argName: String, argPassword: String): User =
+    override fun create(argName: String, argPassword: String): User =
         transaction {
             UserEntity.new {
                 name = argName

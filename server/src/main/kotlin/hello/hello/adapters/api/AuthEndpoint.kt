@@ -27,7 +27,7 @@ class AuthEndpoint {
     @PostMapping("/register", consumes = ["application/json"])
     fun register(@RequestBody request: LoginRequest): ResponseEntity<Unit> {
         return if (!userPort.checkIfUserExists(request.name)) {
-            userPort.createNewUser(request.name, request.password)
+            userPort.create(request.name, request.password)
             ResponseEntity(HttpStatus.CREATED)
         } else
             ResponseEntity(HttpStatus.CONFLICT)
@@ -37,7 +37,7 @@ class AuthEndpoint {
     fun login(@RequestBody request: LoginRequest): ResponseEntity<Token> {
         val user = userPort.checkLogin(request.name, request.password)
         return if (user != null) {
-            val token = tokenPort.createNewToken(user)
+            val token = tokenPort.create(user)
             ResponseEntity(token, HttpStatus.OK)
         } else
             ResponseEntity(HttpStatus.FORBIDDEN)
@@ -46,12 +46,12 @@ class AuthEndpoint {
     @PostMapping("/loginWithGoogle", consumes = ["application/json"])
     fun google(@RequestBody request: LoginRequest): ResponseEntity<Token> {
         return if (!userPort.checkIfUserExists(request.name)) {
-            val user = userPort.createNewUser(request.name, request.password)
-            ResponseEntity(tokenPort.createNewToken(user), HttpStatus.OK)
+            val user = userPort.create(request.name, request.password)
+            ResponseEntity(tokenPort.create(user), HttpStatus.OK)
         } else {
             val user = userPort.checkLogin(request.name, request.password)
             if (user != null) {
-                ResponseEntity(tokenPort.createNewToken(user), HttpStatus.OK)
+                ResponseEntity(tokenPort.create(user), HttpStatus.OK)
             } else
                 ResponseEntity(HttpStatus.FORBIDDEN)
         }
