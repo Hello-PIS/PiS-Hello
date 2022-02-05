@@ -1,0 +1,48 @@
+{
+  "name": "hello",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^12.0.5",
+    "@react-native-masked-view/masked-view": "0.2.5",
+    "@react-navigation/core": "^6.1.0",
+    "@react-navigation/native": "^6.0.6",
+    "@react-navigation/native-stack": "^6.2.5",
+    "@react-navigation/stack": "^6.0.11",
+    "crypto-js": "^4.1.1",
+    "expo": "~43.0.2",
+    "expo-app-loading": "^1.2.1",
+    "expo-auth-session": "^3.4.2",
+    "expo-camera": "^12.1.0",
+    "expo-google-app-auth": "^9.0.0",
+    "expo-image-picker": "~11.0.3",
+    "expo-permissions": "~13.0.3",
+    "expo-random": "^12.0.1",
+    "expo-screen-orientation": "~4.0.3",
+    "expo-status-bar": "~1.1.0",
+    "expo-web-browser": "^10.0.3",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-native": "^0.64.3",
+    "react-native-gesture-handler": "~1.10.2",
+    "react-native-popup-confirm-toast": "^2.0.3",
+    "react-native-safe-area-context": "3.3.2",
+    "react-native-screens": "~3.8.0",
+    "react-native-web": "0.17.1",
+    "react-navigation": "^4.4.4",
+    "react-redux": "^7.2.6",
+    "redux": "^4.1.2",
+    "redux-thunk": "^2.4.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9"
+  },
+  "private": true
+}

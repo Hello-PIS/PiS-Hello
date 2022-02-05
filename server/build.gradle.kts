@@ -13,7 +13,7 @@ plugins {
 	jacoco
 }
 
-group = "pis-hello"
+group = "hello"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
@@ -25,11 +25,15 @@ dependencies {
 	val springBootVersion = "2.6.2"
 	val jacocoVersion = "0.8.7"
 	val sqliteJDBCVersion = "3.36.0.2"
+	val exposedVersion = "0.37.3"
 
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+	implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
+	implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+	implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
 	implementation("org.springframework.boot:spring-boot-starter:$springBootVersion")
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
 	implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
 	implementation("org.xerial:sqlite-jdbc:$sqliteJDBCVersion")
 	implementation("org.jacoco:org.jacoco.core:$jacocoVersion")
